@@ -15,7 +15,7 @@ dependencies = ["numpy", "matplotlib"]
 dev = ["pytest", "hypothesis", "networkx"]
 
 [tool.setuptools.packages.find]
-include = ["nlpath*"]
+include = ["nlpath*", "baselines*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

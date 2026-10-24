@@ -131,3 +131,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 2: `astar.py` — generic `astar` (reused by Day 3 product search) + `plan_grid`;
   no corner cutting, `w_min`-scaled octile, node counts. Hand-checked cases, a regression
   case for the unscaled-heuristic bug, networkx cross-check. 40 tests pass.
+- Day 3: `intent.py` (dataclass + schema + validation, pulled forward from Day 4),
+  `compiler.py`, `product.py` (product search via generic `astar`), `baselines/chaining.py`;
+  `tests/reference.py` = networkx product-graph solver. 75 tests pass.
