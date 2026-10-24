@@ -125,3 +125,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 ## Progress
 
 - Day 0: repo created; plan v2, proposal and this file added.
+- Day 1: package skeleton, `grid.py`/`mapgen.py`/`render.py`; 20 maps (40×40, 6 easy /
+  7 medium / 7 hard) + 10 small (15×15) in `data/maps/` (JSON, `png/`, overviews) via
+  `scripts/make_maps.py`. One name per room; only the main spine is `corridor`. 19 tests pass.

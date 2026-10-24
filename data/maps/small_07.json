@@ -1,0 +1,47 @@
+{
+ "map_id": "small_07",
+ "height": 15,
+ "width": 15,
+ "legend": {
+  "L": "lab",
+  "W": "workshop",
+  "C": "corridor",
+  "O": "office"
+ },
+ "rows": [
+  "###############",
+  "#WWWWWW.C#....#",
+  "#WWWWWW#C.....#",
+  "#WWWWWW.C#....#",
+  "########C#....#",
+  "#OOOOOO#C######",
+  "#OOOOOO#C.....#",
+  "#OOOOOO.C#....#",
+  "#OOOOOO#C#....#",
+  "####.###C######",
+  "#LLLLLL#C#....#",
+  "#LLLLLL.C#....#",
+  "#LLLLLL#C.....#",
+  "#LLLLLL#C#....#",
+  "###############"
+ ],
+ "meta": {
+  "seed": 2007,
+  "tier": "small",
+  "params": {
+   "height": 15,
+   "width": 15,
+   "corridor_depth": 1,
+   "corridor_width": 1,
+   "min_block": 3,
+   "min_room": 3,
+   "max_room": 6,
+   "n_named": 3,
+   "n_inner": 0,
+   "p_extra_door": 0.2,
+   "p_second_door": 0.2
+  },
+  "n_rooms": 6,
+  "inner_regions": []
+ }
+}

@@ -1,0 +1,47 @@
+{
+ "map_id": "small_06",
+ "height": 15,
+ "width": 15,
+ "legend": {
+  "W": "workshop",
+  "S": "store_room",
+  "C": "corridor",
+  "T": "stairwell"
+ },
+ "rows": [
+  "###############",
+  "#....TTT#C....#",
+  "#...#TTT.C#...#",
+  "#...#TTT.C....#",
+  "###.#####C#####",
+  "#...#...#C#...#",
+  "#...#....C#...#",
+  "#...#...#C....#",
+  "###.###.#C#####",
+  "#...#SSS#C#WWW#",
+  "#...#SSS#C#WWW#",
+  "#...#SSS#C#WWW#",
+  "#...#SSS#C#WWW#",
+  "#...#SSS.C.WWW#",
+  "###############"
+ ],
+ "meta": {
+  "seed": 2006,
+  "tier": "small",
+  "params": {
+   "height": 15,
+   "width": 15,
+   "corridor_depth": 1,
+   "corridor_width": 1,
+   "min_block": 3,
+   "min_room": 3,
+   "max_room": 6,
+   "n_named": 3,
+   "n_inner": 0,
+   "p_extra_door": 0.2,
+   "p_second_door": 0.2
+  },
+  "n_rooms": 9,
+  "inner_regions": []
+ }
+}
