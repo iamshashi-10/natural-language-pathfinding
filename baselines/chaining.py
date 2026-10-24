@@ -1,10 +1,14 @@
 """M3-chain ablation: sequential waypoint chaining instead of the product graph.
 
 Plans start → w_1 → … → w_m → g as separate A* searches and concatenates them
-(plan §2.4c). Each segment j is searched with the cells of later sequence
-elements removed, so the result obeys strict ordering and is I-satisfying —
-but each segment fixes its entry cell greedily, so the total is not optimal in
-general. Measuring that gap is the point of this ablation.
+(plan §2.4c). Each segment j may not enter cells of later sequence elements,
+so the result obeys strict ordering and is I-satisfying — but each segment
+fixes its entry cell greedily, so the total is not optimal in general.
+Measuring that gap is the point of this ablation.
+
+It is complete, though: the blocked set only shrinks as k grows and moves are
+symmetric, so from the entry cell of u_j the walk back along the path so far,
+followed by any I-satisfying path, reaches u_{j+1}.
 """
 
 from __future__ import annotations
@@ -28,8 +32,10 @@ def plan_chain(problem: CompiledProblem, start: Cell) -> SearchResult:
     k = advance(problem, start, 0)  # start may already be in the first waypoint
     path, cost, expanded = [start], 0.0, 0
     while k < len(problem.sequence):
-        allowed = problem.allowed & ~blocked[k]
-        seg = plan_grid(allowed, problem.weights, path[-1], problem.sequence[k])
+        # Same move set as the product search: later elements cannot be entered
+        # but still count as allowed for the corner rule (plan §3.2).
+        seg = plan_grid(problem.allowed, problem.weights, path[-1],
+                        problem.sequence[k], blocked=blocked[k])
         expanded += seg.nodes_expanded
         if not seg.found:
             name = problem.sequence_names[k]

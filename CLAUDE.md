@@ -138,3 +138,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 4: `verify.py` (independent of planner: moves, 5 checkers, `hard_checks`, cost) and
   `pipeline.py` (`plan()` verifies every path + reported cost). Known-good/bad path tests;
   injected planner bugs (corner cutting, no ordering) are caught. 113 tests pass.
+- Day 5: `tests/test_properties.py` — T1–T4 vs networkx reference, T5 bound, heuristic
+  consistency, chaining sound+complete+never better; 1000 random cases each. Fixed
+  chaining to use the product's corner rule (`plan_grid(blocked=…)`). 117 tests pass.

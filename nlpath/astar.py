@@ -162,7 +162,7 @@ def check_weights(allowed: np.ndarray, weights: np.ndarray) -> None:
 
 
 def plan_grid(allowed: np.ndarray, weights: np.ndarray, start: Cell,
-              goals: np.ndarray) -> SearchResult:
+              goals: np.ndarray, blocked: np.ndarray | None = None) -> SearchResult:
     """Cheapest path from ``start`` to any cell of ``goals`` within ``allowed``.
 
     Args:
@@ -170,6 +170,9 @@ def plan_grid(allowed: np.ndarray, weights: np.ndarray, start: Cell,
         weights: float (H, W); cost multiplier of entering each cell.
         start: start cell.
         goals: bool (H, W) mask of goal cells (only allowed ones count).
+        blocked: optional bool (H, W); allowed cells that may not be entered.
+            Unlike removing them from ``allowed``, they still count for the
+            corner rule — the same move set as the product search (plan §3.2).
 
     Edge cost is ``d(v,u) * weights[u]`` (plan §2.5). Returns NO_PATH with a
     reason if the start is not allowed or no goal cell is reachable.
@@ -178,7 +181,10 @@ def plan_grid(allowed: np.ndarray, weights: np.ndarray, start: Cell,
     start = (int(start[0]), int(start[1]))
     if not allowed[start]:
         return SearchResult(None, math.inf, 0, "start cell is not allowed")
-    goal_mask = goals & allowed
+    if blocked is None:
+        blocked = np.zeros(allowed.shape, dtype=bool)
+    enterable = allowed & ~blocked
+    goal_mask = goals & enterable
     goal_cells = [(int(r), int(c)) for r, c in np.argwhere(goal_mask)]
     if not goal_cells:
         return SearchResult(None, math.inf, 0, "no allowed goal cell")
@@ -188,7 +194,8 @@ def plan_grid(allowed: np.ndarray, weights: np.ndarray, start: Cell,
 
     def successors(v: Cell) -> Iterator[tuple[Cell, float]]:
         for u, step in grid_moves(allowed, v):
-            yield u, step * float(weights[u])
+            if enterable[u]:
+                yield u, step * float(weights[u])
 
     return astar(start, lambda v: bool(goal_mask[v]), successors,
                  lambda v: float(h_field[v]))
