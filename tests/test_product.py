@@ -12,10 +12,10 @@ import pytest
 from baselines.chaining import plan_chain
 from nlpath.astar import SQRT2 as R2
 from nlpath.compiler import compile_intent
-from nlpath.intent import IntentForm, validate
+from nlpath.intent import IntentForm
 from nlpath.mapgen import benchmark_maps
 from nlpath.product import plan_product
-from reference import make_map, reference_solve
+from reference import make_map, random_intent, reference_solve
 
 
 def first_entry(gm, path, name):
@@ -167,21 +167,6 @@ def test_start_in_goal_without_waypoints():
 
 
 # ----- benchmark maps vs reference ---------------------------------------------
-
-
-def random_intent(gm, rng):
-    """A random well-formed intent for ``gm`` (goal, ≤2 waypoints, 1 forbidden, soft)."""
-    names = list(gm.region_names)
-    rng.shuffle(names)
-    m = int(rng.integers(0, 3))
-    seq, rest = names[:m + 1], names[m + 1:]
-    forbidden = tuple(rest[:1]) if rest and rng.random() < 0.5 else ()
-    soft = [n for n in names if n not in forbidden]
-    preferred = (soft[0],) if rng.random() < 0.5 else ()
-    avoided = (soft[1],) if rng.random() < 0.5 and soft[1:] else ()
-    intent = IntentForm(seq[-1], forbidden, tuple(seq[:-1]), preferred, avoided)
-    validate(intent, gm.legend())
-    return intent
 
 
 def test_matches_reference_on_benchmark_maps():

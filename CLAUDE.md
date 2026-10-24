@@ -61,6 +61,7 @@ nlpath/              core package
   compiler.py        exclusion, weights, waypoint sequence
   product.py         product-graph search (cell, k)
   verify.py          independent verify_path + checkers
+  pipeline.py        intent → compile → plan → verify_path (single planning entry point)
   parser.py          LLM → intent form (M3)
   llm.py             the ONLY place that calls an LLM; caching lives here
 baselines/
@@ -134,3 +135,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 3: `intent.py` (dataclass + schema + validation, pulled forward from Day 4),
   `compiler.py`, `product.py` (product search via generic `astar`), `baselines/chaining.py`;
   `tests/reference.py` = networkx product-graph solver. 75 tests pass.
+- Day 4: `verify.py` (independent of planner: moves, 5 checkers, `hard_checks`, cost) and
+  `pipeline.py` (`plan()` verifies every path + reported cost). Known-good/bad path tests;
+  injected planner bugs (corner cutting, no ordering) are caught. 113 tests pass.

@@ -13,7 +13,7 @@ import networkx as nx
 import numpy as np
 
 from nlpath.grid import REGION_LETTERS, GridMap
-from nlpath.intent import IntentForm
+from nlpath.intent import IntentForm, validate
 
 W = {"preferred": 0.5, "normal": 1.0, "avoided": 3.0}
 
@@ -84,3 +84,18 @@ def reference_solve(gm: GridMap, intent: IntentForm,
     dist = nx.single_source_dijkstra_path_length(g, (start, k0))
     goals = [d for (v, k), d in dist.items() if k == final and seq[-1][v]]
     return min(goals, default=math.inf)
+
+
+def random_intent(gm, rng):
+    """A random well-formed intent for ``gm`` (goal, ≤2 waypoints, 1 forbidden, soft)."""
+    names = list(gm.region_names)
+    rng.shuffle(names)
+    m = int(rng.integers(0, 3))
+    seq, rest = names[:m + 1], names[m + 1:]
+    forbidden = tuple(rest[:1]) if rest and rng.random() < 0.5 else ()
+    soft = [n for n in names if n not in forbidden]
+    preferred = (soft[0],) if rng.random() < 0.5 else ()
+    avoided = (soft[1],) if rng.random() < 0.5 and soft[1:] else ()
+    intent = IntentForm(seq[-1], forbidden, tuple(seq[:-1]), preferred, avoided)
+    validate(intent, gm.legend())
+    return intent
