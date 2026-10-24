@@ -209,6 +209,9 @@ Standard A\* on the product graph, 8-connected grid.
 - **Heuristic:** `h(v,k) = w_min · octile(v, nearest goal cell)`, with `w_min = 0.5`
   when any preferred region exists, else 1.0. **Unscaled octile distance is
   inadmissible once preferred cells cost 0.5** — this was a bug in v1.
+  *Implementation:* `w_min` is computed as the smallest weight over allowed cells.
+  This equals the value above except when every preferred cell is forbidden, where it
+  is 1.0 — still a lower bound on every edge cost, so T4 is unaffected.
 - Do **not** use Euclidean distance with diagonal steps at cost 1.
 - Instrument it to report nodes expanded.
 - If the start cell is inside a forbidden region, or inside a sequence element that

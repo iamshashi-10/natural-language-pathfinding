@@ -128,3 +128,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 1: package skeleton, `grid.py`/`mapgen.py`/`render.py`; 20 maps (40×40, 6 easy /
   7 medium / 7 hard) + 10 small (15×15) in `data/maps/` (JSON, `png/`, overviews) via
   `scripts/make_maps.py`. One name per room; only the main spine is `corridor`. 19 tests pass.
+- Day 2: `astar.py` — generic `astar` (reused by Day 3 product search) + `plan_grid`;
+  no corner cutting, `w_min`-scaled octile, node counts. Hand-checked cases, a regression
+  case for the unscaled-heuristic bug, networkx cross-check. 40 tests pass.
