@@ -25,6 +25,8 @@ The professor's response to the proposal asked for two things:
 | Oracle-input ablations, infeasible instructions, statistical tests | §4.2–§4.5 | Validates the theorems empirically; makes the comparison fair and quantitative |
 | Runtime path verifier + property-based tests against a reference implementation | §3.5 | Makes the guarantee hold for the *code*, not just the algorithm on paper |
 | Schedule extended from 10 to 15 working days | §5 | Proofs and the LTL baseline are real work. A 10-day cut list is given |
+| **v2.2:** LLM is `gemini-3.5-flash-lite` (D2); M1 runs on one wording per instruction (paraphrase consistency is measured for M2/M3 only) | §4.2, §9 | Free-tier speed; ~1,300 instead of ~1,700 calls |
+| **v2.2:** M2-harden leaves preferred regions unconstrained (`G corridor` was unsatisfiable on every instruction) | §4.2 | Found while building M2 (Day 9) |
 | **v2.1:** strict ordering semantics (D1 settled), macOS/conda setup, Gemini Flash free tier as the LLM (D2 settled) | §2.4c, §3, §4.1, §6, §9 | Decisions after review |
 
 ---
@@ -470,8 +472,11 @@ Fairness rules for M1–M3:
   error message. Report calls used.
 - Soft preferences in M2: the LLM is free to encode them however it likes (we report
   what it does). Additionally, on the soft category we run two fixed oracle encodings
-  — **M2-drop** (ignore the preference) and **M2-harden** (`G corridor` /
-  `G !region`) — to show the two options LTL actually has.
+  — **M2-drop** (ignore the preference) and **M2-harden** (an avoided region becomes
+  `G !region`; a preferred region is left free, i.e. the path uses it or not,
+  whichever is shortest) — to show the two options LTL actually has.
+  *(v2.2: the earlier `G corridor` encoding of "prefer the corridor" was
+  unsatisfiable on every instruction, since start cells lie outside the corridor.)*
 
 Ablations:
 - **M3-oracle / M2-oracle:** gold intent / gold LTL fed directly to the planners.
@@ -631,7 +636,9 @@ match LTL exactly (T6) — and we measure it (M2).
 - **D1 — ordering semantics: SETTLED, strict.** B is not entered at all before A has
   been visited; the goal counts as the last element of the sequence. Planner, the
   `visits_before` checker and gold LTL all use this (§3.1, §3.2, T6).
-- **D2 — LLM: SETTLED, Google Gemini API free tier, current Flash model.** Same model,
+- **D2 — LLM: SETTLED, Google Gemini API free tier, `gemini-3.5-flash-lite`** (v2.2:
+  `gemini-2.5-flash` is closed to new keys and `gemini-3.8-flash` took 70–230 s per call
+  on the free tier; Flash-Lite parsed the test prompts correctly in ~1.5 s). Same model,
   temperature 0, for M1–M3. Free-tier inputs may be used by Google for training; this
   is acceptable since the benchmark is synthetic. Check the exact model name and
   current limits in Google AI Studio before Day 8.
