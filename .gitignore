@@ -27,3 +27,6 @@ Thumbs.db
 
 # NOTE: cache/llm/ is intentionally NOT ignored — committing cached LLM
 # responses lets anyone reproduce every number without an API key.
+
+# Dry runs of scripts/run_all.py (harness checks, not results)
+results/dryrun/

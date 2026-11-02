@@ -64,6 +64,11 @@ nlpath/              core package
   pipeline.py        intent → compile → plan → verify_path (single planning entry point)
   parser.py          LLM → intent form (M3)
   llm.py             the ONLY place that calls an LLM; caching lives here
+  prompting.py       shared legend text + retry budget (≤ 3 calls) for M1–M3
+  reference.py       networkx product-graph solver (benchmark labels, tests)
+  benchmark.py       instruction format, gold LTL (T6), generator
+  phrasings.py       templated + hand-written instruction wordings
+  evaluate.py        scores any method's output against the gold intent
 baselines/
   plain_astar.py     M0
   e2e_llm.py         M1
@@ -72,7 +77,8 @@ baselines/
 data/maps/  data/instructions/
 cache/llm/           cached LLM responses (committed, for reproducibility)
 results/             tables and figures
-scripts/run_all.py   one command reproduces every number
+scripts/make_maps.py, make_benchmark.py   regenerate data/
+scripts/run_all.py   one command reproduces every number (--llm dry-run: no network)
 tests/               pytest + hypothesis
 docs/
 ```
@@ -97,7 +103,8 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 ## Conventions
 
 - Python 3.11+, type hints, `dataclasses`, numpy. Tests: pytest + hypothesis;
-  `networkx` only as a reference implementation in tests.
+  `networkx` only in the reference solver (`nlpath/reference.py`: tests and benchmark
+  labels), never in a method being evaluated.
 - Deterministic: fixed seeds everywhere; maps and instructions stored as JSON.
 - All LLM calls go through `nlpath/llm.py`, cached by hash of (model, prompt, params).
   Tests never touch the network — use a fake client. The key is `GEMINI_API_KEY` in
@@ -121,7 +128,8 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 ## Settled decisions
 
 - D1 ordering: strict.
-- D2 LLM: Gemini free tier, Flash model, temperature 0, same for M1–M3.
+- D2 LLM: Gemini free tier, `gemini-3.5-flash-lite` (pinned), temperature 0, same for M1–M3.
+- M1 runs on wording 0 only; M2/M3 on all three wordings (~1,300 calls).
 
 ## Progress
 
@@ -144,3 +152,10 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 6: `docs/soundness.md` — T1–T6 + Prop. C (chaining sound+complete), plain-language
   proofs; reviewed by an agent, 8 wording fixes applied. T6 holds on corner-separated maps
   (forbidden cells can't be grazed; `mapgen.is_corner_separated`, plan §3.3 updated).
+- Day 7: benchmark — 165 instructions × 3 wordings = 495 inputs (135 templated, 30
+  hand-written) + 20 on 15×15 maps; gold intent, gold LTL, checks, reference labels/costs.
+- Day 8: `llm.py` (Gemini REST via urllib, cache, rate limit, 429 backoff, fake client),
+  `prompting.py`, `parser.py` (M3). Not yet run on the real API: no `.env` key.
+- Day 9: M2 `baselines/ltl_route.py` (Spot LTLf → DFA → product). T6 cross-check
+  M2-oracle == M3-oracle on all 185 instructions + 200 random grids.
+- Day 10: M0, M1, `evaluate.py`, `scripts/run_all.py` (dry run end to end, 7 s). 173 tests pass.
