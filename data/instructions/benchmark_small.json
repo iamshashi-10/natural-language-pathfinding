@@ -1,0 +1,832 @@
+[
+ {
+  "id": "plain_000",
+  "category": "plain",
+  "source": "template",
+  "map_id": "small_00",
+  "start": [
+   11,
+   8
+  ],
+  "texts": [
+   "I need to get to the office.",
+   "Go to the office.",
+   "Take me to the office."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "office",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(office & last)",
+  "ref_cost": 12.0,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "office"
+   }
+  ]
+ },
+ {
+  "id": "plain_001",
+  "category": "plain",
+  "source": "template",
+  "map_id": "small_01",
+  "start": [
+   11,
+   11
+  ],
+  "texts": [
+   "Take me to the store room.",
+   "Head over to the store room, please.",
+   "I need to get to the store room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "store_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(store_room & last)",
+  "ref_cost": 13.828427125,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "plain_002",
+  "category": "plain",
+  "source": "template",
+  "map_id": "small_02",
+  "start": [
+   3,
+   10
+  ],
+  "texts": [
+   "Take me to the atrium.",
+   "Navigate to the atrium.",
+   "Head over to the atrium, please."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 12.0,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   }
+  ]
+ },
+ {
+  "id": "plain_003",
+  "category": "plain",
+  "source": "template",
+  "map_id": "small_03",
+  "start": [
+   8,
+   10
+  ],
+  "texts": [
+   "Take me to the office.",
+   "Go to the office.",
+   "I need to get to the office."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "office",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(office & last)",
+  "ref_cost": 10.0,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "office"
+   }
+  ]
+ },
+ {
+  "id": "plain_004",
+  "category": "plain",
+  "source": "template",
+  "map_id": "small_04",
+  "start": [
+   10,
+   12
+  ],
+  "texts": [
+   "Navigate to the atrium.",
+   "Take me to the atrium.",
+   "Head over to the atrium, please."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 8.0,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   }
+  ]
+ },
+ {
+  "id": "prohibition_000",
+  "category": "prohibition",
+  "source": "template",
+  "map_id": "small_08",
+  "start": [
+   5,
+   1
+  ],
+  "texts": [
+   "Get to the atrium and stay out of the workshop.",
+   "Navigate to the atrium without ever setting foot in the workshop.",
+   "Go to the atrium, but don't go through the workshop."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [
+    "workshop"
+   ],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "G !workshop & F(atrium & last)",
+  "ref_cost": 13.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   },
+   {
+    "type": "never_enters",
+    "region": "workshop"
+   }
+  ]
+ },
+ {
+  "id": "prohibition_001",
+  "category": "prohibition",
+  "source": "template",
+  "map_id": "small_02",
+  "start": [
+   7,
+   10
+  ],
+  "texts": [
+   "Go to the print room, but don't go through the store room.",
+   "Head to the print room; the store room is off limits.",
+   "Reach the print room without entering the store room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [
+    "store_room"
+   ],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "G !store_room & F(print_room & last)",
+  "ref_cost": 16.414213562,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "never_enters",
+    "region": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "prohibition_002",
+  "category": "prohibition",
+  "source": "template",
+  "map_id": "small_02",
+  "start": [
+   6,
+   12
+  ],
+  "texts": [
+   "Go to the print room, but don't go through the store room.",
+   "Navigate to the print room without ever setting foot in the store room.",
+   "Head to the print room; the store room is off limits."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [
+    "store_room"
+   ],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "G !store_room & F(print_room & last)",
+  "ref_cost": 18.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "never_enters",
+    "region": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "prohibition_003",
+  "category": "prohibition",
+  "source": "template",
+  "map_id": "small_00",
+  "start": [
+   9,
+   9
+  ],
+  "texts": [
+   "Go to the office, but don't go through the lab.",
+   "Navigate to the office without ever setting foot in the lab.",
+   "Head to the office; the lab is off limits."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "office",
+   "forbidden_regions": [
+    "lab"
+   ],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "G !lab & F(office & last)",
+  "ref_cost": 15.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "office"
+   },
+   {
+    "type": "never_enters",
+    "region": "lab"
+   }
+  ]
+ },
+ {
+  "id": "prohibition_004",
+  "category": "prohibition",
+  "source": "template",
+  "map_id": "small_09",
+  "start": [
+   3,
+   6
+  ],
+  "texts": [
+   "Navigate to the store room without ever setting foot in the lab.",
+   "Go to the store room, but don't go through the lab.",
+   "Get to the store room and stay out of the lab."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "store_room",
+   "forbidden_regions": [
+    "lab"
+   ],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "G !lab & F(store_room & last)",
+  "ref_cost": 11.414213562,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "store_room"
+   },
+   {
+    "type": "never_enters",
+    "region": "lab"
+   }
+  ]
+ },
+ {
+  "id": "stop_000",
+  "category": "stop",
+  "source": "template",
+  "map_id": "small_00",
+  "start": [
+   8,
+   3
+  ],
+  "texts": [
+   "I want to end in the lab; make a stop at the office first.",
+   "Swing by the office before ending up in the lab.",
+   "Stop at the office, then go to the lab."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "lab",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "office"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!lab U (office & F(lab & last)))",
+  "ref_cost": 21.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "lab"
+   },
+   {
+    "type": "visits",
+    "region": "office"
+   },
+   {
+    "type": "visits_before",
+    "first": "office",
+    "then": "lab"
+   }
+  ]
+ },
+ {
+  "id": "stop_001",
+  "category": "stop",
+  "source": "template",
+  "map_id": "small_01",
+  "start": [
+   12,
+   9
+  ],
+  "texts": [
+   "Stop at the store room, then go to the print room.",
+   "Swing by the store room before ending up in the print room.",
+   "First pass by the store room, and after that head to the print room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "store_room"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!print_room U (store_room & F(print_room & last)))",
+  "ref_cost": 18.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "visits",
+    "region": "store_room"
+   },
+   {
+    "type": "visits_before",
+    "first": "store_room",
+    "then": "print_room"
+   }
+  ]
+ },
+ {
+  "id": "stop_002",
+  "category": "stop",
+  "source": "template",
+  "map_id": "small_02",
+  "start": [
+   1,
+   12
+  ],
+  "texts": [
+   "I want to end in the print room; make a stop at the store room first.",
+   "Stop at the store room, then go to the print room.",
+   "Go to the print room, but visit the store room on the way."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "store_room"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!print_room U (store_room & F(print_room & last)))",
+  "ref_cost": 9.828427125,
+  "binding": false,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "visits",
+    "region": "store_room"
+   },
+   {
+    "type": "visits_before",
+    "first": "store_room",
+    "then": "print_room"
+   }
+  ]
+ },
+ {
+  "id": "stop_003",
+  "category": "stop",
+  "source": "template",
+  "map_id": "small_03",
+  "start": [
+   8,
+   4
+  ],
+  "texts": [
+   "Go to the lab, but visit the print room on the way.",
+   "I want to end in the lab; make a stop at the print room first.",
+   "First pass by the print room, and after that head to the lab."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "lab",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "print_room"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!lab U (print_room & F(lab & last)))",
+  "ref_cost": 22.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "lab"
+   },
+   {
+    "type": "visits",
+    "region": "print_room"
+   },
+   {
+    "type": "visits_before",
+    "first": "print_room",
+    "then": "lab"
+   }
+  ]
+ },
+ {
+  "id": "stop_004",
+  "category": "stop",
+  "source": "template",
+  "map_id": "small_04",
+  "start": [
+   4,
+   12
+  ],
+  "texts": [
+   "First pass by the stairwell, and after that head to the atrium.",
+   "Stop at the stairwell, then go to the atrium.",
+   "Swing by the stairwell before ending up in the atrium."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "stairwell"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!atrium U (stairwell & F(atrium & last)))",
+  "ref_cost": 15.414213562,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   },
+   {
+    "type": "visits",
+    "region": "stairwell"
+   },
+   {
+    "type": "visits_before",
+    "first": "stairwell",
+    "then": "atrium"
+   }
+  ]
+ },
+ {
+  "id": "ordering_000",
+  "category": "ordering",
+  "source": "template",
+  "map_id": "small_05",
+  "start": [
+   9,
+   12
+  ],
+  "texts": [
+   "Go to the lab, then the office, and finish at the print room.",
+   "Head to the print room, but check the lab first and then the office.",
+   "First the lab, next the office, and finally the print room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "lab",
+    "office"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!(office | print_room) U (lab & (!print_room U (office & F(print_room & last)))))",
+  "ref_cost": 30.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "visits",
+    "region": "lab"
+   },
+   {
+    "type": "visits",
+    "region": "office"
+   },
+   {
+    "type": "visits_before",
+    "first": "lab",
+    "then": "office"
+   },
+   {
+    "type": "visits_before",
+    "first": "office",
+    "then": "print_room"
+   }
+  ]
+ },
+ {
+  "id": "ordering_001",
+  "category": "ordering",
+  "source": "template",
+  "map_id": "small_06",
+  "start": [
+   3,
+   13
+  ],
+  "texts": [
+   "Go to the stairwell, then the workshop, and finish at the store room.",
+   "Visit the stairwell before the workshop, then go to the store room.",
+   "Head to the store room, but check the stairwell first and then the workshop."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "store_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "stairwell",
+    "workshop"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!(workshop | store_room) U (stairwell & (!store_room U (workshop & F(store_room & last)))))",
+  "ref_cost": 24.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "store_room"
+   },
+   {
+    "type": "visits",
+    "region": "stairwell"
+   },
+   {
+    "type": "visits",
+    "region": "workshop"
+   },
+   {
+    "type": "visits_before",
+    "first": "stairwell",
+    "then": "workshop"
+   },
+   {
+    "type": "visits_before",
+    "first": "workshop",
+    "then": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "ordering_002",
+  "category": "ordering",
+  "source": "template",
+  "map_id": "small_07",
+  "start": [
+   6,
+   11
+  ],
+  "texts": [
+   "Stop by the office and afterwards the lab on your way to the workshop.",
+   "First the office, next the lab, and finally the workshop.",
+   "Visit the office before the lab, then go to the workshop."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "workshop",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "office",
+    "lab"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!(lab | workshop) U (office & (!workshop U (lab & F(workshop & last)))))",
+  "ref_cost": 22.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "workshop"
+   },
+   {
+    "type": "visits",
+    "region": "office"
+   },
+   {
+    "type": "visits",
+    "region": "lab"
+   },
+   {
+    "type": "visits_before",
+    "first": "office",
+    "then": "lab"
+   },
+   {
+    "type": "visits_before",
+    "first": "lab",
+    "then": "workshop"
+   }
+  ]
+ },
+ {
+  "id": "ordering_003",
+  "category": "ordering",
+  "source": "template",
+  "map_id": "small_09",
+  "start": [
+   9,
+   2
+  ],
+  "texts": [
+   "Visit the workshop before the lab, then go to the store room.",
+   "Go to the workshop, then the lab, and finish at the store room.",
+   "Stop by the workshop and afterwards the lab on your way to the store room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "store_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "workshop",
+    "lab"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!(lab | store_room) U (workshop & (!store_room U (lab & F(store_room & last)))))",
+  "ref_cost": 28.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "store_room"
+   },
+   {
+    "type": "visits",
+    "region": "workshop"
+   },
+   {
+    "type": "visits",
+    "region": "lab"
+   },
+   {
+    "type": "visits_before",
+    "first": "workshop",
+    "then": "lab"
+   },
+   {
+    "type": "visits_before",
+    "first": "lab",
+    "then": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "ordering_004",
+  "category": "ordering",
+  "source": "template",
+  "map_id": "small_09",
+  "start": [
+   5,
+   4
+  ],
+  "texts": [
+   "Head to the lab, but check the workshop first and then the store room.",
+   "Visit the workshop before the store room, then go to the lab.",
+   "Stop by the workshop and afterwards the store room on your way to the lab."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "lab",
+   "forbidden_regions": [],
+   "ordered_waypoints": [
+    "workshop",
+    "store_room"
+   ],
+   "preferred_regions": [],
+   "avoided_regions": []
+  },
+  "gold_ltl": "(!(store_room | lab) U (workshop & (!lab U (store_room & F(lab & last)))))",
+  "ref_cost": 23.0,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "lab"
+   },
+   {
+    "type": "visits",
+    "region": "workshop"
+   },
+   {
+    "type": "visits",
+    "region": "store_room"
+   },
+   {
+    "type": "visits_before",
+    "first": "workshop",
+    "then": "store_room"
+   },
+   {
+    "type": "visits_before",
+    "first": "store_room",
+    "then": "lab"
+   }
+  ]
+ }
+]

@@ -1,0 +1,37 @@
+{
+ "benchmark": {
+  "instructions": 165,
+  "inputs": 495,
+  "per_category": {
+   "plain": 20,
+   "prohibition": 35,
+   "stop": 30,
+   "ordering": 30,
+   "soft": 35,
+   "infeasible": 15
+  },
+  "per_source": {
+   "template": 135,
+   "handwritten": 30
+  },
+  "feasible": 150,
+  "binding": 93,
+  "maps_used": 20
+ },
+ "benchmark_small": {
+  "instructions": 20,
+  "inputs": 60,
+  "per_category": {
+   "plain": 5,
+   "prohibition": 5,
+   "stop": 5,
+   "ordering": 5
+  },
+  "per_source": {
+   "template": 20
+  },
+  "feasible": 20,
+  "binding": 14,
+  "maps_used": 10
+ }
+}
