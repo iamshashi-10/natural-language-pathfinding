@@ -349,7 +349,12 @@ Example — "visit A before B, then the lab, avoid the workshop":
 `G !workshop & ((!(B | lab)) U (A & ((!lab) U (B & F(lab & last)))))`.
 
 Then for an admissible start, $\pi$ is $I_{hard}$-satisfying iff its label trace
-satisfies $\varphi_I$.
+satisfies $\varphi_I$ — **on corner-separated maps** (no legal diagonal step passes the
+corner of a region cell without entering that region). The condition is needed
+because forbidden cells are treated as walls, so a path may not graze them
+diagonally, and a formula over visited cells cannot express "not grazed". All
+generated maps are corner-separated (`mapgen.is_corner_separated`); see
+`docs/soundness.md` §6.
 Consequently, with identical edge costs, our planner and an automaton-product planner
 for $\varphi_I$ return paths of equal optimal cost.
 

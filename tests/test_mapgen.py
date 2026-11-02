@@ -9,7 +9,9 @@ from hypothesis import given
 from hypothesis import strategies as st
 
 from nlpath.grid import GridMap
-from nlpath.mapgen import SMALL, TIERS, benchmark_maps, generate_map, small_maps
+from nlpath.mapgen import (SMALL, TIERS, benchmark_maps, generate_map,
+                           is_corner_separated, small_maps)
+from reference import make_map
 
 MAPS_DIR = Path(__file__).resolve().parents[1] / "data" / "maps"
 ALL_PARAMS = [*TIERS.values(), SMALL]
@@ -85,6 +87,25 @@ def test_inner_regions_have_no_door_on_main_corridor(seed, p):
     for name in gm.meta["inner_regions"]:
         for r, c in entrances(gm, name):
             assert not any(spine[r + dr, c + dc] for dr, dc in ORTHO)
+
+
+@given(seed=seeds, p=params)
+def test_generated_maps_are_corner_separated(seed, p):
+    """Precondition of T6 (docs/soundness.md §6)."""
+    assert is_corner_separated(generate_map("m", seed, p))
+
+
+def test_benchmark_maps_are_corner_separated():
+    assert all(is_corner_separated(gm) for gm in benchmark_maps() + small_maps())
+
+
+def test_corner_separation_detects_a_grazed_corner():
+    # (1,1) -> (2,2) passes the corner of lab cell (1,2) without entering it.
+    assert not is_corner_separated(make_map(["####", "#.L#", "#..#", "####"]))
+    # Entering the region on the diagonal itself is fine.
+    assert is_corner_separated(make_map(["####", "#.L#", "#.L#", "####"]))
+    # A wall in the 2x2 block makes the diagonal illegal anyway.
+    assert is_corner_separated(make_map(["####", "#.L#", "##.#", "####"]))
 
 
 def test_medium_and_hard_maps_have_inner_regions():

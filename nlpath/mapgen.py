@@ -332,6 +332,29 @@ def generate_map(map_id: str, seed: int, params: GenParams, tier: str = "") -> G
     return GridMap(map_id, free, labels, region_names, meta)
 
 
+def is_corner_separated(gm: GridMap) -> bool:
+    """True if no physically legal diagonal move grazes a region it does not enter.
+
+    That is: for every diagonal v -> u with both corner cells free, a corner cell
+    in region r implies v or u is in r. Theorem T6 (docs/soundness.md §6) needs
+    this; rooms enclosed by walls with 1-cell doors satisfy it.
+    """
+    h, w = gm.shape
+    free, labels = gm.free, gm.labels
+    for r in range(h - 1):
+        for c in range(w - 1):
+            block = [(r, c), (r, c + 1), (r + 1, c), (r + 1, c + 1)]
+            if not all(free[x] for x in block):
+                continue  # no legal diagonal inside this 2x2 block
+            for v, u, corners in (((r, c), (r + 1, c + 1), ((r, c + 1), (r + 1, c))),
+                                  ((r, c + 1), (r + 1, c), ((r, c), (r + 1, c + 1)))):
+                for corner in corners:
+                    lab = labels[corner]
+                    if lab != NO_LABEL and labels[v] != lab and labels[u] != lab:
+                        return False
+    return True
+
+
 BASE_SEED = 1000
 SMALL_BASE_SEED = 2000
 N_MAPS = 20

@@ -141,3 +141,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 5: `tests/test_properties.py` — T1–T4 vs networkx reference, T5 bound, heuristic
   consistency, chaining sound+complete+never better; 1000 random cases each. Fixed
   chaining to use the product's corner rule (`plan_grid(blocked=…)`). 117 tests pass.
+- Day 6: `docs/soundness.md` — T1–T6 + Prop. C (chaining sound+complete), plain-language
+  proofs; reviewed by an agent, 8 wording fixes applied. T6 holds on corner-separated maps
+  (forbidden cells can't be grazed; `mapgen.is_corner_separated`, plan §3.3 updated).
