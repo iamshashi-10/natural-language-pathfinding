@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "nlpath"
 version = "0.1.0"
 description = "Natural-language path finding: LLM intent forms + product-graph A*"
-readme = "CLAUDE.md"
+readme = "README.md"
 requires-python = ">=3.11"
 authors = [{ name = "Shashi Bhidodiya" }, { name = "Krishna Kumayu" }]
 dependencies = ["numpy", "matplotlib"]

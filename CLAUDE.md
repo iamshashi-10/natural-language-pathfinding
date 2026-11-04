@@ -69,6 +69,8 @@ nlpath/              core package
   benchmark.py       instruction format, gold LTL (T6), generator
   phrasings.py       templated + hand-written instruction wordings
   evaluate.py        scores any method's output against the gold intent
+  metrics.py         Wilson CIs, exact McNemar, bootstrap
+  errors.py          failure attribution by stage and type
 baselines/
   plain_astar.py     M0
   e2e_llm.py         M1
@@ -79,6 +81,7 @@ cache/llm/           cached LLM responses (committed, for reproducibility)
 results/             tables and figures
 scripts/make_maps.py, make_benchmark.py   regenerate data/
 scripts/run_all.py   one command reproduces every number (--llm dry-run: no network)
+scripts/make_tables.py, make_figures.py   called by run_all.py
 tests/               pytest + hypothesis
 docs/
 ```
@@ -97,7 +100,7 @@ python scripts/run_all.py
 Spot (needed only for M2) comes from conda-forge (`conda install -c conda-forge spot`),
 not pip. Keep it an optional import; everything else must work without it.
 
-LLM: Google Gemini API, free tier, Flash model — model name in one config place.
+LLM: Google Gemini API, free tier, `gemini-3.5-flash-lite` — model name in one config place.
 Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 429.
 
 ## Conventions
@@ -159,3 +162,11 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 9: M2 `baselines/ltl_route.py` (Spot LTLf → DFA → product). T6 cross-check
   M2-oracle == M3-oracle on all 185 instructions + 200 random grids.
 - Day 10: M0, M1, `evaluate.py`, `scripts/run_all.py` (dry run end to end, 7 s). 173 tests pass.
+- Day 11: full run on Gemini over 3 days of free-tier quota (~1,250 calls, all cached in
+  `cache/llm/`); parallel calls under the rate limit; soft instructions re-sampled so the
+  preference changes the route (plan §4.1). Results in `results/raw/`.
+- Day 12–13: `metrics.py` (Wilson, McNemar, bootstrap), `scripts/make_tables.py`,
+  `errors.py` (failure by stage/type) → `results/tables/`, `results/metrics.json`.
+- Day 14: `scripts/make_figures.py` → `results/figures/` (validity, M1 vs M3, soft, T5).
+- Day 15: `docs/report.md`, `README.md`; `run_all.py` rebuilds tables + figures.
+  Headline: M3 100% correct, M2 88%, M1 0% (paths unwalkable), M0 35%. 195 tests pass.
