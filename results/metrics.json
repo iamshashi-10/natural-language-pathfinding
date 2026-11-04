@@ -1,0 +1,1917 @@
+{
+ "big": {
+  "correct": {
+   "M0": {
+    "plain": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 0,
+     "n": 35,
+     "rate": 0.0,
+     "ci": [
+      6.938893903907228e-18,
+      0.09890099232440402
+     ]
+    },
+    "stop": {
+     "k": 3,
+     "n": 30,
+     "rate": 0.1,
+     "ci": [
+      0.03459988874733419,
+      0.25621082579184085
+     ]
+    },
+    "ordering": {
+     "k": 0,
+     "n": 30,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.11351339317396876
+     ]
+    },
+    "soft": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 15,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.20388330103584862
+     ]
+    },
+    "all": {
+     "k": 58,
+     "n": 165,
+     "rate": 0.3515151515151515,
+     "ci": [
+      0.2827980172324818,
+      0.4269889015595613
+     ]
+    }
+   },
+   "M1": {
+    "plain": {
+     "k": 0,
+     "n": 20,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.16112515805281938
+     ]
+    },
+    "prohibition": {
+     "k": 0,
+     "n": 35,
+     "rate": 0.0,
+     "ci": [
+      6.938893903907228e-18,
+      0.09890099232440402
+     ]
+    },
+    "stop": {
+     "k": 0,
+     "n": 30,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.11351339317396876
+     ]
+    },
+    "ordering": {
+     "k": 0,
+     "n": 30,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.11351339317396876
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 35,
+     "rate": 0.0,
+     "ci": [
+      6.938893903907228e-18,
+      0.09890099232440402
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 15,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.20388330103584862
+     ]
+    },
+    "all": {
+     "k": 0,
+     "n": 165,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.022751869401778084
+     ]
+    }
+   },
+   "M2": {
+    "plain": {
+     "k": 60,
+     "n": 60,
+     "rate": 1.0,
+     "ci": [
+      0.93982814785791,
+      0.9999999999999998
+     ]
+    },
+    "prohibition": {
+     "k": 105,
+     "n": 105,
+     "rate": 1.0,
+     "ci": [
+      0.9647059230708901,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 84,
+     "n": 90,
+     "rate": 0.9333333333333333,
+     "ci": [
+      0.8620990522567448,
+      0.9690900722541721
+     ]
+    },
+    "ordering": {
+     "k": 55,
+     "n": 90,
+     "rate": 0.6111111111111112,
+     "ci": [
+      0.5078245886506263,
+      0.7053008278906345
+     ]
+    },
+    "soft": {
+     "k": 87,
+     "n": 105,
+     "rate": 0.8285714285714286,
+     "ci": [
+      0.7452274603731152,
+      0.888722146216327
+     ]
+    },
+    "infeasible": {
+     "k": 45,
+     "n": 45,
+     "rate": 1.0,
+     "ci": [
+      0.9213484012671117,
+      1.0
+     ]
+    },
+    "all": {
+     "k": 436,
+     "n": 495,
+     "rate": 0.8808080808080808,
+     "ci": [
+      0.8492912095079207,
+      0.9064599281205791
+     ]
+    }
+   },
+   "M3": {
+    "plain": {
+     "k": 60,
+     "n": 60,
+     "rate": 1.0,
+     "ci": [
+      0.93982814785791,
+      0.9999999999999998
+     ]
+    },
+    "prohibition": {
+     "k": 105,
+     "n": 105,
+     "rate": 1.0,
+     "ci": [
+      0.9647059230708901,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 90,
+     "n": 90,
+     "rate": 1.0,
+     "ci": [
+      0.9590643744356734,
+      1.0
+     ]
+    },
+    "ordering": {
+     "k": 90,
+     "n": 90,
+     "rate": 1.0,
+     "ci": [
+      0.9590643744356734,
+      1.0
+     ]
+    },
+    "soft": {
+     "k": 105,
+     "n": 105,
+     "rate": 1.0,
+     "ci": [
+      0.9647059230708901,
+      1.0
+     ]
+    },
+    "infeasible": {
+     "k": 45,
+     "n": 45,
+     "rate": 1.0,
+     "ci": [
+      0.9213484012671117,
+      1.0
+     ]
+    },
+    "all": {
+     "k": 495,
+     "n": 495,
+     "rate": 1.0,
+     "ci": [
+      0.9922992390612928,
+      1.0
+     ]
+    }
+   },
+   "M2-oracle": {
+    "plain": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "stop": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "ordering": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "soft": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "infeasible": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "all": {
+     "k": 165,
+     "n": 165,
+     "rate": 1.0,
+     "ci": [
+      0.977248130598222,
+      1.0
+     ]
+    }
+   },
+   "M3-oracle": {
+    "plain": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "stop": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "ordering": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "soft": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "infeasible": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "all": {
+     "k": 165,
+     "n": 165,
+     "rate": 1.0,
+     "ci": [
+      0.977248130598222,
+      1.0
+     ]
+    }
+   },
+   "M3-chain": {
+    "plain": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "stop": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "ordering": {
+     "k": 30,
+     "n": 30,
+     "rate": 1.0,
+     "ci": [
+      0.8864866068260312,
+      0.9999999999999999
+     ]
+    },
+    "soft": {
+     "k": 35,
+     "n": 35,
+     "rate": 1.0,
+     "ci": [
+      0.9010990076755959,
+      0.9999999999999999
+     ]
+    },
+    "infeasible": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "all": {
+     "k": 165,
+     "n": 165,
+     "rate": 1.0,
+     "ci": [
+      0.977248130598222,
+      1.0
+     ]
+    }
+   }
+  },
+  "validity": {
+   "M0": {
+    "valid_feasible": [
+     150,
+     150
+    ],
+    "valid_when_returned": [
+     165,
+     165
+    ],
+    "no_path_on_infeasible": [
+     0,
+     15
+    ]
+   },
+   "M1": {
+    "valid_feasible": [
+     0,
+     150
+    ],
+    "valid_when_returned": [
+     0,
+     161
+    ],
+    "no_path_on_infeasible": [
+     0,
+     15
+    ]
+   },
+   "M2": {
+    "valid_feasible": [
+     400,
+     450
+    ],
+    "valid_when_returned": [
+     400,
+     419
+    ],
+    "no_path_on_infeasible": [
+     45,
+     45
+    ]
+   },
+   "M3": {
+    "valid_feasible": [
+     450,
+     450
+    ],
+    "valid_when_returned": [
+     450,
+     450
+    ],
+    "no_path_on_infeasible": [
+     45,
+     45
+    ]
+   },
+   "M2-oracle": {
+    "valid_feasible": [
+     150,
+     150
+    ],
+    "valid_when_returned": [
+     150,
+     150
+    ],
+    "no_path_on_infeasible": [
+     15,
+     15
+    ]
+   },
+   "M3-oracle": {
+    "valid_feasible": [
+     150,
+     150
+    ],
+    "valid_when_returned": [
+     150,
+     150
+    ],
+    "no_path_on_infeasible": [
+     15,
+     15
+    ]
+   },
+   "M3-chain": {
+    "valid_feasible": [
+     150,
+     150
+    ],
+    "valid_when_returned": [
+     150,
+     150
+    ],
+    "no_path_on_infeasible": [
+     15,
+     15
+    ]
+   }
+  },
+  "translation": {
+   "M3": {
+    "plain": {
+     "accurate": [
+      60,
+      60
+     ],
+     "failed_after_retries": [
+      0,
+      60
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 1.1336666666666668
+    },
+    "prohibition": {
+     "accurate": [
+      105,
+      105
+     ],
+     "failed_after_retries": [
+      0,
+      105
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 1.032047619047619
+    },
+    "stop": {
+     "accurate": [
+      90,
+      90
+     ],
+     "failed_after_retries": [
+      0,
+      90
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 1.210022222222222
+    },
+    "ordering": {
+     "accurate": [
+      90,
+      90
+     ],
+     "failed_after_retries": [
+      0,
+      90
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 1.367488888888889
+    },
+    "soft": {
+     "accurate": [
+      105,
+      105
+     ],
+     "failed_after_retries": [
+      0,
+      105
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 5.168133333333333
+    },
+    "infeasible": {
+     "accurate": [
+      45,
+      45
+     ],
+     "failed_after_retries": [
+      0,
+      45
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 12.430311111111111
+    },
+    "all": {
+     "accurate": [
+      495,
+      495
+     ],
+     "failed_after_retries": [
+      0,
+      495
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 3.051270707070707
+    }
+   },
+   "M2": {
+    "plain": {
+     "accurate": [
+      59,
+      60
+     ],
+     "failed_after_retries": [
+      0,
+      60
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 12.593350000000003
+    },
+    "prohibition": {
+     "accurate": [
+      64,
+      105
+     ],
+     "failed_after_retries": [
+      0,
+      105
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 7.355914285714285
+    },
+    "stop": {
+     "accurate": [
+      67,
+      90
+     ],
+     "failed_after_retries": [
+      0,
+      90
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 8.391611111111112
+    },
+    "ordering": {
+     "accurate": [
+      12,
+      90
+     ],
+     "failed_after_retries": [
+      0,
+      90
+     ],
+     "mean_calls": 1.0444444444444445,
+     "mean_latency_s": 8.99388888888889
+    },
+    "soft": {
+     "accurate": [
+      56,
+      105
+     ],
+     "failed_after_retries": [
+      0,
+      105
+     ],
+     "mean_calls": 1.0095238095238095,
+     "mean_latency_s": 20.36805714285714
+    },
+    "infeasible": {
+     "accurate": [
+      21,
+      45
+     ],
+     "failed_after_retries": [
+      0,
+      45
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 41.751444444444445
+    },
+    "all": {
+     "accurate": [
+      279,
+      495
+     ],
+     "failed_after_retries": [
+      0,
+      495
+     ],
+     "mean_calls": 1.0101010101010102,
+     "mean_latency_s": 14.36389494949495
+    }
+   }
+  },
+  "paraphrase_consistency": {
+   "M3": [
+    165,
+    165
+   ],
+   "M2": [
+    49,
+    165
+   ]
+  },
+  "soft": {
+   "M0": {
+    "n": 35,
+    "frac_preferred": 0.27248229785333516,
+    "frac_avoided": 0.15676077838612093,
+    "length_ratio_vs_oracle": 0.9199867700238787
+   },
+   "M2-oracle": {
+    "n": 35,
+    "frac_preferred": 0.2733774182437116,
+    "frac_avoided": 0.15676077838612093,
+    "length_ratio_vs_oracle": 0.9199867700238787
+   },
+   "M2-harden": {
+    "n": 35,
+    "frac_preferred": 0.2733774182437116,
+    "frac_avoided": 0.0,
+    "length_ratio_vs_oracle": 0.9585101875206197
+   },
+   "M2": {
+    "n": 105,
+    "frac_preferred": 0.2820965871533344,
+    "frac_avoided": 0.11704547871896848,
+    "length_ratio_vs_oracle": 0.8945735198428366
+   },
+   "M3": {
+    "n": 105,
+    "frac_preferred": 0.5135924038499576,
+    "frac_avoided": 0.021516162102985608,
+    "length_ratio_vs_oracle": 1.0
+   },
+   "M3-oracle": {
+    "n": 35,
+    "frac_preferred": 0.5135924038499577,
+    "frac_avoided": 0.02151616210298561,
+    "length_ratio_vs_oracle": 1.0
+   }
+  },
+  "cost_ratio": {
+   "M0": {
+    "n": 58,
+    "mean": 1.065468499590582,
+    "ci": [
+     1.0435293769091796,
+     1.0894345353206578
+    ],
+    "max": 1.3828128996361464
+   },
+   "M2": {
+    "n": 391,
+    "mean": 1.0216842087006934,
+    "ci": [
+     1.015937118426044,
+     1.0279053535162417
+    ],
+    "max": 1.3828128996361464
+   },
+   "M3": {
+    "n": 450,
+    "mean": 1.0000000000032299,
+    "ci": [
+     1.0000000000019884,
+     1.0000000000046596
+    ],
+    "max": 1.000000000109277
+   },
+   "M2-oracle": {
+    "n": 150,
+    "mean": 1.0255011186936678,
+    "ci": [
+     1.0158507423153018,
+     1.036601786581803
+    ],
+    "max": 1.3828128996361464
+   },
+   "M3-oracle": {
+    "n": 150,
+    "mean": 1.0000000000032299,
+    "ci": [
+     1.0000000000012126,
+     1.000000000005828
+    ],
+    "max": 1.000000000109277
+   },
+   "M3-chain": {
+    "n": 150,
+    "mean": 1.000892487051445,
+    "ci": [
+     1.0001403328697733,
+     1.0018825024417959
+    ],
+    "max": 1.0540838134242538
+   }
+  },
+  "chain_vs_product": {
+   "n": 60,
+   "mean_ratio": 1.002231217620537,
+   "ci": [
+    1.0004472657254684,
+    1.004588288431702
+   ],
+   "strictly_worse": 5,
+   "max_ratio": 1.0540838134224637
+  },
+  "mcnemar": {
+   "M3 vs M2:plain": {
+    "n": 60,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M2:prohibition": {
+    "n": 105,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M2:stop": {
+    "n": 90,
+    "a_only": 6,
+    "b_only": 0,
+    "p_value": 0.03125
+   },
+   "M3 vs M2:ordering": {
+    "n": 90,
+    "a_only": 35,
+    "b_only": 0,
+    "p_value": 5.820766091346741e-11
+   },
+   "M3 vs M2:soft": {
+    "n": 105,
+    "a_only": 18,
+    "b_only": 0,
+    "p_value": 7.62939453125e-06
+   },
+   "M3 vs M2:infeasible": {
+    "n": 45,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M2:all": {
+    "n": 495,
+    "a_only": 59,
+    "b_only": 0,
+    "p_value": 3.469446951953614e-18
+   },
+   "M3 vs M1:plain": {
+    "n": 20,
+    "a_only": 20,
+    "b_only": 0,
+    "p_value": 1.9073486328125e-06
+   },
+   "M3 vs M1:prohibition": {
+    "n": 35,
+    "a_only": 35,
+    "b_only": 0,
+    "p_value": 5.820766091346741e-11
+   },
+   "M3 vs M1:stop": {
+    "n": 30,
+    "a_only": 30,
+    "b_only": 0,
+    "p_value": 1.862645149230957e-09
+   },
+   "M3 vs M1:ordering": {
+    "n": 30,
+    "a_only": 30,
+    "b_only": 0,
+    "p_value": 1.862645149230957e-09
+   },
+   "M3 vs M1:soft": {
+    "n": 35,
+    "a_only": 35,
+    "b_only": 0,
+    "p_value": 5.820766091346741e-11
+   },
+   "M3 vs M1:infeasible": {
+    "n": 15,
+    "a_only": 15,
+    "b_only": 0,
+    "p_value": 6.103515625e-05
+   },
+   "M3 vs M1:all": {
+    "n": 165,
+    "a_only": 165,
+    "b_only": 0,
+    "p_value": 4.276423536147513e-50
+   },
+   "M3 vs M0:plain": {
+    "n": 20,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M0:prohibition": {
+    "n": 35,
+    "a_only": 35,
+    "b_only": 0,
+    "p_value": 5.820766091346741e-11
+   },
+   "M3 vs M0:stop": {
+    "n": 30,
+    "a_only": 27,
+    "b_only": 0,
+    "p_value": 1.4901161193847656e-08
+   },
+   "M3 vs M0:ordering": {
+    "n": 30,
+    "a_only": 30,
+    "b_only": 0,
+    "p_value": 1.862645149230957e-09
+   },
+   "M3 vs M0:soft": {
+    "n": 35,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M0:infeasible": {
+    "n": 15,
+    "a_only": 15,
+    "b_only": 0,
+    "p_value": 6.103515625e-05
+   },
+   "M3 vs M0:all": {
+    "n": 165,
+    "a_only": 107,
+    "b_only": 0,
+    "p_value": 1.232595164407831e-32
+   }
+  },
+  "nodes_expanded": {
+   "M0": {
+    "mean": 255.5878787878788,
+    "median": 233.0
+   },
+   "M3-oracle": {
+    "mean": 744.0181818181818,
+    "median": 484.0
+   },
+   "M2-oracle": {
+    "mean": 1126.9030303030304,
+    "median": 951.0
+   },
+   "M3-chain": {
+    "mean": 463.25454545454545,
+    "median": 385.0
+   }
+  },
+  "failures": {
+   "M1": {
+    "path: walks through a wall or forbidden cell": 145,
+    "path: stops short of the goal": 1,
+    "interpretation: no well-formed answer after 3 calls": 3,
+    "interpretation: said impossible on a feasible instruction": 1,
+    "path: invented a path on an infeasible instruction": 15
+   },
+   "M2": {
+    "ok: correct": 279,
+    "ok: correct despite non-equivalent formula": 157,
+    "interpretation: semantically wrong formula": 58,
+    "interpretation: soft preference read as prohibition": 1
+   },
+   "M3": {
+    "ok: correct": 495
+   },
+   "M0": {
+    "ok: correct": 58,
+    "planning: path ignores a constraint": 107
+   },
+   "M3-oracle": {
+    "ok: correct": 165
+   },
+   "M2-oracle": {
+    "ok: correct": 165
+   }
+  }
+ },
+ "small": {
+  "correct": {
+   "M0": {
+    "plain": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "stop": {
+     "k": 1,
+     "n": 5,
+     "rate": 0.2,
+     "ci": [
+      0.03622410863243014,
+      0.6244653702374747
+     ]
+    },
+    "ordering": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 6,
+     "n": 20,
+     "rate": 0.3,
+     "ci": [
+      0.1454772448676043,
+      0.5189728183535235
+     ]
+    }
+   },
+   "M1": {
+    "plain": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "prohibition": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "stop": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "ordering": {
+     "k": 0,
+     "n": 5,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.43448246478317476
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 0,
+     "n": 20,
+     "rate": 0.0,
+     "ci": [
+      0.0,
+      0.16112515805281938
+     ]
+    }
+   },
+   "M2": {
+    "plain": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 12,
+     "n": 15,
+     "rate": 0.8,
+     "ci": [
+      0.5481455128483065,
+      0.9295245065301844
+     ]
+    },
+    "ordering": {
+     "k": 11,
+     "n": 15,
+     "rate": 0.7333333333333333,
+     "ci": [
+      0.4804956594401943,
+      0.8910254667430761
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 53,
+     "n": 60,
+     "rate": 0.8833333333333333,
+     "ci": [
+      0.7782121197582914,
+      0.9423227935994396
+     ]
+    }
+   },
+   "M3": {
+    "plain": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "ordering": {
+     "k": 15,
+     "n": 15,
+     "rate": 1.0,
+     "ci": [
+      0.7961166989641515,
+      1.0
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 60,
+     "n": 60,
+     "rate": 1.0,
+     "ci": [
+      0.93982814785791,
+      0.9999999999999998
+     ]
+    }
+   },
+   "M2-oracle": {
+    "plain": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "ordering": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    }
+   },
+   "M3-oracle": {
+    "plain": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "ordering": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    }
+   },
+   "M3-chain": {
+    "plain": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "prohibition": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "stop": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "ordering": {
+     "k": 5,
+     "n": 5,
+     "rate": 1.0,
+     "ci": [
+      0.5655175352168251,
+      1.0
+     ]
+    },
+    "soft": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "infeasible": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "ci": [
+      NaN,
+      NaN
+     ]
+    },
+    "all": {
+     "k": 20,
+     "n": 20,
+     "rate": 1.0,
+     "ci": [
+      0.8388748419471806,
+      1.0
+     ]
+    }
+   }
+  },
+  "validity": {
+   "M0": {
+    "valid_feasible": [
+     20,
+     20
+    ],
+    "valid_when_returned": [
+     20,
+     20
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M1": {
+    "valid_feasible": [
+     0,
+     20
+    ],
+    "valid_when_returned": [
+     0,
+     20
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M2": {
+    "valid_feasible": [
+     55,
+     60
+    ],
+    "valid_when_returned": [
+     55,
+     59
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M3": {
+    "valid_feasible": [
+     60,
+     60
+    ],
+    "valid_when_returned": [
+     60,
+     60
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M2-oracle": {
+    "valid_feasible": [
+     20,
+     20
+    ],
+    "valid_when_returned": [
+     20,
+     20
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M3-oracle": {
+    "valid_feasible": [
+     20,
+     20
+    ],
+    "valid_when_returned": [
+     20,
+     20
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   },
+   "M3-chain": {
+    "valid_feasible": [
+     20,
+     20
+    ],
+    "valid_when_returned": [
+     20,
+     20
+    ],
+    "no_path_on_infeasible": [
+     0,
+     0
+    ]
+   }
+  },
+  "translation": {
+   "M3": {
+    "plain": {
+     "accurate": [
+      15,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 37.72406666666667
+    },
+    "prohibition": {
+     "accurate": [
+      15,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 43.8966
+    },
+    "stop": {
+     "accurate": [
+      15,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 49.489799999999995
+    },
+    "ordering": {
+     "accurate": [
+      15,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 44.327600000000004
+    },
+    "all": {
+     "accurate": [
+      60,
+      60
+     ],
+     "failed_after_retries": [
+      0,
+      60
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 43.85951666666667
+    }
+   },
+   "M2": {
+    "plain": {
+     "accurate": [
+      15,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 37.77493333333333
+    },
+    "prohibition": {
+     "accurate": [
+      4,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 45.05813333333334
+    },
+    "stop": {
+     "accurate": [
+      7,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.0,
+     "mean_latency_s": 44.35920000000001
+    },
+    "ordering": {
+     "accurate": [
+      5,
+      15
+     ],
+     "failed_after_retries": [
+      0,
+      15
+     ],
+     "mean_calls": 1.1333333333333333,
+     "mean_latency_s": 51.297066666666666
+    },
+    "all": {
+     "accurate": [
+      31,
+      60
+     ],
+     "failed_after_retries": [
+      0,
+      60
+     ],
+     "mean_calls": 1.0333333333333334,
+     "mean_latency_s": 44.62233333333334
+    }
+   }
+  },
+  "paraphrase_consistency": {
+   "M3": [
+    20,
+    20
+   ],
+   "M2": [
+    7,
+    20
+   ]
+  },
+  "cost_ratio": {
+   "M0": {
+    "n": 6,
+    "mean": 0.999999999992637,
+    "ci": [
+     0.9999999999834599,
+     1.0
+    ],
+    "max": 1.0
+   },
+   "M2": {
+    "n": 53,
+    "mean": 0.999999999999608,
+    "ci": [
+     0.999999999995824,
+     1.0000000000035278
+    ],
+    "max": 1.000000000032687
+   },
+   "M3": {
+    "n": 60,
+    "mean": 0.9999999999985388,
+    "ci": [
+     0.9999999999950676,
+     1.0000000000022462
+    ],
+    "max": 1.000000000032687
+   },
+   "M2-oracle": {
+    "n": 20,
+    "mean": 0.999999999998539,
+    "ci": [
+     0.9999999999926028,
+     1.000000000004926
+    ],
+    "max": 1.000000000032687
+   },
+   "M3-oracle": {
+    "n": 20,
+    "mean": 0.999999999998539,
+    "ci": [
+     0.9999999999926028,
+     1.000000000004926
+    ],
+    "max": 1.000000000032687
+   },
+   "M3-chain": {
+    "n": 20,
+    "mean": 1.0063546399914352,
+    "ci": [
+     0.9999999999955558,
+     1.0175845858235637
+    ],
+    "max": 1.0975061168312734
+   }
+  },
+  "chain_vs_product": {
+   "n": 10,
+   "mean_ratio": 1.0127092799857924,
+   "ci": [
+    1.0,
+    1.0322105033520472
+   ],
+   "strictly_worse": 2,
+   "max_ratio": 1.0975061168312734
+  },
+  "mcnemar": {
+   "M3 vs M2:plain": {
+    "n": 15,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M2:prohibition": {
+    "n": 15,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M2:stop": {
+    "n": 15,
+    "a_only": 3,
+    "b_only": 0,
+    "p_value": 0.25
+   },
+   "M3 vs M2:ordering": {
+    "n": 15,
+    "a_only": 4,
+    "b_only": 0,
+    "p_value": 0.125
+   },
+   "M3 vs M2:all": {
+    "n": 60,
+    "a_only": 7,
+    "b_only": 0,
+    "p_value": 0.015625
+   },
+   "M3 vs M1:plain": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M1:prohibition": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M1:stop": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M1:ordering": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M1:all": {
+    "n": 20,
+    "a_only": 20,
+    "b_only": 0,
+    "p_value": 1.9073486328125e-06
+   },
+   "M3 vs M0:plain": {
+    "n": 5,
+    "a_only": 0,
+    "b_only": 0,
+    "p_value": 1.0
+   },
+   "M3 vs M0:prohibition": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M0:stop": {
+    "n": 5,
+    "a_only": 4,
+    "b_only": 0,
+    "p_value": 0.125
+   },
+   "M3 vs M0:ordering": {
+    "n": 5,
+    "a_only": 5,
+    "b_only": 0,
+    "p_value": 0.0625
+   },
+   "M3 vs M0:all": {
+    "n": 20,
+    "a_only": 14,
+    "b_only": 0,
+    "p_value": 0.0001220703125
+   }
+  },
+  "nodes_expanded": {
+   "M0": {
+    "mean": 25.1,
+    "median": 24.5
+   },
+   "M3-oracle": {
+    "mean": 73.15,
+    "median": 60.5
+   },
+   "M2-oracle": {
+    "mean": 118.4,
+    "median": 101.0
+   },
+   "M3-chain": {
+    "mean": 44.3,
+    "median": 45.0
+   }
+  },
+  "failures": {
+   "M1": {
+    "path: walks through a wall or forbidden cell": 20
+   },
+   "M2": {
+    "ok: correct": 31,
+    "ok: correct despite non-equivalent formula": 22,
+    "interpretation: semantically wrong formula": 7
+   },
+   "M3": {
+    "ok: correct": 60
+   },
+   "M0": {
+    "ok: correct": 6,
+    "planning: path ignores a constraint": 14
+   },
+   "M3-oracle": {
+    "ok: correct": 20
+   },
+   "M2-oracle": {
+    "ok: correct": 20
+   }
+  }
+ }
+}
