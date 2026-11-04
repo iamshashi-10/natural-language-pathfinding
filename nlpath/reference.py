@@ -26,6 +26,12 @@ def reference_solve(gm: GridMap, intent: IntentForm,
 
     Assumes ``intent`` is well-formed. Returns inf for an inadmissible start.
     """
+    return reference_path(gm, intent, start)[0]
+
+
+def reference_path(gm: GridMap, intent: IntentForm,
+                   start: tuple[int, int]) -> tuple[float, list | None]:
+    """(optimal cost J, one optimal I-satisfying path) from ``start``; (inf, None) if none."""
     h, w = gm.shape
     seq = [gm.labels == gm.region_names.index(n) for n in intent.sequence]
     final = len(seq)
@@ -45,10 +51,10 @@ def reference_solve(gm: GridMap, intent: IntentForm,
         return None
 
     if not allowed[start]:
-        return math.inf
+        return math.inf, None
     j0 = element_of(start)
     if j0 is not None and j0 >= 1:
-        return math.inf
+        return math.inf, None
     k0 = 1 if j0 == 0 else 0
 
     g = nx.DiGraph()
@@ -74,6 +80,9 @@ def reference_solve(gm: GridMap, intent: IntentForm,
                         g.add_edge(((r, c), k), (u, k2),
                                    weight=math.hypot(dr, dc) * weight[u])
     g.add_node((start, k0))
-    dist = nx.single_source_dijkstra_path_length(g, (start, k0))
-    goals = [d for (v, k), d in dist.items() if k == final and seq[-1][v]]
-    return min(goals, default=math.inf)
+    dist, paths = nx.single_source_dijkstra(g, (start, k0))
+    goals = [(d, s) for s, d in dist.items() if s[1] == final and seq[-1][s[0]]]
+    if not goals:
+        return math.inf, None
+    d, best = min(goals)
+    return d, [v for v, _ in paths[best]]

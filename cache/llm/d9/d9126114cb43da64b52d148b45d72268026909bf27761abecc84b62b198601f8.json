@@ -1,0 +1,11 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "params": {
+  "temperature": 0.0,
+  "response": "json"
+ },
+ "prompt": "You translate a navigation instruction for an indoor robot into a finite-trace\nlinear temporal logic (LTLf) formula.\n\nRegions on this map: lab, workshop, store_room, print_room, corridor, atrium, stairwell\n\nThe robot's path is a finite sequence of positions. At each position exactly one\nregion name is true (the region the robot is in), or none (outside every region).\nWrite the formula with:\n  region names as atomic propositions (spelled exactly as listed),\n  ! (not), & (and), | (or), -> (implies), parentheses,\n  F p (eventually p), G p (always p), p U q (p until q, and q eventually happens),\n  X p (next), and the keyword last, which is true only at the final position.\n\nReturn one JSON object: {\"ltl\": \"<formula>\"}\n\nExample 1\nInstruction: Go to the office, but stop at the atrium first and do not enter the lab.\nAnswer: {\"ltl\": \"G !lab & (!office U (atrium & F(office & last)))\"}\n\nExample 2\nInstruction: Visit the print room, then the store room, and end in the stairwell.\nAnswer: {\"ltl\": \"!(store_room | stairwell) U (print_room & (!stairwell U (store_room & F(stairwell & last))))\"}\n\nInstruction: Go to the stairwell, then the workshop, and finish at the print room.\nAnswer:",
+ "response": "{\"ltl\": \"!(workshop | print_room) U (stairwell & (!print_room U (workshop & F(print_room & last))))\"}",
+ "latency_s": 0.895,
+ "created": "2026-11-03T04:31:54"
+}

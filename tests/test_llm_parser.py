@@ -121,6 +121,21 @@ def test_gemini_backs_off_on_429(monkeypatch):
     assert [s for s in sleeps if s >= 5] == [5.0, 10.0]  # exponential backoff
 
 
+def test_rate_limiter_spaces_concurrent_calls(monkeypatch):
+    """Slots are reserved under a lock: 4 threads get starts 1 s apart (60 RPM)."""
+    import threading
+    clock = [100.0]
+    monkeypatch.setattr(llm_mod.time, "monotonic", lambda: clock[0])
+    waits = []
+    client = GeminiClient(api_key="k", requests_per_minute=60, sleep=waits.append)
+    threads = [threading.Thread(target=client._wait_for_slot) for _ in range(4)]
+    for t in threads:
+        t.start()
+    for t in threads:
+        t.join()
+    assert sorted(waits) == [1.0, 2.0, 3.0]  # the first call starts at once
+
+
 def test_gemini_gives_up_with_quota_error(monkeypatch):
     client, _ = gemini(monkeypatch, [http_error(429)] * llm_mod.MAX_HTTP_ATTEMPTS)
     with pytest.raises(QuotaExhausted):

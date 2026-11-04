@@ -456,6 +456,10 @@ Generator rules that follow from strict ordering:
   thing being evaluated. Strict ordering makes more templated instructions
   infeasible; feasible ones are kept for the five main categories and infeasible ones
   feed the infeasible category.
+- *(v2.2)* Constraints should matter: prohibitions are preferably sampled so that they
+  raise the optimal cost, and soft instructions so that honouring the preference makes
+  the optimal path longer than the shortest one (otherwise "if you can" is never
+  tested). Both are decided with the reference solver (`binding` field).
 
 ### 4.2 Methods compared
 

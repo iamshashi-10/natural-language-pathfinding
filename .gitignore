@@ -30,3 +30,4 @@ Thumbs.db
 
 # Dry runs of scripts/run_all.py (harness checks, not results)
 results/dryrun/
+results_run.log

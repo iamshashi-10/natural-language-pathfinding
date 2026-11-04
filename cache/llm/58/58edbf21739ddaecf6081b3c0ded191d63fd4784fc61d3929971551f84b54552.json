@@ -1,0 +1,11 @@
+{
+ "model": "gemini-3.5-flash-lite",
+ "params": {
+  "temperature": 0.0,
+  "response": "json"
+ },
+ "prompt": "You turn a navigation instruction for an indoor robot into a JSON intent form.\n\nRegions on this map: workshop, print_room, corridor, atrium, stairwell\n\nReturn one JSON object with exactly these fields:\n  \"goal_region\":       the region where the robot must end (a string)\n  \"forbidden_regions\": regions that must never be entered (list)\n  \"ordered_waypoints\": regions to visit before the goal, in the required order (list)\n  \"preferred_regions\": regions to use when convenient, a soft preference (list)\n  \"avoided_regions\":   regions to stay out of when convenient, a soft preference (list)\n\nRules:\n- Use only region names from the list above, spelled exactly as listed.\n- Something the robot must never do is forbidden; something it should do or\n  avoid \"if possible\" / \"preferably\" is a soft preference.\n- Do not list the goal among the waypoints. A region must not be both forbidden\n  and visited, nor both preferred and avoided.\n\nExample 1\nInstruction: Go to the office, but stop at the atrium first and do not enter the lab.\nAnswer: {\"goal_region\": \"office\", \"forbidden_regions\": [\"lab\"], \"ordered_waypoints\": [\"atrium\"], \"preferred_regions\": [], \"avoided_regions\": []}\n\nExample 2\nInstruction: Head to the stairwell; use the corridor if you can and try to avoid the workshop.\nAnswer: {\"goal_region\": \"stairwell\", \"forbidden_regions\": [], \"ordered_waypoints\": [], \"preferred_regions\": [\"corridor\"], \"avoided_regions\": [\"workshop\"]}\n\nInstruction: Head to the print room; the stairwell is off limits.\nAnswer:",
+ "response": "{\n  \"goal_region\": \"print_room\",\n  \"forbidden_regions\": [\"stairwell\"],\n  \"ordered_waypoints\": [],\n  \"preferred_regions\": [],\n  \"avoided_regions\": []\n}",
+ "latency_s": 0.798,
+ "created": "2026-11-03T14:38:06"
+}

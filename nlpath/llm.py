@@ -18,6 +18,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -90,15 +91,22 @@ class GeminiClient:
         self.model = model
         self._key = api_key  # loaded on the first real call, so cache-only runs need no key
         self._interval = 60.0 / requests_per_minute
-        self._last_call = 0.0
+        self._next_slot = 0.0
+        self._lock = threading.Lock()
         self._sleep = sleep
 
     def _wait_for_slot(self) -> None:
-        """Client-side rate limiter: at most ``requests_per_minute`` calls."""
-        wait = self._last_call + self._interval - time.monotonic()
-        if wait > 0:
-            self._sleep(wait)
-        self._last_call = time.monotonic()
+        """Client-side rate limiter: at most ``requests_per_minute`` call starts.
+
+        Thread-safe: each caller reserves the next free start time under a lock,
+        then sleeps outside it, so several slow calls can be in flight at once.
+        """
+        with self._lock:
+            now = time.monotonic()
+            slot = max(now, self._next_slot)
+            self._next_slot = slot + self._interval
+        if slot > now:
+            self._sleep(slot - now)
 
     def _post(self, body: dict) -> dict:
         if self._key is None:
@@ -176,7 +184,10 @@ class CachedLLM:
         entry = {"model": self.model, "params": self.params, "prompt": prompt,
                  "response": response.text, "latency_s": round(response.latency_s, 3),
                  "created": time.strftime("%Y-%m-%dT%H:%M:%S")}
-        path.write_text(json.dumps(entry, indent=1) + "\n")
+        # Write then rename: an interrupted run never leaves a half-written entry.
+        tmp = path.with_name(f"{path.name}.{threading.get_ident()}.tmp")
+        tmp.write_text(json.dumps(entry, indent=1) + "\n")
+        os.replace(tmp, path)
         return LLMResponse(response.text, response.latency_s, cached=False)
 
 

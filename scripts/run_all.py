@@ -22,7 +22,8 @@ reproducible, and an interrupted run (e.g. the daily free-tier quota) resumes
 where it stopped.
 
 Writes results/raw/<set>/<method>.jsonl (one row per run, with the path and
-all metrics) and results/summary_<set>.md. A dry run writes under
+all metrics), results/summary_<set>.md, then results/tables/, results/metrics.json
+and results/figures/ (via make_tables.py and make_figures.py). A dry run writes under
 results/dryrun/ instead; its numbers are NOT results.
 """
 
@@ -34,6 +35,7 @@ import re
 import sys
 import time
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
 from baselines.chaining import plan_chain
@@ -42,14 +44,16 @@ from baselines.plain_astar import run_m0
 from nlpath.benchmark import Instruction, load_benchmark
 from nlpath.evaluate import score
 from nlpath.grid import GridMap
-from nlpath.llm import LLM, FakeLLM, QuotaExhausted, default_llm
+from nlpath.llm import LLM, FakeLLM, LLMError, QuotaExhausted, default_llm
 from nlpath.parser import run_m3
 from nlpath.pipeline import plan
+from nlpath.prompting import legend_text
 
 REPO = Path(__file__).resolve().parents[1]
 SETS = {"big": "benchmark.json", "small": "benchmark_small.json"}
 LLM_METHODS = ("M1", "M2", "M3")
-ALL_METHODS = ("M0", "M1", "M2", "M3", "M3-oracle", "M2-oracle", "M2-harden", "M3-chain")
+# M3 first: if the daily quota runs out, our method is the one already complete.
+ALL_METHODS = ("M0", "M3", "M2", "M1", "M3-oracle", "M2-oracle", "M2-harden", "M3-chain")
 NEEDS_SPOT = ("M2", "M2-oracle", "M2-harden")
 
 
@@ -134,11 +138,19 @@ def dry_run_llm(items: list[Instruction], maps: dict[str, GridMap]) -> FakeLLM:
     line from the start to the goal region that ignores walls (a caricature of a
     weak model). Only for checking that everything runs — not a result.
     """
-    by_text = {text: it for it in items for text in it.texts}
+    by_text = defaultdict(list)
+    for it in items:
+        for text in it.texts:
+            by_text[text].append(it)
 
     def respond(prompt: str) -> str:
+        # The same sentence can occur on several maps: match legend and start too.
         text = re.findall(r"\nInstruction: (.*)\n", prompt)[-1]
-        it = by_text[text]
+        candidates = [it for it in by_text[text]
+                      if legend_text(maps[it.map_id].legend()) in prompt
+                      and ("Start: [" not in prompt or
+                           f"Start: [{it.start[0]}, {it.start[1]}]" in prompt)]
+        it = candidates[0]
         if "JSON intent form" in prompt:
             return json.dumps(it.gold_intent.to_dict())
         if "LTLf" in prompt:
@@ -185,6 +197,8 @@ def main(argv: list[str] | None = None) -> int:
                     help="wordings for M1 (one is enough: its metric is path validity)")
     ap.add_argument("--limit", type=int, default=None, help="first N instructions per set")
     ap.add_argument("--out", type=Path, default=None)
+    ap.add_argument("--workers", type=int, default=6,
+                    help="LLM calls in flight at once (the rate limit still applies)")
     args = ap.parse_args(argv)
 
     out = args.out or REPO / ("results/dryrun" if args.llm == "dry-run" else "results")
@@ -203,31 +217,52 @@ def main(argv: list[str] | None = None) -> int:
         llm = default_llm() if any(m in LLM_METHODS for m in args.methods) else None
 
     status = 0
+    quota_hit = False   # after the daily quota runs out, skip the other LLM methods
     for set_name, items in benchmarks.items():
         raw_dir = out / "raw" / set_name
         raw_dir.mkdir(parents=True, exist_ok=True)
         rows_by_method = {}
         for method in args.methods:
-            started, rows = time.monotonic(), []
-            try:
-                for it in items:
-                    if method == "M2-harden" and it.category != "soft":
-                        continue
-                    gm = maps[it.map_id]
-                    wordings = (args.m1_wordings if method == "M1" else args.wordings) \
-                        if method in LLM_METHODS else [None]
-                    for w in wordings:
-                        row = {"method": method, "set": set_name, "id": it.id,
-                               "category": it.category, "source": it.source,
-                               "map_id": it.map_id, "wording": w}
-                        row.update(run_one(method, llm, gm, it,
-                                           None if w is None else it.texts[w]))
-                        rows.append(row)
-            except QuotaExhausted:
-                print(f"{method}: LLM quota exhausted after {len(rows)} runs; partial "
-                      "results saved. Rerun later — cached answers are reused.",
-                      file=sys.stderr)
-                status = 2
+            if quota_hit and method in LLM_METHODS:
+                print(f"[{set_name}] {method}: skipped (quota exhausted earlier in this run)")
+                continue
+            started = time.monotonic()
+            jobs = []
+            for it in items:
+                if method == "M2-harden" and it.category != "soft":
+                    continue
+                wordings = (args.m1_wordings if method == "M1" else args.wordings) \
+                    if method in LLM_METHODS else [None]
+                jobs += [(it, w) for w in wordings]
+
+            def job(task, method=method, set_name=set_name):
+                it, w = task
+                row = {"method": method, "set": set_name, "id": it.id,
+                       "category": it.category, "source": it.source,
+                       "map_id": it.map_id, "wording": w}
+                row.update(run_one(method, llm, maps[it.map_id], it,
+                                   None if w is None else it.texts[w]))
+                return row
+
+            # LLM calls are slow (tens of seconds) but rate-limited by count, so
+            # several run concurrently; planning-only methods run sequentially.
+            workers = args.workers if method in LLM_METHODS and args.llm == "gemini" else 1
+            rows = []
+            with ThreadPoolExecutor(max_workers=workers) as pool:
+                futures = [pool.submit(job, task) for task in jobs]
+                try:
+                    for n, future in enumerate(futures, 1):
+                        rows.append(future.result())
+                        if workers > 1 and n % 25 == 0:
+                            print(f"[{set_name}] {method}: {n}/{len(jobs)}", flush=True)
+                except LLMError as err:  # includes QuotaExhausted
+                    pool.shutdown(cancel_futures=True)
+                    print(f"{method}: stopped after {len(rows)} of {len(jobs)} runs ({err}). "
+                          "Partial results saved; rerun the same command later — "
+                          "answers already received are reused from cache/llm/.",
+                          file=sys.stderr)
+                    status = 2
+                    quota_hit = isinstance(err, QuotaExhausted)
             with open(raw_dir / f"{method}.jsonl", "w") as f:
                 for row in rows:
                     f.write(json.dumps(row) + "\n")
@@ -237,6 +272,13 @@ def main(argv: list[str] | None = None) -> int:
         summary = summarize({m: r for m, r in rows_by_method.items() if r})
         (out / f"summary_{set_name}.md").write_text(summary)
         print(summary)
+
+    # Tables (Day 12–13) and figures (Day 14) are rebuilt from the raw rows.
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from make_figures import make_figures
+    from make_tables import make_tables
+    make_tables(out)
+    print("tables:", out / "tables", "| figures:", ", ".join(make_figures(out)))
     return status
 
 

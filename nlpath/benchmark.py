@@ -21,8 +21,8 @@ import numpy as np
 from nlpath.grid import NO_LABEL, Cell, GridMap
 from nlpath.intent import IntentForm, validate
 from nlpath.phrasings import HANDWRITTEN, TEMPLATES
-from nlpath.reference import reference_solve
-from nlpath.verify import hard_checks
+from nlpath.reference import reference_path, reference_solve
+from nlpath.verify import hard_checks, path_length
 
 CATEGORIES = ("plain", "prohibition", "stop", "ordering", "soft", "infeasible")
 
@@ -63,7 +63,8 @@ class Instruction:
     gold_ltl: str
     feasible: bool
     ref_cost: float | None      # optimal cost J from the reference; None if infeasible
-    binding: bool               # hard constraints make the optimum costlier
+    binding: bool               # constraints change the route: hard ones raise the
+                                # optimal cost; soft ones make the optimum a detour
     checks: tuple[dict, ...] = field(default=())
 
     def to_dict(self) -> dict:
@@ -175,9 +176,17 @@ def _is_binding(gm: GridMap, intent: IntentForm, start: Cell, cost: float) -> bo
     return bool(cost > free_cost + 1e-9)
 
 
+def _soft_detour(gm: GridMap, intent: IntentForm, start: Cell) -> bool:
+    """Does honouring the soft preference make the optimal path longer than the
+    shortest path satisfying the hard constraints? (The trade-off is then visible.)"""
+    _, path = reference_path(gm, intent, start)
+    return bool(path is not None) and bool(
+        path_length(path) > reference_solve(gm, intent.hard_part(), start) + 1e-9)
+
+
 def make_instruction(rng, maps: list[GridMap], first_map: int, category: str,
                      shape: str, wordings: list[str], source: str,
-                     ident: str) -> Instruction:
+                     ident: str, alt_rng=None) -> Instruction:
     """Sample map/start/regions until the reference solver gives the wanted label.
 
     Main categories need a feasible instance (prohibitions: preferably one
@@ -210,6 +219,19 @@ def make_instruction(rng, maps: list[GridMap], first_map: int, category: str,
             raise RuntimeError(f"could not sample {ident} ({category}, {shape})")
         candidate = fallback
     gm, slots, intent, start, cost, binding = candidate
+    if category == "soft" and alt_rng is not None:
+        # Prefer an instance where the preference changes the route. A separate
+        # random stream is used so that no other instruction changes.
+        binding = _soft_detour(gm, intent, start)
+        for attempt in range(MAX_TRIES if not binding else 0):
+            gm2 = maps[(first_map + attempt) % len(maps)]
+            slots2 = _choose_slots(alt_rng, gm2, shape, True)
+            intent2 = intent_from_slots(shape, slots2)
+            start2 = _random_start(alt_rng, gm2)
+            cost2 = reference_solve(gm2, intent2, start2)
+            if not math.isinf(cost2) and _soft_detour(gm2, intent2, start2):
+                gm, slots, intent, start, cost, binding = gm2, slots2, intent2, start2, cost2, True
+                break
     words = {k: display(v) for k, v in slots.items()}
     return Instruction(
         id=ident, category=category, source=source, map_id=gm.map_id, start=start,
@@ -237,5 +259,6 @@ def generate(maps: list[GridMap], template_plan=TEMPLATE_PLAN, handwritten=HANDW
         ident = f"{category}_{counters[category]:03d}"
         counters[category] += 1
         items.append(make_instruction(rng, maps, n % len(maps), category, shape,
-                                      wordings, source, ident))
+                                      wordings, source, ident,
+                                      alt_rng=np.random.default_rng([seed, n])))
     return items

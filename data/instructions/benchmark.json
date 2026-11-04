@@ -4025,87 +4025,11 @@
   "source": "template",
   "map_id": "map_15",
   "start": [
-   10,
-   33
+   37,
+   16
   ],
   "texts": [
-   "Get to the store room; try to use the corridor where possible.",
-   "Make your way to the store room, sticking to the corridor when it's convenient.",
-   "Go to the store room, and stay in the corridor if you can."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "store_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(store_room & last)",
-  "ref_cost": 42.263455967,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "store_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_001",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_16",
-  "start": [
-   12,
-   30
-  ],
-  "texts": [
-   "Make your way to the office, sticking to the corridor when it's convenient.",
-   "Head to the office, preferably along the corridor.",
-   "Go to the office, and stay in the corridor if you can."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "office",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 26.449747468,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "office"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_002",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_17",
-  "start": [
-   23,
-   4
-  ],
-  "texts": [
-   "Head to the lab, preferably along the corridor.",
+   "Get to the lab; try to use the corridor where possible.",
    "Make your way to the lab, sticking to the corridor when it's convenient.",
    "Go to the lab, and stay in the corridor if you can."
   ],
@@ -4120,8 +4044,8 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(lab & last)",
-  "ref_cost": 12.035533906,
-  "binding": false,
+  "ref_cost": 32.207106781,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4134,18 +4058,56 @@
   ]
  },
  {
-  "id": "soft_003",
+  "id": "soft_001",
   "category": "soft",
   "source": "template",
-  "map_id": "map_18",
+  "map_id": "map_08",
   "start": [
-   33,
-   19
+   35,
+   7
   ],
   "texts": [
-   "Go to the stairwell, and stay in the corridor if you can.",
-   "Get to the stairwell; try to use the corridor where possible.",
-   "Make your way to the stairwell, sticking to the corridor when it's convenient."
+   "Make your way to the atrium, sticking to the corridor when it's convenient.",
+   "Head to the atrium, preferably along the corridor.",
+   "Go to the atrium, and stay in the corridor if you can."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 29.106601718,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_002",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_17",
+  "start": [
+   21,
+   22
+  ],
+  "texts": [
+   "Head to the stairwell, preferably along the corridor.",
+   "Make your way to the stairwell, sticking to the corridor when it's convenient.",
+   "Go to the stairwell, and stay in the corridor if you can."
   ],
   "feasible": true,
   "gold_intent": {
@@ -4158,12 +4120,50 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(stairwell & last)",
-  "ref_cost": 27.621320344,
-  "binding": false,
+  "ref_cost": 32.813708499,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
     "region": "stairwell"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_003",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_19",
+  "start": [
+   38,
+   8
+  ],
+  "texts": [
+   "Go to the atrium, and stay in the corridor if you can.",
+   "Get to the atrium; try to use the corridor where possible.",
+   "Make your way to the atrium, sticking to the corridor when it's convenient."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 30.121320344,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
    },
    {
     "type": "fraction_in_region",
@@ -4197,7 +4197,7 @@
   },
   "gold_ltl": "F(office & last)",
   "ref_cost": 22.742640687,
-  "binding": false,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4215,17 +4215,17 @@
   "source": "template",
   "map_id": "map_00",
   "start": [
-   5,
-   29
+   32,
+   38
   ],
   "texts": [
-   "Make your way to the print room, sticking to the corridor when it's convenient.",
-   "Get to the print room; try to use the corridor where possible.",
-   "Go to the print room, and stay in the corridor if you can."
+   "Make your way to the lab, sticking to the corridor when it's convenient.",
+   "Get to the lab; try to use the corridor where possible.",
+   "Go to the lab, and stay in the corridor if you can."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "print_room",
+   "goal_region": "lab",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [
@@ -4233,13 +4233,13 @@
    ],
    "avoided_regions": []
   },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 3.414213562,
-  "binding": false,
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 35.035533906,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "print_room"
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
@@ -4251,19 +4251,19 @@
   "id": "soft_006",
   "category": "soft",
   "source": "template",
-  "map_id": "map_01",
+  "map_id": "map_08",
   "start": [
-   38,
-   1
+   26,
+   12
   ],
   "texts": [
-   "Head to the store room, preferably along the corridor.",
-   "Go to the store room, and stay in the corridor if you can.",
-   "Get to the store room; try to use the corridor where possible."
+   "Head to the lab, preferably along the corridor.",
+   "Go to the lab, and stay in the corridor if you can.",
+   "Get to the lab; try to use the corridor where possible."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "store_room",
+   "goal_region": "lab",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [
@@ -4271,13 +4271,13 @@
    ],
    "avoided_regions": []
   },
-  "gold_ltl": "F(store_room & last)",
-  "ref_cost": 8.0,
-  "binding": false,
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 32.207106781,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "store_room"
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
@@ -4289,276 +4289,10 @@
   "id": "soft_007",
   "category": "soft",
   "source": "template",
-  "map_id": "map_02",
+  "map_id": "map_14",
   "start": [
-   14,
-   25
-  ],
-  "texts": [
-   "Make your way to the office, sticking to the corridor when it's convenient.",
-   "Go to the office, and stay in the corridor if you can.",
-   "Get to the office; try to use the corridor where possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "office",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 7.828427125,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "office"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_008",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_03",
-  "start": [
-   28,
-   30
-  ],
-  "texts": [
-   "Make your way to the store room, sticking to the corridor when it's convenient.",
-   "Head to the store room, preferably along the corridor.",
-   "Get to the store room; try to use the corridor where possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "store_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(store_room & last)",
-  "ref_cost": 18.914213562,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "store_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_009",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_04",
-  "start": [
-   4,
-   9
-  ],
-  "texts": [
-   "Make your way to the workshop, sticking to the corridor when it's convenient.",
-   "Go to the workshop, and stay in the corridor if you can.",
-   "Get to the workshop; try to use the corridor where possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "workshop",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(workshop & last)",
-  "ref_cost": 14.363961031,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "workshop"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_010",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_05",
-  "start": [
-   36,
-   30
-  ],
-  "texts": [
-   "Get to the print room; try to use the corridor where possible.",
-   "Go to the print room, and stay in the corridor if you can.",
-   "Make your way to the print room, sticking to the corridor when it's convenient."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "print_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 24.828427125,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "print_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_011",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_06",
-  "start": [
-   34,
-   7
-  ],
-  "texts": [
-   "Head to the store room, preferably along the corridor.",
-   "Make your way to the store room, sticking to the corridor when it's convenient.",
-   "Get to the store room; try to use the corridor where possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "store_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(store_room & last)",
-  "ref_cost": 35.414213562,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "store_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_012",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_07",
-  "start": [
-   11,
-   21
-  ],
-  "texts": [
-   "Make your way to the office, sticking to the corridor when it's convenient.",
-   "Get to the office; try to use the corridor where possible.",
-   "Head to the office, preferably along the corridor."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "office",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 23.828427125,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "office"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_013",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_08",
-  "start": [
-   28,
-   9
-  ],
-  "texts": [
-   "Head to the workshop, preferably along the corridor.",
-   "Go to the workshop, and stay in the corridor if you can.",
-   "Get to the workshop; try to use the corridor where possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "workshop",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(workshop & last)",
-  "ref_cost": 8.535533906,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "workshop"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_014",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_09",
-  "start": [
-   17,
-   2
+   2,
+   24
   ],
   "texts": [
    "Make your way to the stairwell, sticking to the corridor when it's convenient.",
@@ -4576,12 +4310,278 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(stairwell & last)",
-  "ref_cost": 13.828427125,
-  "binding": false,
+  "ref_cost": 37.035533906,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
     "region": "stairwell"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_008",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_06",
+  "start": [
+   22,
+   1
+  ],
+  "texts": [
+   "Make your way to the print room, sticking to the corridor when it's convenient.",
+   "Head to the print room, preferably along the corridor.",
+   "Get to the print room; try to use the corridor where possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(print_room & last)",
+  "ref_cost": 20.449747468,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_009",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_13",
+  "start": [
+   34,
+   23
+  ],
+  "texts": [
+   "Make your way to the print room, sticking to the corridor when it's convenient.",
+   "Go to the print room, and stay in the corridor if you can.",
+   "Get to the print room; try to use the corridor where possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(print_room & last)",
+  "ref_cost": 22.207106781,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_010",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_07",
+  "start": [
+   35,
+   4
+  ],
+  "texts": [
+   "Get to the print room; try to use the corridor where possible.",
+   "Go to the print room, and stay in the corridor if you can.",
+   "Make your way to the print room, sticking to the corridor when it's convenient."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(print_room & last)",
+  "ref_cost": 27.035533906,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_011",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_08",
+  "start": [
+   17,
+   11
+  ],
+  "texts": [
+   "Head to the atrium, preferably along the corridor.",
+   "Make your way to the atrium, sticking to the corridor when it's convenient.",
+   "Get to the atrium; try to use the corridor where possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 16.863961031,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_012",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_00",
+  "start": [
+   36,
+   35
+  ],
+  "texts": [
+   "Make your way to the lab, sticking to the corridor when it's convenient.",
+   "Get to the lab; try to use the corridor where possible.",
+   "Head to the lab, preferably along the corridor."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "lab",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 34.863961031,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "lab"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_013",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_09",
+  "start": [
+   8,
+   10
+  ],
+  "texts": [
+   "Head to the workshop, preferably along the corridor.",
+   "Go to the workshop, and stay in the corridor if you can.",
+   "Get to the workshop; try to use the corridor where possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "workshop",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(workshop & last)",
+  "ref_cost": 19.121320344,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "workshop"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "corridor"
+   }
+  ]
+ },
+ {
+  "id": "soft_014",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_15",
+  "start": [
+   36,
+   20
+  ],
+  "texts": [
+   "Make your way to the lab, sticking to the corridor when it's convenient.",
+   "Go to the lab, and stay in the corridor if you can.",
+   "Get to the lab; try to use the corridor where possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "lab",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
+  },
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 37.414213562,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
@@ -4595,8 +4595,8 @@
   "source": "template",
   "map_id": "map_10",
   "start": [
-   29,
-   32
+   36,
+   3
   ],
   "texts": [
    "Get to the office; try to use the corridor where possible.",
@@ -4614,8 +4614,8 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(office & last)",
-  "ref_cost": 36.692388155,
-  "binding": false,
+  "ref_cost": 54.849242405,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4631,19 +4631,19 @@
   "id": "soft_016",
   "category": "soft",
   "source": "template",
-  "map_id": "map_11",
+  "map_id": "map_06",
   "start": [
-   19,
-   26
+   32,
+   9
   ],
   "texts": [
-   "Go to the atrium, and stay in the corridor if you can.",
-   "Make your way to the atrium, sticking to the corridor when it's convenient.",
-   "Head to the atrium, preferably along the corridor."
+   "Go to the lab, and stay in the corridor if you can.",
+   "Make your way to the lab, sticking to the corridor when it's convenient.",
+   "Head to the lab, preferably along the corridor."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "atrium",
+   "goal_region": "lab",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [
@@ -4651,13 +4651,13 @@
    ],
    "avoided_regions": []
   },
-  "gold_ltl": "F(atrium & last)",
-  "ref_cost": 19.5,
-  "binding": false,
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 35.035533906,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "atrium"
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
@@ -4669,19 +4669,19 @@
   "id": "soft_017",
   "category": "soft",
   "source": "template",
-  "map_id": "map_12",
+  "map_id": "map_14",
   "start": [
-   7,
-   12
+   37,
+   15
   ],
   "texts": [
-   "Go to the stairwell, and stay in the corridor if you can.",
-   "Get to the stairwell; try to use the corridor where possible.",
-   "Head to the stairwell, preferably along the corridor."
+   "Go to the store room, and stay in the corridor if you can.",
+   "Get to the store room; try to use the corridor where possible.",
+   "Head to the store room, preferably along the corridor."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "stairwell",
+   "goal_region": "store_room",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [
@@ -4689,13 +4689,13 @@
    ],
    "avoided_regions": []
   },
-  "gold_ltl": "F(stairwell & last)",
-  "ref_cost": 20.621320344,
-  "binding": false,
+  "gold_ltl": "F(store_room & last)",
+  "ref_cost": 30.707106781,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "stairwell"
+    "region": "store_room"
    },
    {
     "type": "fraction_in_region",
@@ -4707,53 +4707,15 @@
   "id": "soft_018",
   "category": "soft",
   "source": "template",
-  "map_id": "map_13",
+  "map_id": "map_15",
   "start": [
-   7,
-   14
+   22,
+   2
   ],
   "texts": [
-   "Head to the workshop, preferably along the corridor.",
-   "Make your way to the workshop, sticking to the corridor when it's convenient.",
-   "Go to the workshop, and stay in the corridor if you can."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "workshop",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [
-    "corridor"
-   ],
-   "avoided_regions": []
-  },
-  "gold_ltl": "F(workshop & last)",
-  "ref_cost": 21.106601718,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "workshop"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "corridor"
-   }
-  ]
- },
- {
-  "id": "soft_019",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_14",
-  "start": [
-   3,
-   21
-  ],
-  "texts": [
+   "Head to the office, preferably along the corridor.",
    "Make your way to the office, sticking to the corridor when it's convenient.",
-   "Get to the office; try to use the corridor where possible.",
-   "Head to the office, preferably along the corridor."
+   "Go to the office, and stay in the corridor if you can."
   ],
   "feasible": true,
   "gold_intent": {
@@ -4766,8 +4728,8 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(office & last)",
-  "ref_cost": 26.071067812,
-  "binding": false,
+  "ref_cost": 20.121320344,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4780,32 +4742,32 @@
   ]
  },
  {
-  "id": "soft_020",
+  "id": "soft_019",
   "category": "soft",
   "source": "template",
-  "map_id": "map_15",
+  "map_id": "map_08",
   "start": [
-   21,
-   11
+   23,
+   7
   ],
   "texts": [
-   "Go to the lab, and try to avoid the office if possible.",
-   "Reach the lab, preferably not passing through the office.",
-   "Head to the lab; going through the office is okay, but better not."
+   "Make your way to the lab, sticking to the corridor when it's convenient.",
+   "Get to the lab; try to use the corridor where possible.",
+   "Head to the lab, preferably along the corridor."
   ],
   "feasible": true,
   "gold_intent": {
    "goal_region": "lab",
    "forbidden_regions": [],
    "ordered_waypoints": [],
-   "preferred_regions": [],
-   "avoided_regions": [
-    "office"
-   ]
+   "preferred_regions": [
+    "corridor"
+   ],
+   "avoided_regions": []
   },
   "gold_ltl": "F(lab & last)",
-  "ref_cost": 25.313708499,
-  "binding": false,
+  "ref_cost": 38.449747468,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4813,27 +4775,27 @@
    },
    {
     "type": "fraction_in_region",
-    "region": "office"
+    "region": "corridor"
    }
   ]
  },
  {
-  "id": "soft_021",
+  "id": "soft_020",
   "category": "soft",
   "source": "template",
-  "map_id": "map_16",
+  "map_id": "map_08",
   "start": [
-   24,
-   13
+   17,
+   26
   ],
   "texts": [
-   "Get to the print room, keeping out of the workshop unless it saves a lot.",
-   "Head to the print room; going through the workshop is okay, but better not.",
-   "Reach the print room, preferably not passing through the workshop."
+   "Go to the atrium, and try to avoid the workshop if possible.",
+   "Reach the atrium, preferably not passing through the workshop.",
+   "Head to the atrium; going through the workshop is okay, but better not."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "print_room",
+   "goal_region": "atrium",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [],
@@ -4841,13 +4803,13 @@
     "workshop"
    ]
   },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 9.071067812,
-  "binding": false,
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 35.656854249,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "print_room"
+    "region": "atrium"
    },
    {
     "type": "fraction_in_region",
@@ -4856,40 +4818,78 @@
   ]
  },
  {
-  "id": "soft_022",
+  "id": "soft_021",
   "category": "soft",
   "source": "template",
-  "map_id": "map_17",
+  "map_id": "map_10",
   "start": [
-   14,
-   34
+   26,
+   17
   ],
   "texts": [
-   "Head to the print room; going through the office is okay, but better not.",
-   "Go to the print room, and try to avoid the office if possible.",
-   "Reach the print room, preferably not passing through the office."
+   "Get to the stairwell, keeping out of the atrium unless it saves a lot.",
+   "Head to the stairwell; going through the atrium is okay, but better not.",
+   "Reach the stairwell, preferably not passing through the atrium."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "print_room",
+   "goal_region": "stairwell",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [],
    "avoided_regions": [
-    "office"
+    "atrium"
    ]
   },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 12.656854249,
-  "binding": false,
+  "gold_ltl": "F(stairwell & last)",
+  "ref_cost": 38.556349186,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "print_room"
+    "region": "stairwell"
    },
    {
     "type": "fraction_in_region",
-    "region": "office"
+    "region": "atrium"
+   }
+  ]
+ },
+ {
+  "id": "soft_022",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_08",
+  "start": [
+   2,
+   30
+  ],
+  "texts": [
+   "Head to the atrium; going through the stairwell is okay, but better not.",
+   "Go to the atrium, and try to avoid the stairwell if possible.",
+   "Reach the atrium, preferably not passing through the stairwell."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "atrium",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": [
+    "stairwell"
+   ]
+  },
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 44.899494937,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "atrium"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "stairwell"
    }
   ]
  },
@@ -4919,7 +4919,7 @@
   },
   "gold_ltl": "F(workshop & last)",
   "ref_cost": 41.485281374,
-  "binding": false,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4935,10 +4935,162 @@
   "id": "soft_024",
   "category": "soft",
   "source": "template",
-  "map_id": "map_19",
+  "map_id": "map_17",
   "start": [
-   29,
-   22
+   4,
+   7
+  ],
+  "texts": [
+   "Get to the print room, keeping out of the stairwell unless it saves a lot.",
+   "Go to the print room, and try to avoid the stairwell if possible.",
+   "Reach the print room, preferably not passing through the stairwell."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "print_room",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": [
+    "stairwell"
+   ]
+  },
+  "gold_ltl": "F(print_room & last)",
+  "ref_cost": 51.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "print_room"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "stairwell"
+   }
+  ]
+ },
+ {
+  "id": "soft_025",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_01",
+  "start": [
+   34,
+   6
+  ],
+  "texts": [
+   "Get to the stairwell, keeping out of the store room unless it saves a lot.",
+   "Head to the stairwell; going through the store room is okay, but better not.",
+   "Reach the stairwell, preferably not passing through the store room."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "stairwell",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": [
+    "store_room"
+   ]
+  },
+  "gold_ltl": "F(stairwell & last)",
+  "ref_cost": 83.284271247,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "stairwell"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "store_room"
+   }
+  ]
+ },
+ {
+  "id": "soft_026",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_09",
+  "start": [
+   2,
+   15
+  ],
+  "texts": [
+   "Head to the workshop; going through the atrium is okay, but better not.",
+   "Get to the workshop, keeping out of the atrium unless it saves a lot.",
+   "Go to the workshop, and try to avoid the atrium if possible."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "workshop",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": [
+    "atrium"
+   ]
+  },
+  "gold_ltl": "F(workshop & last)",
+  "ref_cost": 33.828427125,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "workshop"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "atrium"
+   }
+  ]
+ },
+ {
+  "id": "soft_027",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_15",
+  "start": [
+   27,
+   32
+  ],
+  "texts": [
+   "Go to the workshop, and try to avoid the print room if possible.",
+   "Reach the workshop, preferably not passing through the print room.",
+   "Head to the workshop; going through the print room is okay, but better not."
+  ],
+  "feasible": true,
+  "gold_intent": {
+   "goal_region": "workshop",
+   "forbidden_regions": [],
+   "ordered_waypoints": [],
+   "preferred_regions": [],
+   "avoided_regions": [
+    "print_room"
+   ]
+  },
+  "gold_ltl": "F(workshop & last)",
+  "ref_cost": 36.384776311,
+  "binding": true,
+  "checks": [
+   {
+    "type": "ends_in",
+    "region": "workshop"
+   },
+   {
+    "type": "fraction_in_region",
+    "region": "print_room"
+   }
+  ]
+ },
+ {
+  "id": "soft_028",
+  "category": "soft",
+  "source": "template",
+  "map_id": "map_16",
+  "start": [
+   37,
+   21
   ],
   "texts": [
    "Get to the workshop, keeping out of the print room unless it saves a lot.",
@@ -4956,8 +5108,8 @@
    ]
   },
   "gold_ltl": "F(workshop & last)",
-  "ref_cost": 27.414213562,
-  "binding": false,
+  "ref_cost": 36.142135624,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -4966,158 +5118,6 @@
    {
     "type": "fraction_in_region",
     "region": "print_room"
-   }
-  ]
- },
- {
-  "id": "soft_025",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_00",
-  "start": [
-   25,
-   27
-  ],
-  "texts": [
-   "Get to the office, keeping out of the print room unless it saves a lot.",
-   "Head to the office; going through the print room is okay, but better not.",
-   "Reach the office, preferably not passing through the print room."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "office",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [],
-   "avoided_regions": [
-    "print_room"
-   ]
-  },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 16.414213562,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "office"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "print_room"
-   }
-  ]
- },
- {
-  "id": "soft_026",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_01",
-  "start": [
-   19,
-   18
-  ],
-  "texts": [
-   "Head to the office; going through the lab is okay, but better not.",
-   "Get to the office, keeping out of the lab unless it saves a lot.",
-   "Go to the office, and try to avoid the lab if possible."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "office",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [],
-   "avoided_regions": [
-    "lab"
-   ]
-  },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 31.0,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "office"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "lab"
-   }
-  ]
- },
- {
-  "id": "soft_027",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_02",
-  "start": [
-   32,
-   3
-  ],
-  "texts": [
-   "Go to the store room, and try to avoid the print room if possible.",
-   "Reach the store room, preferably not passing through the print room.",
-   "Head to the store room; going through the print room is okay, but better not."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "store_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [],
-   "avoided_regions": [
-    "print_room"
-   ]
-  },
-  "gold_ltl": "F(store_room & last)",
-  "ref_cost": 46.899494937,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "store_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "print_room"
-   }
-  ]
- },
- {
-  "id": "soft_028",
-  "category": "soft",
-  "source": "template",
-  "map_id": "map_03",
-  "start": [
-   4,
-   23
-  ],
-  "texts": [
-   "Get to the print room, keeping out of the store room unless it saves a lot.",
-   "Go to the print room, and try to avoid the store room if possible.",
-   "Reach the print room, preferably not passing through the store room."
-  ],
-  "feasible": true,
-  "gold_intent": {
-   "goal_region": "print_room",
-   "forbidden_regions": [],
-   "ordered_waypoints": [],
-   "preferred_regions": [],
-   "avoided_regions": [
-    "store_room"
-   ]
-  },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 33.828427125,
-  "binding": false,
-  "checks": [
-   {
-    "type": "ends_in",
-    "region": "print_room"
-   },
-   {
-    "type": "fraction_in_region",
-    "region": "store_room"
    }
   ]
  },
@@ -5125,37 +5125,37 @@
   "id": "soft_029",
   "category": "soft",
   "source": "template",
-  "map_id": "map_04",
+  "map_id": "map_17",
   "start": [
-   29,
-   14
+   14,
+   38
   ],
   "texts": [
-   "Go to the workshop, and try to avoid the atrium if possible.",
-   "Head to the workshop; going through the atrium is okay, but better not.",
-   "Get to the workshop, keeping out of the atrium unless it saves a lot."
+   "Go to the lab, and try to avoid the print room if possible.",
+   "Head to the lab; going through the print room is okay, but better not.",
+   "Get to the lab, keeping out of the print room unless it saves a lot."
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "workshop",
+   "goal_region": "lab",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [],
    "avoided_regions": [
-    "atrium"
+    "print_room"
    ]
   },
-  "gold_ltl": "F(workshop & last)",
-  "ref_cost": 14.242640687,
-  "binding": false,
+  "gold_ltl": "F(lab & last)",
+  "ref_cost": 60.384776311,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "workshop"
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
-    "region": "atrium"
+    "region": "print_room"
    }
   ]
  },
@@ -6411,10 +6411,10 @@
   "id": "soft_030",
   "category": "soft",
   "source": "handwritten",
-  "map_id": "map_15",
+  "map_id": "map_16",
   "start": [
-   34,
-   5
+   33,
+   2
   ],
   "texts": [
    "go to the atrium, try to stay in the corridor if possible",
@@ -6432,8 +6432,8 @@
    "avoided_regions": []
   },
   "gold_ltl": "F(atrium & last)",
-  "ref_cost": 32.863961031,
-  "binding": false,
+  "ref_cost": 52.485281374,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
@@ -6449,37 +6449,37 @@
   "id": "soft_031",
   "category": "soft",
   "source": "handwritten",
-  "map_id": "map_16",
+  "map_id": "map_08",
   "start": [
-   8,
-   37
+   14,
+   19
   ],
   "texts": [
-   "head to the print room. the lab is a bit busy so maybe avoid it if you can",
-   "print room, ideally not through the lab but it's fine if needed",
-   "try not to go through the lab on the way to the print room, unless it's much shorter"
+   "head to the atrium. the stairwell is a bit busy so maybe avoid it if you can",
+   "atrium, ideally not through the stairwell but it's fine if needed",
+   "try not to go through the stairwell on the way to the atrium, unless it's much shorter"
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "print_room",
+   "goal_region": "atrium",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [],
    "avoided_regions": [
-    "lab"
+    "stairwell"
    ]
   },
-  "gold_ltl": "F(print_room & last)",
-  "ref_cost": 39.899494937,
-  "binding": false,
+  "gold_ltl": "F(atrium & last)",
+  "ref_cost": 21.656854249,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "print_room"
+    "region": "atrium"
    },
    {
     "type": "fraction_in_region",
-    "region": "lab"
+    "region": "stairwell"
    }
   ]
  },
@@ -6487,35 +6487,35 @@
   "id": "soft_032",
   "category": "soft",
   "source": "handwritten",
-  "map_id": "map_17",
+  "map_id": "map_04",
   "start": [
-   36,
-   12
+   13,
+   25
   ],
   "texts": [
-   "to the workshop, prefer the corridor, avoid the print room if you can",
-   "workshop; use the corridor where possible and stay away from the print room when it's easy",
-   "go to the workshop, the corridor is preferred and the print room is better avoided"
+   "to the stairwell, prefer the corridor, avoid the atrium if you can",
+   "stairwell; use the corridor where possible and stay away from the atrium when it's easy",
+   "go to the stairwell, the corridor is preferred and the atrium is better avoided"
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "workshop",
+   "goal_region": "stairwell",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [
     "corridor"
    ],
    "avoided_regions": [
-    "print_room"
+    "atrium"
    ]
   },
-  "gold_ltl": "F(workshop & last)",
-  "ref_cost": 42.899494937,
-  "binding": false,
+  "gold_ltl": "F(stairwell & last)",
+  "ref_cost": 16.207106781,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "workshop"
+    "region": "stairwell"
    },
    {
     "type": "fraction_in_region",
@@ -6523,7 +6523,7 @@
    },
    {
     "type": "fraction_in_region",
-    "region": "print_room"
+    "region": "atrium"
    }
   ]
  },
@@ -6531,21 +6531,21 @@
   "id": "soft_033",
   "category": "soft",
   "source": "handwritten",
-  "map_id": "map_17",
+  "map_id": "map_01",
   "start": [
-   6,
-   1
+   25,
+   35
   ],
   "texts": [
-   "go to the workshop using the corridor when you can, and don't enter the store room at all",
-   "workshop, preferably along the corridor; the store room is strictly closed",
-   "reach the workshop - corridor if convenient, store room never"
+   "go to the store room using the corridor when you can, and don't enter the lab at all",
+   "store room, preferably along the corridor; the lab is strictly closed",
+   "reach the store room - corridor if convenient, lab never"
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "workshop",
+   "goal_region": "store_room",
    "forbidden_regions": [
-    "store_room"
+    "lab"
    ],
    "ordered_waypoints": [],
    "preferred_regions": [
@@ -6553,17 +6553,17 @@
    ],
    "avoided_regions": []
   },
-  "gold_ltl": "G !store_room & F(workshop & last)",
-  "ref_cost": 51.435028843,
+  "gold_ltl": "G !lab & F(store_room & last)",
+  "ref_cost": 21.414213562,
   "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "workshop"
+    "region": "store_room"
    },
    {
     "type": "never_enters",
-    "region": "store_room"
+    "region": "lab"
    },
    {
     "type": "fraction_in_region",
@@ -6575,37 +6575,37 @@
   "id": "soft_034",
   "category": "soft",
   "source": "handwritten",
-  "map_id": "map_19",
+  "map_id": "map_04",
   "start": [
-   25,
-   34
+   38,
+   35
   ],
   "texts": [
-   "uh, the office. avoid the print room if it's not too much trouble",
-   "go to the office and if you can, skip the print room",
-   "office, and the print room only if there's no reasonable way around"
+   "uh, the print room. avoid the atrium if it's not too much trouble",
+   "go to the print room and if you can, skip the atrium",
+   "print room, and the atrium only if there's no reasonable way around"
   ],
   "feasible": true,
   "gold_intent": {
-   "goal_region": "office",
+   "goal_region": "print_room",
    "forbidden_regions": [],
    "ordered_waypoints": [],
    "preferred_regions": [],
    "avoided_regions": [
-    "print_room"
+    "atrium"
    ]
   },
-  "gold_ltl": "F(office & last)",
-  "ref_cost": 40.071067812,
-  "binding": false,
+  "gold_ltl": "F(print_room & last)",
+  "ref_cost": 44.556349186,
+  "binding": true,
   "checks": [
    {
     "type": "ends_in",
-    "region": "office"
+    "region": "print_room"
    },
    {
     "type": "fraction_in_region",
-    "region": "print_room"
+    "region": "atrium"
    }
   ]
  },

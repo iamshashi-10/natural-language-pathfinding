@@ -1,0 +1,37 @@
+| method | category | runs | valid path | correct |
+|---|---|---|---|---|
+| M0 | plain | 5 | 100% | 100% |
+| M0 | prohibition | 5 | 100% | 0% |
+| M0 | stop | 5 | 100% | 20% |
+| M0 | ordering | 5 | 100% | 0% |
+| M0 | all | 20 | 100% | 30% |
+| M3 | plain | 15 | 100% | 100% |
+| M3 | prohibition | 15 | 100% | 100% |
+| M3 | stop | 15 | 100% | 100% |
+| M3 | ordering | 15 | 100% | 100% |
+| M3 | all | 60 | 100% | 100% |
+| M2 | plain | 15 | 100% | 100% |
+| M2 | prohibition | 15 | 100% | 100% |
+| M2 | stop | 15 | 87% | 80% |
+| M2 | ordering | 15 | 80% | 73% |
+| M2 | all | 60 | 92% | 88% |
+| M1 | plain | 5 | 0% | 0% |
+| M1 | prohibition | 5 | 0% | 0% |
+| M1 | stop | 5 | 0% | 0% |
+| M1 | ordering | 5 | 0% | 0% |
+| M1 | all | 20 | 0% | 0% |
+| M3-oracle | plain | 5 | 100% | 100% |
+| M3-oracle | prohibition | 5 | 100% | 100% |
+| M3-oracle | stop | 5 | 100% | 100% |
+| M3-oracle | ordering | 5 | 100% | 100% |
+| M3-oracle | all | 20 | 100% | 100% |
+| M2-oracle | plain | 5 | 100% | 100% |
+| M2-oracle | prohibition | 5 | 100% | 100% |
+| M2-oracle | stop | 5 | 100% | 100% |
+| M2-oracle | ordering | 5 | 100% | 100% |
+| M2-oracle | all | 20 | 100% | 100% |
+| M3-chain | plain | 5 | 100% | 100% |
+| M3-chain | prohibition | 5 | 100% | 100% |
+| M3-chain | stop | 5 | 100% | 100% |
+| M3-chain | ordering | 5 | 100% | 100% |
+| M3-chain | all | 20 | 100% | 100% |
