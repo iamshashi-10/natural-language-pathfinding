@@ -17,6 +17,8 @@ and an independent verifier checks every path before it is returned.
 
 See [`docs/report.md`](docs/report.md) for the write-up and
 [`results/tables/big_all.md`](results/tables/big_all.md) for every number.
+The same work in IROS conference format is in [`docs/iros/report_iros.pdf`](docs/iros/report_iros.pdf),
+and the presentation slides are in [`docs/presentation/slides.pdf`](docs/presentation/slides.pdf).
 
 ## Guarantees
 
@@ -79,6 +81,7 @@ data/instructions/   benchmark: 165 instructions × 3 wordings, + 20 on 15×15 m
 cache/llm/     every LLM answer (for exact reproduction)
 results/       raw rows, tables, metrics.json, figures
 scripts/       make_maps, make_benchmark, run_all, make_tables, make_figures, check_gemini
-docs/          Implementation_Plan.md, soundness.md, report.md, proposal.pdf
+docs/          Implementation_Plan.md, soundness.md, report.md, proposal.pdf,
+               iros/ (IROS-format report), presentation/ (slides)
 tests/         pytest + hypothesis (property tests against a networkx reference)
 ```

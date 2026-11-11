@@ -170,3 +170,6 @@ Free tier is rate-limited: `llm.py` must rate-limit client-side and back off on 
 - Day 14: `scripts/make_figures.py` → `results/figures/` (validity, M1 vs M3, soft, T5).
 - Day 15: `docs/report.md`, `README.md`; `run_all.py` rebuilds tables + figures.
   Headline: M3 100% correct, M2 88%, M1 0% (paths unwalkable), M0 35%. 195 tests pass.
+- Wrap-up: `docs/iros/` (IROS-format report, LaTeX + PDF, references checked) and
+  `docs/presentation/` (10-min Beamer slides). Next semester: compare with LLM-A*/LLM+P,
+  IROS 2027 submission (deadline 1 Mar 2027, tentative).

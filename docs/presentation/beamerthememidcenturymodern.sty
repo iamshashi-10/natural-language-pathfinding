@@ -1,0 +1,1676 @@
+% =============================================================================
+% beamerthememidcenturymodern.sty
+% A mid-century modern Beamer template. Requires LuaLaTeX.
+%
+% COLOUR THEMES
+%
+%   Two built-in themes: DeepBlue (default) and Kraft.
+%   Select in your preamble before \begin{document}:
+%
+%     \usepackage{beamerthememidcenturymodern}
+%     \mcmTheme{Kraft}
+%
+% FONTS
+%
+%   Body: TeX Gyre Heros — Helvetica (Miedinger, 1957).
+%   Titles: TeX Gyre Adventor — Avant Garde Gothic (Lubalin, 1970), letterspaced.
+%
+%   Both ship with TeX Live, so the theme renders identically everywhere and
+%   needs no font installed by the user.
+%
+%   Override in your preamble after loading the template:
+%     \setsansfont{Font Name}
+%     \renewfontfamily\mcmTitleFont{Font Name}
+%
+% =============================================================================
+\ProvidesPackage{beamerthememidcenturymodern}[2026/10/23 v2.1.1 Mid-Century Modern Beamer Template]
+
+\setbeamersize{text margin left=2em, text margin right=2em}
+
+\RequirePackage{calc}
+\RequirePackage{tikz}
+\RequirePackage{etoolbox}
+\RequirePackage{fontspec}
+\RequirePackage{hyperref}
+\RequirePackage{ragged2e}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setbeamertemplate{frametitle continuation}{}
+
+% ---------------------------------------------------------------------------
+% FONTS
+% ---------------------------------------------------------------------------
+% \if@mcmfontspec records whether the fonts below really are fontspec
+% families: \addfontfeature (used for the letterspaced title-page capitals)
+% only works on a font fontspec itself selected.
+\newif\if@mcmfontspec
+\IfFontExistsTF{TeX Gyre Heros}{%
+  \setsansfont{TeX Gyre Heros}\@mcmfontspectrue
+}{%
+  \IfFontExistsTF{Helvetica}{\setsansfont{Helvetica}\@mcmfontspectrue}{}%
+}
+\renewcommand{\familydefault}{\sfdefault}
+
+% Titles are letterspaced: Avant Garde was drawn for wide-set capitals, and the
+% uppercase frame titles/title page need the extra fit. LetterSpace is a
+% percentage of the font size, so it scales with the title auto-fit on its own.
+\IfFontExistsTF{TeX Gyre Adventor}{%
+  \newfontfamily\mcmTitleFont{TeX Gyre Adventor}[LetterSpace=6.0]%
+  \@mcmfontspectrue
+}{%
+  \let\mcmTitleFont\sffamily
+}
+
+% Monospace (\texttt, verbatim, listings): Inconsolata, a sans mono like the
+% two other faces, and the densest of the seven tried -- more code fits on a
+% slide line. Scaled to Heros's x-height. Loaded by filename, so it resolves
+% from the TeX tree. The test takes the bare filename: written [File.otf],
+% luaotfload throws a Lua error that is no `!' line and the test fails.
+% Ligatures=TeXOff: the default Ligatures=TeX above would turn the -- of
+% `--depth' into an en dash in code.
+\IfFontExistsTF{Inconsolatazi4-Regular.otf}{%
+  \setmonofont{Inconsolatazi4}[%
+    Extension = .otf,
+    UprightFont = *-Regular,
+    BoldFont    = *-Bold,
+    Scale       = MatchLowercase,
+    Ligatures   = TeXOff]%
+}{%
+  \setmonofont{Latin Modern Mono}[Scale=MatchLowercase, Ligatures=TeXOff]%
+}
+
+% Secondary title-page text (subtitle, author, institute, date) is set in
+% letterspaced capitals in the title's face, Adventor -- the mid-century way
+% of ranking a title block by tracking rather than by size or tint, and what
+% gives the page its retro look. Disable all of it with \mcmTitleMetaCapsfalse.
+%
+% Each voice is a font family of its own, loaded once. Built per use with
+% \addfontfeature on \mcmTitleFont instead, the subtitle came out in Adventor
+% BOLD with no warning (2026-10-23).
+%
+% History, so nobody retries it: Universalis ADF was meant to fill this role
+% from 2026-09-07, but its font check never succeeded (bracketed filename,
+% see the monospace font above), so Adventor tracked 14 is what always showed;
+% Universalis's high-waisted E and F read 1920s, and it was dropped. Heros
+% tracked 6 and author/institute as written in Adventor were tried on
+% 2026-10-22 and abandoned the next day: easier to read, less retro.
+%
+% TRACKING STEPS. Every group on the title page (title, subtitle, author and
+% institute together, date) has three trackings, loose to tight, each loaded
+% as a family of its own. A group takes a tighter step only when there is a
+% lot of it: when tightening saves it a line, when it runs to three lines or
+% more, or (author, institute, subtitle) when the auto-fit had to shrink the
+% block under 84%. The first value of each is an ordinary page's tracking.
+\newcommand{\mcmTitleMetaTracking}{14.0}      % date (and base of the frame subtitles)
+\newcommand{\mcmTitleMetaTrackingB}{11.0}
+\newcommand{\mcmTitleMetaTrackingC}{8.0}
+\newcommand{\mcmTitleNameTracking}{11.0}      % author and institute
+\newcommand{\mcmTitleNameTrackingB}{9.0}
+\newcommand{\mcmTitleNameTrackingC}{7.0}
+\newcommand{\mcmTitleSubtitleTracking}{13.0}
+\newcommand{\mcmTitleSubtitleTrackingB}{11.0}
+\newcommand{\mcmTitleSubtitleTrackingC}{9.0}
+\newcommand{\mcmTitleTrackingB}{4.5}          % the title itself starts at 6.0
+\newcommand{\mcmTitleTrackingC}{3.0}
+% The author is told from the institute by thickened strokes (fontspec's
+% FakeBold) and a smaller size (\mcmAuthorFS): Adventor Bold is too heavy
+% on a list of names. 0 gives the plain Regular back.
+\newcommand{\mcmTitleAuthorBold}{2}
+\newcommand{\mcm@metatrack}{\addfontfeature{LetterSpace=\mcmTitleMetaTracking}}
+\if@mcmfontspec\else\let\mcm@metatrack\relax\fi
+\IfFontExistsTF{TeX Gyre Adventor}{%
+  \newfontfamily\mcmTitleMetaFont{TeX Gyre Adventor}[LetterSpace=\mcmTitleMetaTracking]%
+  \newfontfamily\mcmTitleMetaFontB{TeX Gyre Adventor}[LetterSpace=\mcmTitleMetaTrackingB]%
+  \newfontfamily\mcmTitleMetaFontC{TeX Gyre Adventor}[LetterSpace=\mcmTitleMetaTrackingC]%
+  \newfontfamily\mcmTitleNameFont{TeX Gyre Adventor}[LetterSpace=\mcmTitleNameTracking]%
+  \newfontfamily\mcmTitleNameFontB{TeX Gyre Adventor}[LetterSpace=\mcmTitleNameTrackingB]%
+  \newfontfamily\mcmTitleNameFontC{TeX Gyre Adventor}[LetterSpace=\mcmTitleNameTrackingC]%
+  \ifdim\mcmTitleAuthorBold pt>\z@
+    \edef\mcm@afb{,FakeBold=\mcmTitleAuthorBold}\else\def\mcm@afb{}\fi
+  \edef\mcm@tmp{\noexpand\newfontfamily\noexpand\mcmTitleAuthorFont{TeX Gyre Adventor}%
+    [LetterSpace=\mcmTitleNameTracking\mcm@afb]}\mcm@tmp
+  \edef\mcm@tmp{\noexpand\newfontfamily\noexpand\mcmTitleAuthorFontB{TeX Gyre Adventor}%
+    [LetterSpace=\mcmTitleNameTrackingB\mcm@afb]}\mcm@tmp
+  \edef\mcm@tmp{\noexpand\newfontfamily\noexpand\mcmTitleAuthorFontC{TeX Gyre Adventor}%
+    [LetterSpace=\mcmTitleNameTrackingC\mcm@afb]}\mcm@tmp
+  \newfontfamily\mcmTitleSubtitleFont{TeX Gyre Adventor}[LetterSpace=\mcmTitleSubtitleTracking]%
+  \newfontfamily\mcmTitleSubtitleFontB{TeX Gyre Adventor}[LetterSpace=\mcmTitleSubtitleTrackingB]%
+  \newfontfamily\mcmTitleSubtitleFontC{TeX Gyre Adventor}[LetterSpace=\mcmTitleSubtitleTrackingC]%
+  \newfontfamily\mcmTitleFontB{TeX Gyre Adventor}[LetterSpace=\mcmTitleTrackingB]%
+  \newfontfamily\mcmTitleFontC{TeX Gyre Adventor}[LetterSpace=\mcmTitleTrackingC]%
+}{%
+  \newcommand{\mcmTitleMetaFont}{\mcmTitleFont\mcm@metatrack}%
+  \let\mcmTitleMetaFontB\mcmTitleMetaFont \let\mcmTitleMetaFontC\mcmTitleMetaFont
+  \let\mcmTitleNameFont\mcmTitleMetaFont
+  \let\mcmTitleNameFontB\mcmTitleMetaFont \let\mcmTitleNameFontC\mcmTitleMetaFont
+  \let\mcmTitleAuthorFont\mcmTitleMetaFont
+  \let\mcmTitleAuthorFontB\mcmTitleMetaFont \let\mcmTitleAuthorFontC\mcmTitleMetaFont
+  \let\mcmTitleSubtitleFont\mcmTitleMetaFont
+  \let\mcmTitleSubtitleFontB\mcmTitleMetaFont \let\mcmTitleSubtitleFontC\mcmTitleMetaFont
+  \let\mcmTitleFontB\mcmTitleFont \let\mcmTitleFontC\mcmTitleFont
+}
+% Picking a step: each candidate is typeset in a throwaway \vbox at the
+% field's width and its lines counted with \prevgraf. #1 renderer (a macro
+% taking a family and the content), #2 family, #3 count register, #4 content.
+\newcount\mcm@la \newcount\mcm@lb \newcount\mcm@lc \newcount\mcm@lx
+\long\def\mcm@lines#1#2#3#4{\setbox\z@\vbox{\hsize\linewidth\noindent
+  #1{#2}{#4}\par\global#3=\prevgraf}}
+% The loosest step that reaches the fewest lines; the tightest one for a
+% group of three lines or more.
+\long\def\mcm@decide#1#2#3{%
+  \ifnum\mcm@la=\mcm@lc \let\mcm@fam#1\else
+    \ifnum\mcm@lb=\mcm@lc \let\mcm@fam#2\else\let\mcm@fam#3\fi\fi
+  \ifnum\mcm@lc>\tw@ \let\mcm@fam#3\fi}
+% #1 renderer, #2 content, #3 #4 #5 families loose to tight -> \mcm@fam
+\long\def\mcm@pick#1#2#3#4#5{%
+  \mcm@lines{#1}{#3}\mcm@la{#2}\mcm@lines{#1}{#4}\mcm@lb{#2}%
+  \mcm@lines{#1}{#5}\mcm@lc{#2}\mcm@decide{#3}{#4}{#5}}
+\long\def\mcm@rmeta#1#2{#1\mdseries\mcm@upper{#2}}
+\long\def\mcm@rtitle#1#2{#1\ifmcmTitleUppercase\MakeUppercase{#2}\else#2\fi}
+% Author and institute are one group, at the same step: their lines are
+% counted together, each field at its own size.
+\long\def\mcm@rauthor#1#2{\usebeamerfont{author}\mcm@tfs{\mcmAuthorFS}{1.20}%
+  #1\mdseries\mcm@upper{\insertauthor}}
+\long\def\mcm@rinst#1#2{\usebeamerfont{institute}%
+  \mcm@tfs{\mcmInstituteFS}{\mcmTitleInstituteLead}#1\mdseries\mcm@upper{\insertinstitute}}
+\def\mcm@namecount#1#2#3{%
+  \mcm@lines\mcm@rauthor{#1}\mcm@lx{}#3=\mcm@lx
+  \mcm@lines\mcm@rinst{#2}\mcm@lx{}\advance#3 by\mcm@lx}
+\def\mcm@stepA{\let\mcm@authfam\mcmTitleAuthorFont \let\mcm@instfam\mcmTitleNameFont}
+\def\mcm@stepB{\let\mcm@authfam\mcmTitleAuthorFontB\let\mcm@instfam\mcmTitleNameFontB}
+\def\mcm@stepC{\let\mcm@authfam\mcmTitleAuthorFontC\let\mcm@instfam\mcmTitleNameFontC}
+\def\mcm@picknames{%
+  \mcm@namecount\mcmTitleAuthorFont \mcmTitleNameFont \mcm@la
+  \mcm@namecount\mcmTitleAuthorFontB\mcmTitleNameFontB\mcm@lb
+  \mcm@namecount\mcmTitleAuthorFontC\mcmTitleNameFontC\mcm@lc
+  \mcm@decide\mcm@stepA\mcm@stepB\mcm@stepC
+  \ifnum\mcm@tpc<84 \let\mcm@fam\mcm@stepC\fi
+  \mcm@fam}
+\newif\ifmcmTitleMetaCaps
+\mcmTitleMetaCapstrue
+% The date.
+% The formats below open no group of their own: the \leftskip that
+% \mcm@balance sets has to reach the caller's \par, and every caller sets
+% its field inside a group.
+\newcommand{\mcmTitleMetaFormat}[1]{%
+  \ifmcmTitleMetaCaps
+    \mcm@pick\mcm@rmeta{#1}\mcmTitleMetaFont\mcmTitleMetaFontB\mcmTitleMetaFontC
+    \mcm@balance\mcm@rmeta\mcm@fam{#1}\mcm@fam\mdseries\mcm@upper{#1}%
+  \else#1\fi}
+% The subtitle, tracked a touch tighter than the date (13 against 14), so a
+% long one stays denser. \mcmTitleSubtitleBold (fontspec's FakeBold, 0) can
+% thicken the strokes; at 11pt even 1 barely shows, and a bold weight stood
+% out too much. The switches sit outside \mcm@upper, which would uppercase
+% them.
+\newcommand{\mcmTitleSubtitleBold}{0}
+\newcommand{\mcm@tsubfont}{\mcm@fam\mdseries
+  \ifdim\mcmTitleSubtitleBold pt>\z@\addfontfeature{FakeBold=\mcmTitleSubtitleBold}\fi}
+\newcommand{\mcmTitleSubtitleFormat}[1]{%
+  \ifmcmTitleMetaCaps
+    \mcm@pick\mcm@rmeta{#1}\mcmTitleSubtitleFont\mcmTitleSubtitleFontB\mcmTitleSubtitleFontC
+    \ifnum\mcm@tpc<84 \let\mcm@fam\mcmTitleSubtitleFontC\fi
+    \mcm@balance\mcm@rmeta\mcm@fam{#1}\mcm@tsubfont\mcm@upper{#1}%
+  \else#1\fi}
+% Author and institute, tracked tighter still (11): two lines of names at 14
+% read as loose letters, and a long author line breaks sooner.
+\newcommand{\mcmTitleAuthorFormat}[1]{%
+  \ifmcmTitleMetaCaps
+    \mcm@picknames\mcm@balance\mcm@rmeta\mcm@authfam{#1}%
+    \mcm@authfam\mdseries\mcm@upper{#1}%
+  \else#1\fi}
+\newcommand{\mcmTitleInstituteFormat}[1]{%
+  \ifmcmTitleMetaCaps
+    \mcm@picknames\mcm@balance\mcm@rmeta\mcm@instfam{#1}%
+    \mcm@instfam\mdseries\mcm@upper{#1}%
+  \else#1\fi}
+
+% \mcm@upper: \MakeUppercase for a beamer title field.  Beamer prefixes
+% \insertauthor and \insertinstitute with two \def's that give \inst and
+% \and the meaning that field wants (\quad between authors, a line break
+% between institutes).  The case changer expands its argument and cannot
+% expand a \def, which raises three errors per title page and mangles the
+% separators.  So: expand the field once, run those \def's here -- as
+% \protected macros, so the case changer copies \inst/\and through
+% untouched instead of expanding \quad or \\[1em] into uppercased garbage --
+% and hand it only what is left, the text itself.
+\long\def\mcm@upper#1{\begingroup\expandafter\mcm@stripdefs#1\mcm@stop}
+\long\def\mcm@stripdefs{\@ifnextchar\def{\mcm@takedef}{\mcm@upperrest}}
+% A long author line breaks where TeX likes, and TeX may well like the space
+% inside somebody's name: the field is user text and nothing here can tell a
+% first name from a surname. Two things were tried and do not work.
+%
+% Giving \and a negative penalty is BIMODAL, not a nudge: 0 and -5 leave the
+% break inside the name, -10 and beyond put every author on a line of its own.
+% There is no value in between, because \and is a rigid \quad -- a worse
+% breakpoint than a stretchy interword space until the penalty overwhelms the
+% badness, at which point it overwhelms it everywhere. Measured on case 12 of
+% test/titlepage.tex, nine authors.
+%
+% So the field is left alone. Write a long list with \and, which at least
+% offers TeX a wide separator to land on, and bind a name that must not split
+% with a tie: Alice~Vaudrenne.
+\long\def\mcm@takedef\def#1#2{\protected\def#1{#2}\mcm@stripdefs}
+\long\def\mcm@upperrest#1\mcm@stop{\MakeUppercase{#1}\endgroup}
+
+% Uppercase titles (default on). Disable: \mcmTitleUppercasefalse
+\newif\ifmcmTitleUppercase
+\mcmTitleUppercasetrue
+
+% Extra word spacing on the title page (default 0.5em)
+\newlength{\mcmTitleWordSpacing}
+\setlength{\mcmTitleWordSpacing}{0.5em}
+
+% BALANCED LINES. A title-page field that runs to several lines is set in the
+% narrowest measure that keeps its number of lines, flush right as before:
+% the lines come out of even length instead of a full first line and a short
+% last one, the way display lines were set by hand. Binary search on the
+% measure; a measure is refused if any line of it is overfull (a long word
+% must never run out of the block). The overfull test needs LuaTeX; under
+% another engine the fields are simply not balanced.
+\newcount\mcm@of \newcount\mcm@ln \newcount\mcm@lfull
+\newdimen\mcm@blo \newdimen\mcm@bhi \newdimen\mcm@bmid
+\ifdefined\directlua
+  \directlua{
+    function mcm_overfull(b)
+      for n in node.traverse_id(node.id('hlist'), tex.box[b].head) do
+        local w = node.dimensions(n.glue_set, n.glue_sign, n.glue_order, n.head)
+        if w > n.width + 6554 then tex.count['mcm@of'] = 1 return end
+      end
+      tex.count['mcm@of'] = 0
+    end}
+  % #1 renderer, #2 family, #3 content, #4 measure -> \mcm@ln, \mcm@of
+  \long\def\mcm@tryw#1#2#3#4{\setbox\z@\vbox{\hsize\linewidth
+    \leftskip=\dimexpr\linewidth-#4\relax plus 1fil\noindent
+    #1{#2}{#3}\par\global\mcm@ln=\prevgraf}\directlua{mcm_overfull(0)}}
+  % Sets \leftskip; opens no group, so it reaches the caller's \par.
+  \long\def\mcm@balance#1#2#3{%
+    \mcm@tryw{#1}{#2}{#3}\linewidth \mcm@lfull=\mcm@ln
+    \mcm@bhi=\linewidth
+    \ifnum\mcm@lfull>\@ne
+      \mcm@blo=0.3\linewidth
+      \count@=\z@
+      \loop\ifnum\count@<12
+        \mcm@bmid=\dimexpr(\mcm@blo+\mcm@bhi)/2\relax
+        \mcm@tryw{#1}{#2}{#3}\mcm@bmid
+        \ifnum\mcm@ln>\mcm@lfull \mcm@blo=\mcm@bmid \else
+          \ifnum\mcm@of>\z@ \mcm@blo=\mcm@bmid \else \mcm@bhi=\mcm@bmid \fi\fi
+        \advance\count@\@ne
+      \repeat
+    \fi
+    \leftskip=\dimexpr\linewidth-\mcm@bhi\relax plus 1fil}
+\else
+  \long\def\mcm@balance#1#2#3{}
+\fi
+% The title page's title: tracking step picked, then balanced. The frame
+% titles keep \mcmTitleFormat below.
+\long\def\mcm@ttitlefmt#1{%
+  \mcm@pick\mcm@rtitle{#1}\mcmTitleFont\mcmTitleFontB\mcmTitleFontC
+  \mcm@balance\mcm@rtitle\mcm@fam{#1}\mcm@rtitle\mcm@fam{#1}}
+
+% Helper: apply title font + optional uppercase
+\newcommand{\mcmTitleFormat}[1]{%
+  {\mcmTitleFont
+   \ifmcmTitleUppercase\MakeUppercase{#1}\else#1\fi}%
+}
+
+% Helper: the frame subtitle, in the title page's second voice -- uppercase,
+% tracked Adventor -- at 8.5pt (\setbeamerfont{framesubtitle} below).
+% Tracked less than the title page's date (\mcmFrameSubtitleTracking, 10
+% against 14): at this size 14 runs the words apart, and a long subtitle
+% takes one more line. \mcmTitleMetaCapsfalse, which turns the title page's
+% capitals off, gives the subtitle back in the body face and as written.
+% The strokes are thickened a touch (\mcmFrameSubtitleBold, fontspec's
+% FakeBold): Bold rivals the bold title on the band. 0 gives the plain
+% Regular back. A family of its own, like the title page's voices above.
+\newcommand{\mcmFrameSubtitleTracking}{10.0}
+\newcommand{\mcmFrameSubtitleBold}{0}
+\IfFontExistsTF{TeX Gyre Adventor}{%
+  \newfontfamily\mcmFrameSubtitleFont{TeX Gyre Adventor}[%
+    LetterSpace=\mcmFrameSubtitleTracking]%
+}{%
+  \let\mcmFrameSubtitleFont\mcmTitleMetaFont
+}
+\newcommand{\mcmFrameSubtitleFormat}[1]{%
+  \ifmcmTitleMetaCaps{\mcmFrameSubtitleFont\mdseries
+    \ifdim\mcmFrameSubtitleBold pt>\z@\addfontfeature{FakeBold=\mcmFrameSubtitleBold}\fi
+    \mcm@upper{#1}}%
+  \else{\sffamily#1}\fi}
+
+\mode<presentation>{
+  \usetheme{default}
+  \usefonttheme{professionalfonts}
+  \setbeamertemplate{navigation symbols}{}
+}
+
+% ---------------------------------------------------------------------------
+% COLOUR PALETTE
+% ---------------------------------------------------------------------------
+\definecolor{mcmDeepGreen}{HTML}{09342A}
+\definecolor{mcmGreen}{HTML}{177F6B}
+\definecolor{mcmLightGreen}{HTML}{EEFAF4}
+\definecolor{mcmBg}{HTML}{F8F6F2}
+\definecolor{mcmMintBlock}{HTML}{EAF8F2}
+\definecolor{mcmMintTitle}{HTML}{4DB896}
+\definecolor{mcmLightGray}{HTML}{F5F5F5}
+\definecolor{mcmBlack}{HTML}{1A1A1A}
+\definecolor{mcmDeepBlue}{HTML}{002d4d}
+\definecolor{mcmDarkBlue}{HTML}{1a2a3b}
+\definecolor{mcmLightBlue}{HTML}{BFE5EE}
+\definecolor{mcmTerracotta}{HTML}{9C4732}
+\definecolor{mcmKraft}{HTML}{DEC5A6}
+\definecolor{mcmKraftLight}{HTML}{E8D5B5}
+\definecolor{mcmPink}{HTML}{E8637D}
+\definecolor{mcmLightPink}{HTML}{FCEEF1}
+\definecolor{mcmAmber}{HTML}{DB6720}
+\definecolor{mcmLightAmber}{HTML}{FAEBD7}
+\definecolor{mcmSage}{HTML}{6B7F3A}
+\definecolor{mcmLightSage}{HTML}{EFF2E6}
+% DeepBlue's alert and example since 2026-10-22, warmer than the pink and
+% mint it had (both still defined above).
+\definecolor{mcmClay}{HTML}{D2683A}
+\definecolor{mcmMoss}{HTML}{7A9A6A}
+
+% ---------------------------------------------------------------------------
+% SEMANTIC COLOUR ALIASES — set by \mcmTheme
+% ---------------------------------------------------------------------------
+\colorlet{mcmPrimary}{mcmDeepBlue}
+\colorlet{mcmPrimaryDark}{mcmDarkBlue}
+\colorlet{mcmPrimaryFg}{mcmLightGray}
+\colorlet{mcmPrimaryAccent}{mcmLightBlue!50!mcmLightGray}
+\colorlet{mcmPrimaryMuted}{mcmDeepBlue!10}
+\colorlet{mcmPip}{mcmDeepBlue}
+\colorlet{mcmBlockTitleFg}{mcmDeepBlue}
+\colorlet{mcmScanLine}{mcmDeepBlue!55}
+\colorlet{mcmAlert}{mcmClay}
+\colorlet{mcmExample}{mcmMoss}
+
+% ---------------------------------------------------------------------------
+% THEME COMMAND
+% ---------------------------------------------------------------------------
+\newcommand{\mcmTheme}[1]{%
+  \def\mcm@theme{#1}%
+  \ifstrequal{#1}{Kraft}{%
+    \colorlet{mcmPrimary}{mcmTerracotta}%
+    \colorlet{mcmPrimaryDark}{mcmTerracotta!80!black}%
+    \colorlet{mcmPrimaryFg}{mcmKraft}%
+    \colorlet{mcmPrimaryAccent}{mcmKraftLight}%
+    \colorlet{mcmPrimaryMuted}{mcmTerracotta!10}%
+    \colorlet{mcmPip}{mcmTerracotta}%
+    \colorlet{mcmBlockTitleFg}{mcmTerracotta}%
+    \colorlet{mcmScanLine}{mcmTerracotta!55}%
+    \colorlet{mcmAlert}{mcmAmber}%
+    \colorlet{mcmExample}{mcmSage}%
+    \mcm@applytheme
+  }{%
+    \colorlet{mcmPrimary}{mcmDeepBlue}%
+    \colorlet{mcmPrimaryDark}{mcmDarkBlue}%
+    \colorlet{mcmPrimaryFg}{mcmLightGray}%
+    \colorlet{mcmPrimaryAccent}{mcmLightBlue!50!mcmLightGray}%
+    \colorlet{mcmPrimaryMuted}{mcmDeepBlue!10}%
+    \colorlet{mcmPip}{mcmDeepBlue}%
+    \colorlet{mcmBlockTitleFg}{mcmDeepBlue}%
+    \colorlet{mcmScanLine}{mcmDeepBlue!55}%
+    \colorlet{mcmAlert}{mcmClay}%
+    \colorlet{mcmExample}{mcmMoss}%
+    \mcm@applytheme
+  }%
+}
+
+% The four pastels used to be four hand-picked hex values, and measuring them
+% showed no common rule at all: expressed as their own accent mixed into the
+% page, mcmLightPink was 2 %, mcmLightSage 6 %, mcmMintBlock 7 % and
+% mcmLightAmber 12 % — six times' spread, which is why the alert block was
+% barely visible in DeepBlue and clearly visible in Kraft. Every block colour
+% is now built from its accent by one rule (roadmap point 7, "socle B"):
+%   body  = accent!12!mcmBg     the tinted surface
+%   band  = accent!35!mcmBg     the title band, two values of the same pastel
+%   title = accent!75!black     dark enough to read on the band
+% The named pastels are kept in the palette above for anyone who uses them
+% directly, but no block reads them any more.
+\newcommand{\mcm@applytheme}{%
+  % The title-page SUBTITLE's colour: two thirds of the accent (the frame
+  % subtitles' colour), one third of the title's ink. Named here rather than
+  % written inline so the tint follows the theme. Until 2026-10-22 it was
+  % the accent 60% into white, lighter than the title and louder than it.
+  \colorlet{mcmTitleEmph}{mcmPrimaryAccent!67!mcmPrimaryFg}%
+  \colorlet{mcmAlertBg}{mcmAlert!12!mcmBg}%
+  \colorlet{mcmAlertBandBg}{mcmAlert!35!mcmBg}%
+  \colorlet{mcmAlertBandFg}{mcmAlert!75!black}%
+  \colorlet{mcmExampleBg}{mcmExample!12!mcmBg}%
+  \colorlet{mcmExampleBandBg}{mcmExample!35!mcmBg}%
+  \colorlet{mcmExampleBandFg}{mcmExample!75!black}%
+  \setbeamercolor{frametitle}{fg=mcmPrimaryFg, bg=mcmPrimary}%
+  \setbeamercolor{framesubtitle}{fg=mcmPrimaryAccent, bg=mcmPrimary}%
+  \setbeamercolor{block title}{fg=mcmBlockTitleFg, bg=mcmBg}%
+  \setbeamercolor{block title alerted}{fg=mcmAlertBandFg, bg=mcmAlertBandBg}%
+  \setbeamercolor{block body alerted}{fg=mcmBlack, bg=mcmAlertBg}%
+  \setbeamercolor{block title example}{fg=mcmExampleBandFg, bg=mcmExampleBandBg}%
+  \setbeamercolor{block body example}{fg=mcmBlack, bg=mcmExampleBg}%
+  \setbeamercolor{alerted text}{fg=mcmAlert}%
+  \setbeamercolor{example text}{fg=mcmExample}%
+  \setbeamercolor{section in toc}{fg=mcmPip}%
+  \setbeamercolor{subsection in toc}{fg=mcmPip}%
+  \setbeamercolor{bibliography entry author}{fg=mcmPip}%
+  \setbeamercolor{bibliography entry cite}{fg=mcmPip}%
+  \renewcommand{\mcmBulletColor}{mcmPip}%
+  \hypersetup{urlcolor=mcmPrimary, linkcolor=mcmPrimary, citecolor=mcmPrimary}%
+}
+
+% ---------------------------------------------------------------------------
+% GLOBAL COLOURS (theme-independent)
+% ---------------------------------------------------------------------------
+\setbeamercolor{normal text}{fg=mcmBlack, bg=mcmBg}
+\setbeamercolor{structure}{fg=mcmDeepGreen}
+\setbeamercolor{block body}{fg=mcmBlack, bg=mcmBg}
+\setbeamercolor{bibliography entry title}{fg=mcmBlack}
+\setbeamercolor{bibliography entry location}{fg=mcmBlack}
+\setbeamercolor{bibliography entry note}{fg=mcmBlack}
+
+% Bullet colour macro (must be defined before first \mcmTheme call)
+\newcommand{\mcmBulletColor}{mcmPip}
+
+% Apply default theme
+\mcmTheme{DeepBlue}
+
+% ---------------------------------------------------------------------------
+% FONT ASSIGNMENTS
+% ---------------------------------------------------------------------------
+\setbeamerfont{title}{size={\fontsize{21}{23}}, series=\bfseries}
+\setbeamerfont{subtitle}{size=\large, series=\mdseries}
+\setbeamerfont{author}{size=\Large}
+\setbeamerfont{institute}{size=\small}
+\setbeamerfont{date}{size=\scriptsize}
+\setbeamerfont{frametitle}{size=\large, series=\bfseries}
+\setbeamerfont{framesubtitle}{size=\fontsize{8.5pt}{10.25pt}, series=\mdseries}
+\setbeamerfont{block title}{size=\normalsize, series=\bfseries}
+\setbeamerfont{section in toc}{size=\normalsize, series=\bfseries}
+\setbeamerfont{subsection in toc}{size=\small}
+
+% ---------------------------------------------------------------------------
+% FRAME TITLE — coloured band with accent line below, title + optional subtitle
+%
+% Knobs
+%   \mcmFrameTitleLeft    0.35cm  left padding of the band
+%   \mcmFrameTitleRight   0.40cm  right padding
+%   \mcmFrameTitleHeight  1.10cm  height of a one-line band; the white above
+%                                 and below the text is derived from it, so
+%                                 this one length sets the whole band
+%   \mcmFrameSubtitleSep  0.03cm  title to subtitle, on top of the line's own
+%                                 baselineskip: enough to tie the two lines
+%                                 together, not enough to separate them
+%   \mcmFrameTitleRise    0pt     manual nudge: the text sits that much higher
+%                                 in the band. The optical correction a line
+%                                 of capitals needs is applied automatically
+%                                 (see the template), this is only for taste
+%   \mcmFrameSubtitleSink 1pt     how much lower than geometric centre a
+%                                 title+subtitle pair sits. Two reasons, both
+%                                 optical: the pair is top-heavy (bold
+%                                 capitals over a small light line), and the
+%                                 accent rule adds 0.8pt of visible band
+%                                 below. Centred by measurement it reads as
+%                                 high — Jules, 2026-09-01
+%   \mcmFrameSubtitleGrow 0.30cm  all the height a one-line subtitle adds to
+%                                 the band. The subtitle's own line rides in
+%                                 the white a one-line band already carries;
+%                                 this is only what has to be given back so
+%                                 the two lines are not pressed against the
+%                                 edges. At 0 the band is strictly unchanged
+%                                 but the worst case (an accented capital over
+%                                 a line of descenders) is left with 1.7pt of
+%                                 white top and bottom, which reads as glued;
+%                                 0.30cm leaves 5.5pt there and 7.2pt in the
+%                                 ordinary case, against the 9.6pt of a
+%                                 one-line band.
+%   \setbeamerfont/color{framesubtitle}, \mcmFrameSubtitleFormat
+%
+% The band measures its content and grows: a `\framesubtitle`, or a title long
+% enough to wrap, used to be typeset into a `\vbox to 1.10cm` and simply ran
+% out through the bottom edge and across the accent line. The line is drawn at
+% the band's real height, so it follows, and the body starts below it.
+%
+% A one-line title comes out at exactly \mcmFrameTitleHeight with its ink where
+% the theme has always put it — existing decks and screenshots do not move.
+%
+% Three traps here:
+%
+% 1. The height is measured on a *strutted* copy of the content and the
+%    unstrutted copy is what gets printed, centred in it. Measuring the printed
+%    copy instead makes the band's height follow the letters of the title: the
+%    demo's own "Customisation Examples (cont.)" grew the band by 2.4pt over
+%    its neighbours, because parentheses descend. Struts make the height depend
+%    on the number of lines and nothing else, while centring the real ink keeps
+%    an all-capitals line optically centred instead of sitting low by its
+%    (absent) descender. The content is therefore built twice — so a
+%    \footnote or anything else with a side effect does not belong in a frame
+%    title.
+% 2. `\ifx\insertframesubtitle\@empty` is not to be trusted for "is this field
+%    empty" (see the title page, where the same test on \insertsubtitle is
+%    never true). \mcm@ftifny answers it by measurement: the field goes into a
+%    \parbox whose height is compared with that of an empty one — an empty
+%    \parbox is 2.74pt tall, not 0pt, so the comparison must be against an
+%    empty box and never against \z@.
+% 3. The subtitle is not uppercased and not tracked, and the band is ragged
+%    right: a wrapping title justified to the margin comes out with gaping
+%    word spaces, and the tracked capitals of \mcmTitleMetaFormat are for the
+%    title page's meta lines — a sentence set that way is unreadable.
+% ---------------------------------------------------------------------------
+\newlength{\mcmFrameTitleLeft}
+\setlength{\mcmFrameTitleLeft}{0.35cm}
+
+\newlength{\mcmFrameTitleRight}
+\setlength{\mcmFrameTitleRight}{0.40cm}
+
+\newlength{\mcmFrameTitleHeight}
+\setlength{\mcmFrameTitleHeight}{1.10cm}
+
+\newlength{\mcmFrameSubtitleSep}
+\setlength{\mcmFrameSubtitleSep}{0.03cm}
+
+\newlength{\mcmFrameSubtitleGrow}
+\setlength{\mcmFrameSubtitleGrow}{0.30cm}
+
+\newlength{\mcmFrameTitleRise}
+\setlength{\mcmFrameTitleRise}{0pt}
+
+\newlength{\mcmFrameSubtitleSink}
+\setlength{\mcmFrameSubtitleSink}{1pt}
+
+\newcommand{\mcmFrameTitleWidth}{%
+  \dimexpr\paperwidth-\mcmFrameTitleLeft-\mcmFrameTitleRight\relax}
+
+\newsavebox{\mcm@ftbox}      % the content as printed
+\newsavebox{\mcm@ftref}      % the same, strutted, for the height
+\newsavebox{\mcm@ftline}     % one strutted line of title, for the white
+\newsavebox{\mcm@ftsline}    % one strutted line of subtitle
+\newsavebox{\mcm@ftprobe}
+\newsavebox{\mcm@ftvoid}
+\newlength{\mcm@fth}
+\newlength{\mcm@ftnom}   % content height by line count
+\newlength{\mcm@fttop}   % white above the capitals
+\newlength{\mcm@ftbls}     % \baselineskip of the title font
+\newlength{\mcm@ftsbls}    % \baselineskip of the subtitle font
+\newcount\mcm@ftnt         % lines in the title
+\newcount\mcm@ftns         % lines in the subtitle
+\newif\if@mcmftsub
+
+\newcommand{\mcm@ftstrut}{\vphantom{Xp}}
+
+% "#1 is not empty" — measured, not tested with \ifx. (The title page has its
+% own copy of this, \mcm@tifny, tied to \mcmTitleBlockWidth.)
+\newcommand{\mcm@ftifny}[2]{%
+  \sbox\mcm@ftprobe{\parbox{\mcmFrameTitleWidth}{#1}}%
+  \sbox\mcm@ftvoid{\parbox{\mcmFrameTitleWidth}{}}%
+  \ifdim\dimexpr\ht\mcm@ftprobe+\dp\mcm@ftprobe\relax
+       >\dimexpr\ht\mcm@ftvoid+\dp\mcm@ftvoid\relax #2\fi}
+
+% The band's content. #1 is \mcm@ftstrut for the copy that is measured and
+% \relax for the copy that is printed.
+% The content, as a \vtop: its \ht is the FIRST line's height and its \dp
+% everything below that first baseline. That is what the placement below needs
+% — a minipage would not do, [c] putting the reference point in the middle and
+% [t] putting it at the very top of the box, neither of which is a baseline.
+% #1 is \mcm@ftstrut for the copy that is measured and \relax for the copy
+% that is printed.
+\newcommand{\mcm@ftbuild}[1]{%
+  \vtop{\hsize\mcmFrameTitleWidth
+    \parindent\z@\raggedright\hyphenpenalty=5000\relax
+    % \noindent FIRST: \usebeamercolor drops a colour whatsit, and a whatsit
+    % contributed in vertical mode becomes the \vtop's first item — its \ht
+    % would then be 0 and the whole content would hang below the baseline,
+    % which is not what the placement below expects.
+    {\usebeamerfont{frametitle}\noindent\usebeamercolor[fg]{frametitle}%
+     #1\mcmTitleFormat{\insertframetitle}\if@mcmftsub\else#1\fi\par}%
+    \if@mcmftsub
+      \vskip\mcmFrameSubtitleSep
+      {\usebeamerfont{framesubtitle}\noindent\usebeamercolor[fg]{framesubtitle}%
+       \mcmFrameSubtitleFormat{\insertframesubtitle}#1\par}%
+    \fi}}
+
+% How many lines each field takes, and at what baselineskip. \prevgraf is the
+% line count of the paragraph just ended; it has to be read inside the box and
+% carried out with \global.
+\newcommand{\mcm@ftcount}{%
+  \global\mcm@ftnt=1 \global\mcm@ftns=0
+  \setbox\mcm@ftref\vbox{\hsize\mcmFrameTitleWidth
+    \raggedright\hyphenpenalty=5000\relax
+    {\usebeamerfont{frametitle}\global\mcm@ftbls=\baselineskip
+     \mcmTitleFormat{\insertframetitle}\par\global\mcm@ftnt=\prevgraf}%
+    \if@mcmftsub
+      {\usebeamerfont{framesubtitle}\global\mcm@ftsbls=\baselineskip
+       \mcmFrameSubtitleFormat{\insertframesubtitle}\par
+       \global\mcm@ftns=\prevgraf}%
+    \fi}%
+  \ifnum\mcm@ftnt<1 \global\mcm@ftnt=1 \fi}
+
+\setbeamertemplate{frametitle}{%
+  \nointerlineskip
+  \@mcmftsubfalse
+  \mcm@ftifny{\insertframesubtitle}{\@mcmftsubtrue}%
+  % The band's height is a *line count*, never a measurement of the ink: one
+  % line is \mcmFrameTitleHeight, every further title line adds one title
+  % baselineskip, and a subtitle adds the separation plus its own lines. That
+  % is what keeps the band — and the body under it — from shifting by a point
+  % or two between slides because one title has an accented capital and the
+  % next has none. Measuring the box instead moved the demo's own
+  % "Customisation Examples (cont.)" down by 2.4pt: parentheses descend.
+  \mcm@ftcount
+  % the reference: one strutted line of title, as a \vtop, so \ht is the
+  % line's height above its baseline and \dp the descender the strut reserves
+  \sbox\mcm@ftline{\vtop{\hsize\mcmFrameTitleWidth\parindent\z@
+      \usebeamerfont{frametitle}\mcm@ftstrut\par}}%
+  \sbox\mcm@ftsline{\vtop{\hsize\mcmFrameTitleWidth\parindent\z@
+      \usebeamerfont{framesubtitle}\mcm@ftstrut\par}}%
+  \setlength{\mcm@fth}{\mcmFrameTitleHeight}%
+  \advance\mcm@fth\mcm@ftnt\mcm@ftbls
+  \advance\mcm@fth-\mcm@ftbls
+  % The first subtitle line rides in the white a one-line band already carries
+  % (some 22pt of it), so it costs \mcmFrameSubtitleGrow rather than a whole
+  % line: 0.30cm instead of the 14.7pt a second line would otherwise add.
+  % Every further subtitle line, like every further title line, does add its
+  % own baselineskip — past two lines the white really has been spent.
+  \if@mcmftsub
+    \advance\mcm@fth\mcmFrameSubtitleGrow
+    \ifnum\mcm@ftns>1
+      \advance\mcm@fth\mcm@ftns\mcm@ftsbls
+      \advance\mcm@fth-\mcm@ftsbls
+    \fi
+  \fi
+  % The content's *nominal* height, by the same line count — what the band
+  % would hold if every line were exactly one strutted line.
+  % Careful: the depth to count is the LAST line's, not the title's. Adding the
+  % title's descender when a subtitle follows counts a depth that sits in the
+  % middle of the block, and the pair comes out a point too high.
+  \setlength{\mcm@ftnom}{\ht\mcm@ftline}%
+  \advance\mcm@ftnom\mcm@ftnt\mcm@ftbls
+  \advance\mcm@ftnom-\mcm@ftbls
+  \if@mcmftsub
+    \advance\mcm@ftnom\mcmFrameSubtitleSep
+    \advance\mcm@ftnom\mcm@ftns\mcm@ftsbls
+    \advance\mcm@ftnom\dp\mcm@ftsline
+  \else
+    \advance\mcm@ftnom\dp\mcm@ftline
+  \fi
+  \sbox\mcm@ftbox{\mcm@ftbuild{\relax}}%
+  % Overflow guard: should the ink ever be taller than the band the line count
+  % asked for (a huge font override), give it room rather than let it run out.
+  % The margin is deliberately small — it must not undo the line above.
+  \ifdim\dimexpr\ht\mcm@ftbox+\dp\mcm@ftbox+0.12cm\relax>\mcm@fth
+    \setlength{\mcm@fth}{\dimexpr\ht\mcm@ftbox+\dp\mcm@ftbox+0.12cm\relax}%
+  \fi
+  % --- where the text sits in the band -------------------------------------
+  % The white above is measured to the CAPITALS and computed from the line
+  % count, never from the ink: the box is placed by a fixed \vskip and its
+  % height is forced to that of one strutted line, so the first baseline lands
+  % at the same place on every slide. Centring the ink instead — which is what
+  % \vfil...\vfil around the real box does — lifts a title whose glyphs have
+  % depth: "Customisation Examples (cont.)" sat 1.5pt higher than its
+  % neighbours because parentheses descend, and that is the "too high on some
+  % slides" this replaces. Accents now hang into the white above and
+  % descenders into the white below, as they do in the blocks.
+  %
+  % Then one correction: what the eye centres is the ink block, from the
+  % capitals of the first line down to the LAST BASELINE, not the strutted box
+  % whose bottom sits a descender lower. So half the last line's reference
+  % descender is given back to the white above — the title's own when it is
+  % alone, the subtitle's when there is one. Without it the pair of lines
+  % reads as sitting high in the band.
+  \setlength{\mcm@fttop}{0.5\dimexpr\mcm@fth-\mcm@ftnom\relax}%
+  \if@mcmftsub
+    \advance\mcm@fttop0.5\dp\mcm@ftsline
+    \advance\mcm@fttop\mcmFrameSubtitleSink
+  \else
+    \advance\mcm@fttop0.5\dp\mcm@ftline
+  \fi
+  \advance\mcm@fttop-\mcmFrameTitleRise
+  \ifdim\mcm@fttop<\z@\setlength{\mcm@fttop}{\z@}\fi
+  \ht\mcm@ftbox=\ht\mcm@ftline
+  \begin{beamercolorbox}[%
+      wd=\paperwidth,
+      ht=\mcm@fth, dp=0.0cm,
+      leftskip=\mcmFrameTitleLeft, rightskip=\mcmFrameTitleRight]{frametitle}%
+    \vbox to \mcm@fth{%
+      \vskip\mcm@fttop
+      \noindent\usebox\mcm@ftbox\par
+      \vss
+    }%
+  \end{beamercolorbox}%
+  % The accent line is drawn *in the flow*, in a box of zero height so it
+  % takes no space, and never as a `remember picture, overlay` tikzpicture:
+  % pgf resolves `current page` anchors at shipout, and a yshift written as
+  % \mcm@fth is re-expanded there too — with whatever value that length holds
+  % by then. The line then lands inside the band on a slide whose band is
+  % taller than the last one's. A literal 1.10cm never showed the bug because
+  % it could not change.
+  % Bleeding to the page edges is done the way beamercolorbox does it: an
+  % \hbox to\textwidth whose two glues may shrink by the frame margins. A bare
+  % \rule{\paperwidth} starts at the text block's left edge instead and leaves
+  % the first 0.76cm of the line unpainted.
+  \nointerlineskip
+  \vbox to 0pt{%
+    \hbox to\textwidth{%
+      \hskip0pt minus\beamer@leftmargin\relax
+      \color{mcmPrimaryFg}\rule{\paperwidth}{0.8pt}%
+      \hskip0pt minus\beamer@rightmargin\relax}%
+    \vss}%
+  \nointerlineskip
+}
+
+% ---------------------------------------------------------------------------
+% BLOCKS
+%
+% A plain block is a pip, a title and its text on the page background. An
+% alert or example block is a *title band* in a strong value of its own pastel
+% over a body in the pale one (roadmap point 7: base "B" + treatment "J3",
+% settled 2026-09-01 after seven rounds of mock-ups in local_testing/blocks/).
+%
+% Knobs
+%   \mcmBlockPad          0.45em  horizontal padding inside a block
+%   \mcmBlockPadTop       0.55em  white above the title's ink        (6.0pt/11pt)
+%   \mcmBlockPadBot       0.55em  white below the last baseline      (6.0pt/11pt)
+%   \mcmBandPad           0.47em  white above the capital and below the
+%                                 baseline of a title band           (5.2pt/11pt)
+%   \mcmBlockTitleIndent  0.3em   title indent; the pip hangs left of it
+%   \mcmBlockSep          1em     visible gap a block leaves around itself
+%
+% \mcmBlockSep is the *visible* gap a block leaves around itself, and stacking
+% blocks needs no manual \vspace: half of it is placed above and half below.
+%
+% Getting that gap to look the same for every block type takes one correction.
+% Each block is a beamercolorbox whose background is inset by \mcmBlockPad
+% (colsep*) plus 0.5ex (sep) on every side. On alert/example blocks that inset
+% is visible — it is the coloured margin around the text. On a plain block the
+% background is mcmBg, the same colour as the page, so the identical inset is
+% invisible whitespace, and two stacked plain blocks read as though they were
+% pushed 2*\mcmBlockInset further apart than two coloured ones.
+%
+% So a plain block subtracts that invisible inset back out of the skips around
+% it, and coloured blocks do not. The visible gap then comes out at
+% \mcmBlockSep for every combination — plain/plain, plain/coloured,
+% coloured/coloured.
+%
+% The correction applies to the *skips*, never to the box: the inset itself is
+% identical for all three types, so blocks of different types side by side in a
+% columns[T] row still line their titles up. That is also why the skip *above*
+% a plain block is conditional. Subtracting it unconditionally would raise a
+% plain block above a coloured one in the neighbouring column, and demo.tex
+% puts block/alertblock/exampleblock in exactly that arrangement. It is only
+% correct to subtract when something sits above for the gap to be measured
+% against — i.e. when this block directly follows another block, which is
+% precisely when \lastskip is still one of the two skips below. A columns[T]
+% column instead opens with beamer's own \vskip-1ex, and body text leaves a
+% box rather than glue (\lastskip = 0pt), so neither is mistaken for a block.
+%
+% The \nointerlineskip below each block is what makes the gap come out at
+% \mcmBlockSep exactly rather than approximately. Left to itself TeX adds
+% interline glue of \baselineskip minus the previous depth minus the height of
+% whatever box comes next, so the gap would quietly depend on what follows: a
+% following block is tall and gets the \lineskip minimum, but a columns[T] row
+% is an \hbox of \vtops whose height is only its first line, which used to add
+% some 15bp on top of the intended gap. Suppressing it makes a block leave the
+% same space above a columns row as above another block.
+%
+% (The subtraction assumes the plain "block body" colour keeps a bg — beamer
+% only applies colsep* when one is set. Blanking it would over-subtract.)
+%
+% ---- VERTICAL WHITE: five traps, every one of them measured on rendered
+% ---- pages at 600dpi, not read off the source ------------------------------
+%
+% 1. `vmode` is NOT optional on these beamercolorboxes. Without it beamer runs
+%    \leavevmode just before the content, a \vskip there splits the paragraph
+%    in two, and TeX slides ~3.1pt of interline glue in above the title: the
+%    padding then bites only from the bottom. That was the whole of the third
+%    round of mock-ups, discarded for this bug.
+%
+% 2. colsep* and sep put the same space at the top and the bottom as at the
+%    sides. 0.45em + 0.5ex = 7.82pt is right horizontally and too much
+%    vertically, so every box opens and closes with a negative \vskip that
+%    trims it back to the wanted value. Change \mcmBlockPad or the sep= and
+%    those trims follow automatically — they are written as differences.
+%
+% 3. A line's height and depth follow the glyphs that are actually in it. A
+%    title with no descender ("Limite") made a band 2.2pt shorter than one with
+%    ("Exemple"), and an accented capital made it 0.9pt taller. Every title and
+%    every body's last line therefore carries \mcmBlockStrut (\vphantom{Xp}),
+%    the reference capital-plus-descender, and what an accent sticks out above
+%    that reference is measured and taken off the white above. The band is then
+%    pad + capital + pad whatever the letters, and descenders hang into the
+%    bottom white the way accents hang into the top one.
+%
+% 4. The strut has to be at BOTH ends of the title, and the overshoot has to be
+%    measured on the real first line — hence the \vtop at \linewidth in
+%    \mcm@blockrefs, whose \ht is by definition the first line. Measuring the
+%    title in an \hbox instead (as the first version did) charges the top white
+%    for an accent that ends up on the second line, and leaves the last line
+%    with no depth at all: a two-line title then swung 4.3pt in height.
+%
+% 5. The title indent is \advance\leftskip, never \leftskip=: the
+%    beamercolorbox builds its own left inset out of that same register
+%    (beamerbasecolor.sty), so assigning to it drags the whole title 7.8pt to
+%    the left. The pip stays in an \llap, so it marks the first line only.
+%
+% The title is typeset twice — once measured, once printed — so a \footnote or
+% anything else with a side effect does not belong in a block title.
+% ---------------------------------------------------------------------------
+\newlength{\mcmBlockPad}
+\setlength{\mcmBlockPad}{0.45em}
+
+\newlength{\mcmBlockPadTop}
+\setlength{\mcmBlockPadTop}{0.55em}
+
+\newlength{\mcmBlockPadBot}
+\setlength{\mcmBlockPadBot}{0.55em}
+
+\newlength{\mcmBandPad}
+\setlength{\mcmBandPad}{0.47em}
+
+\newlength{\mcmBlockTitleIndent}
+\setlength{\mcmBlockTitleIndent}{0.3em}
+
+\newlength{\mcmBlockSep}
+\setlength{\mcmBlockSep}{1em}
+
+% The invisible inset of a plain block, on which the gap correction rests: the
+% white above the title's ink and below the last baseline, i.e. the mean of the
+% two vertical pads.
+\newcommand{\mcmBlockInset}{\dimexpr0.5\mcmBlockPadTop+0.5\mcmBlockPadBot\relax}
+
+% Half of \mcmBlockSep, less the invisible inset of a plain block.
+\newcommand{\mcmBlockHalfSep}{\dimexpr0.5\mcmBlockSep-\mcmBlockInset\relax}
+
+\newcommand{\mcmBlockAbove}{%
+  \ifdim\lastskip=\mcmBlockHalfSep\relax      % follows a plain block
+    \vskip\mcmBlockHalfSep
+  \else\ifdim\lastskip=0.5\mcmBlockSep\relax  % follows a coloured block
+    \vskip\mcmBlockHalfSep
+  \else                                       % starts a column, or follows text
+    \vskip0.5\mcmBlockSep%
+  \fi\fi}
+\newcommand{\mcmBlockBelow}{\vskip\mcmBlockHalfSep\nointerlineskip}
+
+% Coloured blocks need no correction: their inset is visible, so it reads as
+% part of the block rather than as part of the gap.
+\newcommand{\mcmBlockAboveColoured}{\vskip0.5\mcmBlockSep}
+\newcommand{\mcmBlockBelowColoured}{\vskip0.5\mcmBlockSep\nointerlineskip}
+
+% --- line metrics ----------------------------------------------------------
+\newlength{\mcm@bover}                 % accent above the reference capital
+\newlength{\mcm@bdesc}                 % reference descender
+\newlength{\mcm@pover}                 % pip above the first line of the title
+\newsavebox{\mcm@titlebox}
+\newsavebox{\mcm@refbox}
+\newsavebox{\mcm@pipbox}
+
+\newcommand{\mcmBlockStrut}{\vphantom{Xp}}
+
+% The title as it will really be broken, plus the reference line. Call inside
+% the colorbox, where \linewidth is the block's width.
+\newcommand{\mcm@blockrefs}{%
+  \sbox\mcm@refbox{\usebeamerfont{block title}Xp}%
+  \setbox\mcm@titlebox\vtop{\hsize\linewidth
+    \usebeamerfont{block title}%
+    \noindent\mcmBlockStrut\insertblocktitle\mcmBlockStrut\par}%
+  \setlength{\mcm@bdesc}{\dp\mcm@refbox}%
+  \setlength{\mcm@bover}{\dimexpr\ht\mcm@titlebox-\ht\mcm@refbox\relax}%
+  \ifdim\mcm@bover<\z@\setlength{\mcm@bover}{\z@}\fi
+  \sbox\mcm@pipbox{\rule{3pt}{1.75ex}}%
+  \setlength{\mcm@pover}{\dimexpr\ht\mcm@pipbox-\ht\mcm@titlebox\relax}%
+  \ifdim\mcm@pover<\z@\setlength{\mcm@pover}{\z@}\fi}
+
+% top of a block whose first line carries the pip (the pip is taller than the
+% capitals, so what it sticks out comes off the white)
+\newcommand{\mcm@toptrim}[1]{\vskip\dimexpr#1-\mcmBlockPad-0.5ex-\mcm@pover\relax}
+% top of a block body under a band: no pip, nothing to deduct
+\newcommand{\mcm@toptrimflat}[1]{\vskip\dimexpr#1-\mcmBlockPad-0.5ex\relax}
+% bottom of a block body: the white is counted under the last BASELINE, so a
+% descender hangs into it instead of making the block 2.3pt taller. Only when
+% the body ends in horizontal mode — after a list there is no line of ours to
+% strut, and the reference descender must then not be subtracted either.
+\newcommand{\mcm@bottrim}[1]{%
+  \ifhmode
+    \sbox\mcm@refbox{\mcmBlockStrut}%
+    \mcmBlockStrut\par
+    \vskip\dimexpr#1-\dp\mcm@refbox-\mcmBlockPad-0.5ex\relax
+  \else
+    \vskip\dimexpr#1-\mcmBlockPad-0.5ex\relax
+  \fi}
+
+% --- plain block: pip + title, no visible background -----------------------
+\setbeamertemplate{block begin}{%
+  \par\mcmBlockAbove%
+  \begin{beamercolorbox}[%
+      wd=\textwidth, colsep*=\mcmBlockPad,
+      sep=0.5ex, vmode]{block body}%
+    \mcm@blockrefs\mcm@toptrim{\mcmBlockPadTop}%
+    {\advance\leftskip\mcmBlockTitleIndent
+     \noindent\llap{\textcolor{mcmPip}{\rule{3pt}{1.75ex}}\hspace{0.45em}}%
+     \usebeamerfont{block title}\usebeamercolor[fg]{block title}%
+     \mcmBlockStrut\insertblocktitle\mcmBlockStrut\par}%
+    \vskip0.4ex
+    \usebeamerfont{block body}\usebeamercolor[fg]{block body}%
+}
+\setbeamertemplate{block end}{%
+  \mcm@bottrim{\mcmBlockPadBot}\end{beamercolorbox}\mcmBlockBelow%
+}
+
+% --- coloured blocks: title band over a pale body ---------------------------
+% Two stacked colorboxes. The \vskip-0.5pt closes the hairline the renderer
+% would otherwise show between them; the {\parskip0pt\par}\nointerlineskip
+% keeps the paragraph break between the two boxes from adding anything.
+\newcommand{\mcm@bandbegin}[3]{% #1 band colour, #2 body colour, #3 bullet colour
+  \par\mcmBlockAboveColoured%
+  \begin{beamercolorbox}[%
+      wd=\textwidth, colsep*=\mcmBlockPad,
+      sep=0.5ex, vmode]{#1}%
+    \mcm@blockrefs
+    \vskip\dimexpr\mcmBandPad-\mcmBlockPad-0.5ex-\mcm@bover\relax
+    {\usebeamerfont{block title}\mcmBlockStrut\insertblocktitle\mcmBlockStrut\par}%
+    \par\vskip\dimexpr\mcmBandPad-\mcm@bdesc-\mcmBlockPad-0.5ex\relax
+  \end{beamercolorbox}%
+  {\parskip0pt\par}\nointerlineskip\vskip-0.5pt%
+  \begin{beamercolorbox}[%
+      wd=\textwidth, colsep*=\mcmBlockPad,
+      sep=0.5ex, vmode]{#2}%
+    \mcm@toptrimflat{\mcmBlockPadTop}%
+    \usebeamerfont{block body}\usebeamercolor[fg]{#2}%
+    \renewcommand{\mcmBulletColor}{#3}%
+}
+\newcommand{\mcm@bandend}{%
+  \mcm@bottrim{\mcmBlockPadBot}\end{beamercolorbox}\mcmBlockBelowColoured%
+}
+
+\setbeamertemplate{block alerted begin}{%
+  \mcm@bandbegin{block title alerted}{block body alerted}{mcmAlert}%
+}
+\setbeamertemplate{block alerted end}{\mcm@bandend}
+
+\setbeamertemplate{block example begin}{%
+  \mcm@bandbegin{block title example}{block body example}{mcmExample}%
+}
+\setbeamertemplate{block example end}{\mcm@bandend}
+
+% ---------------------------------------------------------------------------
+% ITEMIZE / ENUMERATE — geometric bullets, colour follows theme
+% ---------------------------------------------------------------------------
+\addtobeamertemplate{block alerted begin}{\renewcommand{\mcmBulletColor}{mcmAlert}}{}
+\addtobeamertemplate{block alerted end}{\renewcommand{\mcmBulletColor}{mcmPip}}{}
+\addtobeamertemplate{block example begin}{\renewcommand{\mcmBulletColor}{mcmExample}}{}
+\addtobeamertemplate{block example end}{\renewcommand{\mcmBulletColor}{mcmPip}}{}
+
+% The mark is the running font's own en dash, at every level: it inherits the
+% font, the series and — crucially — the size of the level it sits on, so the
+% three levels need no separate calibration and stay right if the body size
+% ever changes. Hierarchy is carried by the indentation, as in Swiss practice.
+\setbeamertemplate{itemize item}{\textcolor{\mcmBulletColor}{\textendash}}
+\setbeamertemplate{itemize subitem}{\textcolor{\mcmBulletColor}{\textendash}}
+\setbeamertemplate{itemize subsubitem}{\textcolor{\mcmBulletColor}{\textendash}}
+
+% Numerals, bare: bold at level 1, light below. Each numeral is one step
+% smaller than the body text of its own level.
+%
+% Trap: \usebeamerfont*{itemize subitem} does NOT shrink a label — it resets it
+% to \normalsize, so a nested numeral comes out at level-1 size beside \small
+% text. The size must come from the *body* font names below, plus the explicit
+% one-step reduction.
+\setbeamertemplate{enumerate item}{%
+  {\usebeamerfont*{itemize/enumerate body}\small
+   \color{\mcmBulletColor}\bfseries\insertenumlabel}%
+}
+\setbeamertemplate{enumerate subitem}{%
+  {\usebeamerfont*{itemize/enumerate subbody}\footnotesize
+   \color{\mcmBulletColor}\insertsubenumlabel}%
+}
+\setbeamertemplate{enumerate subsubitem}{%
+  {\usebeamerfont*{itemize/enumerate subsubbody}\scriptsize
+   \color{\mcmBulletColor}\insertsubsubenumlabel}%
+}
+% ---------------------------------------------------------------------------
+% TABLE OF CONTENTS
+% ---------------------------------------------------------------------------
+\setbeamertemplate{section in toc}{%
+  \hspace{0.1cm}%
+  \raisebox{0.2ex}{\tikz{\fill[mcmPip](0,0) rectangle (0.14,0.14);}}%
+  \hspace{0.25cm}%
+  {\usebeamerfont{section in toc}\inserttocsection}\par%
+}
+\setbeamertemplate{subsection in toc}{%
+  \hspace{0.65cm}%
+  \raisebox{0.0ex}{\tikz{\fill[mcmPip] (0,0) circle(0.055);}}%
+  \hspace{0.2cm}%
+  {\usebeamerfont{subsection in toc}\inserttocsubsection}\par%
+}
+
+% ---------------------------------------------------------------------------
+% FOOTLINE — progress bar, suppressed on the title page
+% ---------------------------------------------------------------------------
+\newif\if@mcmtitlepage
+\@mcmtitlepagefalse
+
+\addtobeamertemplate{frametitle}{\global\@mcmtitlepagefalse}{}
+\BeforeBeginEnvironment{frame}{\global\@mcmtitlepagefalse}
+
+\newcommand{\mcmFootlineContent}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[mcmPrimaryMuted]
+      (current page.south west)
+      rectangle ([yshift=0.06cm]current page.south east);
+    % min(...) guards against \inserttotalframenumber defaulting to 1 on a
+    % fresh compile (no .aux yet): without it, \mcmprog would equal the raw
+    % frame number past the first pass of any 40+ frame deck, and
+    % \mcmprog\paperwidth below would overflow TeX's max dimension.
+    \pgfmathsetmacro{\mcmprog}{min(1, \insertframenumber / \inserttotalframenumber)}%
+    \fill[mcmPrimary]
+      (current page.south west)
+      rectangle ([xshift=\mcmprog\paperwidth, yshift=0.06cm]current page.south west);
+    \node[anchor=south west, inner sep=0pt]
+      at ([xshift=0.4cm, yshift=0.10cm]current page.south west)
+      {{\tiny\color{mcmBlack!45}\insertshortauthor}};
+    \node[anchor=south, inner sep=0pt]
+      at ([yshift=0.10cm]current page.south)
+      {{\tiny\color{mcmBlack!45}\insertshorttitle}};
+    \node[anchor=south east, inner sep=0pt]
+      at ([xshift=-0.4cm, yshift=0.10cm]current page.south east)
+      {{\tiny\color{mcmBlack!45}\textbf{\insertframenumber}\,/\,\inserttotalframenumber}};
+  \end{tikzpicture}%
+  \leavevmode\hbox to \paperwidth{\vbox to 0.45cm{}\hss}%
+}
+
+\setbeamertemplate{footline}{%
+  \if@mcmtitlepage\else\mcmFootlineContent\fi%
+}
+
+% ---------------------------------------------------------------------------
+% SECTION PAGE
+% ---------------------------------------------------------------------------
+\setbeamertemplate{section page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[mcmBg]
+      (current page.south west) rectangle (current page.north east);
+    \fill[mcmPrimary]
+      (current page.south west)
+      rectangle ([xshift=0.45cm]current page.north west);
+    \fill[mcmPrimary!45]
+      ([xshift=0.45cm]current page.south west)
+      rectangle ([xshift=0.60cm]current page.north west);
+    \node[anchor=south west, inner sep=0pt,
+          font=\small\bfseries, text=mcmPrimary!55]
+      at ([xshift=1.1cm, yshift=0.18cm]current page.west)
+      {\MakeUppercase{Section}\ \insertsectionnumber};
+    \node[anchor=west, text width=0.80\paperwidth,
+          align=left, inner sep=0pt]
+      at ([xshift=1.1cm, yshift=-0.55cm]current page.west)
+      % \mcmTitleFont, so a section title is set in the title face like every
+      % other title in the theme. \usebeamerfont{title} alone would leave it in
+      % the *body* font, which is where it used to sit.
+      {{\mcmTitleFont\usebeamerfont{title}\color{mcmPrimary}\insertsection}};
+  \end{tikzpicture}%
+}
+
+% ---------------------------------------------------------------------------
+% SUBSECTION PAGE
+% ---------------------------------------------------------------------------
+\setbeamertemplate{subsection page}{%
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[mcmBg]
+      (current page.south west) rectangle (current page.north east);
+    \fill[mcmPrimary]
+      (current page.north west)
+      rectangle ([yshift=-0.18cm]current page.north east);
+    \node[anchor=north west, inner sep=0pt,
+          font=\small, text=mcmPrimary!50]
+      at ([xshift=1.1cm, yshift=-0.38cm]current page.north west)
+      {\insertsection\ \textbf{/}};
+    \node[anchor=west, text width=0.80\paperwidth,
+          align=left, inner sep=0pt]
+      at ([xshift=1.1cm, yshift=0.4cm]current page.west)
+      {%
+        {\small\color{mcmPrimary!60}\MakeUppercase{Section}\ %
+         \insertsectionnumber.\insertsubsectionnumber}\\[0.3cm]
+        % \mcmTitleFont for the same reason as on the section page above.
+        {\mcmTitleFont\usebeamerfont{frametitle}\color{mcmPrimary}%
+         \insertsubsection}%
+      };
+  \end{tikzpicture}%
+}
+
+
+% ---------------------------------------------------------------------------
+% TITLE PAGE
+%
+% Layout knobs
+%   \mcmFooterHeight       footer strip height              (default 4.15em)
+%   \mcmLogoVOffset        logo vertical offset             (default 0cm)
+%   \mcmLineSpacing        scan line spacing                (default 0.15cm)
+%   \mcmTitleStripRef      strip height the text block sits on (default 5em)
+%   \mcmTitleBlockWidth    width of the text block          (default 0.88\paperwidth)
+%   \mcmTitleRightMargin   its distance to the right edge   (default 0.05\paperwidth)
+%   \mcmTitleTopMargin     clearance below the top edge     (default 1.30cm)
+%   \mcmTitleFooterGap     clearance above the footer strip (default 0.5cm)
+%   \mcmTitleAxisMinAir    least air the rule's axis may leave (default 1.0cm)
+%
+% Type sizes and vertical rhythm (all scaled together by the auto-fit below)
+%   \mcmTitleFS \mcmSubtitleFS \mcmAuthorFS \mcmInstituteFS \mcmDateFS
+%   \mcmTitleSubtitleSep \mcmTitleRuleGap \mcmTitleAuthorSep
+%   \mcmTitleInstituteSep \mcmTitleDateSep
+%   \mcmTitleRuleWidth \mcmTitleRuleThickness
+%
+% Subtitle and date are set in letterspaced capitals (\mcmTitleMetaFormat),
+% author and institute as written in the logo's Adventor
+% (\mcmTitleAuthorFormat, \mcmTitleInstituteFormat);
+% \mcmTitleMetaCapsfalse gives all four back as written, in the body face.
+%
+% AUTO-FIT.  Title, subtitle, author and institute are typeset into a single
+% box which is then measured.  Too tall for the space between the top margin
+% and the date line?  Every type size and every gap is scaled down in 4%
+% steps until it fits (floor \mcmTitleMinScale).  Much shorter than that
+% space?  They are scaled *up* the same way (ceiling \mcmTitleMaxScale) so a
+% two-word title does not look lost on an empty slide.  The block is then
+% centred in whatever room is left.  That is what lets one template carry a
+% two-word title and a thirty-word one.
+%
+% Empty fields cost nothing: each element is measured before it is emitted,
+% so an absent subtitle/author/institute/date leaves no gap behind.  (Do not
+% go back to `\ifx\insertsubtitle\@empty' — beamer never makes that test
+% true, so the subtitle gap was always inserted, even with no subtitle.)
+%
+% The logo is automatically positioned so that there is always 0.75cm of
+% scan lines to its right. The gap width adapts to the logo size.
+% Both gap edges use cosine-modulated rounding for an organic shape.
+% ---------------------------------------------------------------------------
+\newsavebox{\mcmTitleGraphicBox}
+\newlength{\mcmLogoW}
+\newlength{\mcmLogoH}
+% Strip height. 4.15em is 1.6cm at the default 11pt; the floor is the logo,
+% 0.8cm tall for the demo's 3cm-wide mark, which leaves it 0.4cm of air.
+\newlength{\mcmFooterHeight}
+\setlength{\mcmFooterHeight}{4.15em}
+\newlength{\mcmLogoVOffset}
+\setlength{\mcmLogoVOffset}{0cm}
+\newif\if@mcmhaslogo
+
+% Scan line spacing, kept at ~9.3% of the strip height so the seven lines hold
+% the same proportion of it they had when the strip was taller.
+\newlength{\mcmLineSpacing}
+\setlength{\mcmLineSpacing}{0.15cm}
+
+% --- Text block geometry ---------------------------------------------------
+\newlength{\mcmTitleBlockWidth}
+\newlength{\mcmTitleRightMargin}
+\newlength{\mcmTitleTopMargin}
+\setlength{\mcmTitleTopMargin}{1.30cm}
+\newlength{\mcmTitleFooterGap}
+\setlength{\mcmTitleFooterGap}{0.5cm}
+% (set here, not \AtBeginDocument, so a preamble override wins)
+\setlength{\mcmTitleBlockWidth}{0.88\paperwidth}
+\setlength{\mcmTitleRightMargin}{0.06\paperwidth}
+
+% Never let the mass rise closer than this to the top edge (it only bites when
+% the block is still too tall at \mcmTitleMinScale).
+\newlength{\mcmTitleTopMin}
+\setlength{\mcmTitleTopMin}{0.45cm}
+
+% The rule is the page's axis: it sits on the middle of the coloured area, the
+% title group above it and the author group below, so it stays at the same
+% height from one deck to the next. It leaves that middle only as far as
+% needed to keep this much air above and below the mass. Larger values give
+% back equal air top and bottom sooner; 0pt holds the axis at any cost.
+% Off by default since 2026-10-23: the mass centred on the coloured area,
+% as in v2.1.0, read better. \mcmTitleAxistrue brings the axis back.
+\newif\ifmcmTitleAxis \mcmTitleAxisfalse
+\newlength{\mcmTitleAxisMinAir}
+\setlength{\mcmTitleAxisMinAir}{1.0cm}
+
+% --- Where the title block's floor sits ------------------------------------
+% The floor follows max(\mcmFooterHeight, \mcmTitleStripRef), not the strip
+% itself: a shorter strip then frees coloured background under the date instead
+% of pulling the whole block down (and letting the auto-fit grow it). 5em is the
+% height the strip had when the block's position was settled, so shortening the
+% strip to 4.15em left everything above it exactly where it was. A *taller*
+% strip still pushes the block up. \setlength{\mcmTitleStripRef}{0pt} makes the
+% block follow the strip again.
+\newlength{\mcmTitleStripRef}
+\setlength{\mcmTitleStripRef}{5em}
+\newlength{\mcmTitleFloorH}
+
+% --- Type sizes and vertical rhythm on the title page ----------------------
+% Author 10pt, thickened (\mcmTitleAuthorBold), over institute 8.7pt, both in
+% tracked capitals (2026-10-23: 12pt, the v2.1.0 size, came out too large
+% once the fields under the rule shrink only half as much as the title, see
+% \mcmTitleMetaShrink). Long author lists still break between a first name
+% and its surname (see \mcm@upper above): a tie fixes it.
+%
+% The subtitle, at 11pt (8.5pt until 2026-09-07, "a bit too small" -- Jules;
+% 10pt for a day on 2026-10-22).
+% Nothing mechanical bounds it: 8.5 to 11 all give the 25 cases of
+% test/titlepage.tex zero Overfull and zero errors, and on an uncrowded page
+% the auto-fit does not have to shrink the title to pay for the extra height.
+% The bound is optical. The subtitle belongs to the title group, above the
+% rule, so it may sit close to the author's size without inverting anything --
+% they are in different groups. Much past 11pt it starts to rival the title's
+% own measure and the group reads as two titles. Below the author's size, it
+% also keeps the name the larger of the two.
+%
+% The title, at 20pt (21pt until 2026-10-22, 19pt for a day). On a long
+% title the auto-fit was already shrinking the block, so a smaller title is
+% shrunk less and part of the reduction comes back; the fields under the rule
+% then come out larger than before.
+\newlength{\mcmTitleFS}     \setlength{\mcmTitleFS}{20pt}
+\newlength{\mcmSubtitleFS}  \setlength{\mcmSubtitleFS}{11pt}
+\newlength{\mcmAuthorFS}    \setlength{\mcmAuthorFS}{10pt}
+\newlength{\mcmInstituteFS} \setlength{\mcmInstituteFS}{8.7pt}
+\newlength{\mcmDateFS}      \setlength{\mcmDateFS}{7.1pt}
+
+% The rule sits under the title *and its subtitle*: the subtitle names the
+% talk, not the people giving it, so it belongs with the title. The gap from
+% the title to its subtitle comes in two values, chosen by whether the title
+% is one line or more; the rule then sits \mcmTitleRuleGap below the last
+% baseline above it, whichever branch was taken (see \mcmTitleRuleGap).
+%
+% Three things decide the subtitle gaps, none of them obvious from the
+% source:
+%
+% 1. NOMINAL LENGTHS ARE NOT WHAT THE EYE READS. Measured on the render, ink
+%    to ink, the gap under an all-caps subtitle is some 20px larger than the
+%    gap above it for the same nominal length: the subtitle has no descenders,
+%    so the white below its baseline is not the white its line box suggests.
+%    Equal lengths look lopsided. Always re-measure on a render; never reason
+%    from these numbers alone.
+% 2. THE SUBTITLE MUST READ AS NEARER THE TITLE THAN THE RULE -- nearer, not
+%    glued, and by a clear margin. Made equidistant it floats between the two
+%    instead of belonging to the title, and the title stops reading as a
+%    block. Aim for roughly 1.4 to 1.7 between the measured gaps.
+% 3. ONE LINE AND SEVERAL ARE DIFFERENT PROBLEMS. A title that WRAPS carries
+%    its own interline as a reference: the subtitle has to clear it or it
+%    reads as one more title line. A title on ONE line offers no such
+%    reference -- and, set flush right, no left edge either -- so it needs the
+%    subtitle closer to bind the two into a group.
+%
+% If the type sizes move, re-measure and aim for those ratios rather than
+% reusing these lengths.
+\newlength{\mcmTitleSubtitleSep}  \setlength{\mcmTitleSubtitleSep}{0.28cm}
+\newlength{\mcmTitleSubtitleSepOne}\setlength{\mcmTitleSubtitleSepOne}{0.24cm}
+% No longer read (\mcmTitleRuleGap replaced them); kept so a preamble that
+% sets them still compiles.
+\newlength{\mcmTitleRuleSep}      \setlength{\mcmTitleRuleSep}{0.21cm}
+\newlength{\mcmTitleRuleSepOne}   \setlength{\mcmTitleRuleSepOne}{0.25cm}
+
+% Is the title one line, or more? \prevgraf -- what the frame title band uses
+% for the same question -- is WRONG here: a title broken with \\ comes back as
+% one line, so the demo's own two-line title took the one-line branch. Measure
+% instead. The title is typeset into a throwaway \vbox at the block width and
+% at the current auto-fit scale (both matter: the same title is one line at
+% 60% and two at 120%), and its height is compared against one and a half
+% baselineskips of its own font. Same reasoning as \mcm@tifny: measure the
+% box, never trust a macro-level test.
+\newif\if@mcmtsub \@mcmtsubfalse
+\newsavebox{\mcm@ttitlebox}
+\newlength{\mcm@ttitlebls}
+\newcount\mcm@tlines \mcm@tlines=1
+\newlength{\mcm@tsubsep}
+\newcommand{\mcm@tcountlines}{%
+  \setbox\mcm@ttitlebox\vbox{\hsize\mcmTitleBlockWidth
+    \raggedleft\hyphenpenalty=5000\relax \exhyphenpenalty=5000\relax
+    {\spaceskip=\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font
+     \advance\spaceskip by \mcm@tsc{\mcmTitleWordSpacing}%
+     \usebeamerfont{title}\mcm@tfs{\mcmTitleFS}{1.10}%
+     \global\mcm@ttitlebls=\baselineskip
+     \mcm@ttitlefmt{\inserttitle}\par}}%
+  \ifdim\dimexpr\ht\mcm@ttitlebox+\dp\mcm@ttitlebox\relax
+        >\dimexpr 1.5\mcm@ttitlebls\relax
+    \global\mcm@tlines=2 \else \global\mcm@tlines=1 \fi
+  % The one-line value is about binding a subtitle to a one-line title.
+  \global\@mcmtsubfalse
+  \mcm@tifny{\insertsubtitle}{\global\@mcmtsubtrue}%
+  \setlength{\mcm@tsubsep}{\mcmTitleSubtitleSep}%
+  \ifnum\mcm@tlines>\@ne\else
+    \if@mcmtsub
+      \setlength{\mcm@tsubsep}{\mcmTitleSubtitleSepOne}%
+    \fi
+  \fi}
+\newlength{\mcmTitleAuthorSep}    \setlength{\mcmTitleAuthorSep}{0.42cm}
+% The air on each side of the rule: from the last baseline above it to the
+% rule, and from the rule to the cap tops of the first line below. One value,
+% scaled with the block, so the rule stays halfway between the two groups at
+% any size. Measured as nominal gaps rather than through each paragraph's
+% interline glue: that glue came from the block's unscaled body font above the
+% rule and from the scaled author font below it, so a shrunk block pressed
+% the rule onto the name (5.8mm above, 3.6mm below on the longest titles).
+% Accents and superscripts above the capitals hang into that white, as they
+% do in the frame title band.
+\newlength{\mcmTitleRuleGap}      \setlength{\mcmTitleRuleGap}{0.65cm}
+\newif\if@mcmtupper \@mcmtupperfalse     % build the block only down to the rule
+\newif\if@mcmafterrule \@mcmafterrulefalse
+\newif\if@mcmhasrule
+\newlength{\mcm@trulepos}                % block top to the rule's centre
+\newsavebox{\mcm@tfullbox}
+% Right after the rule: put the next line's cap tops \mcmTitleRuleGap below
+% it. #1 = beamer font, #2 = nominal size, #3 = leading factor -- the same
+% three the line is then set with, and #4 its format macro. The skip is
+% computed for a \prevdepth of zero, so the line's own interline glue is
+% exactly its baselineskip minus its height. The gap itself follows the
+% block's scale (\mcm@tscblock), as the one above the rule does, even where
+% the fields under it shrink less.
+\newcommand{\mcm@tcapskip}[4]{%
+  \sbox{\mcmTitleProbeBox}{\usebeamerfont{#1}\mcm@tfs{#2}{#3}#4{X}}%
+  \setlength{\mcmTitleFSa}{\mcm@tsc{#2}}%
+  \vskip\dimexpr\mcm@tscblock{\mcmTitleRuleGap}+\ht\mcmTitleProbeBox-#3\mcmTitleFSa\relax
+  \prevdepth\z@}
+% Leading of a multi-line institute, and the extra gap between two
+% institutes given with \and (beamer's own is 1em): tight, so several
+% institutes read as one block, but not none, or a wrapped institute runs
+% into the next one.
+\newcommand{\mcmTitleInstituteLead}{1.15}
+\newlength{\mcmTitleInstituteAndSep} \setlength{\mcmTitleInstituteAndSep}{0.1em}
+\newlength{\mcmTitleInstituteSep} \setlength{\mcmTitleInstituteSep}{0.18cm}
+\newlength{\mcmTitleDateSep}      \setlength{\mcmTitleDateSep}{0.45cm}
+
+\newlength{\mcmTitleRuleWidth}     \setlength{\mcmTitleRuleWidth}{2.2cm}
+\newlength{\mcmTitleRuleThickness} \setlength{\mcmTitleRuleThickness}{0.7pt}
+
+% --- Auto-fit bounds, in percent of the nominal size -----------------------
+\newcommand{\mcmTitleMinScale}{55}   % never shrink below 55%
+\newcommand{\mcmTitleMaxScale}{145}  % never grow above 145%
+\newcommand{\mcmTitleFillScale}{62}  % grow while shorter than 62% of the room
+
+% --- Machinery -------------------------------------------------------------
+\newsavebox{\mcmTitleBlockBox}
+\newsavebox{\mcmTitleDateBox}
+\newsavebox{\mcmTitleProbeBox}
+\newsavebox{\mcmTitleEmptyBox}
+\newif\if@mcmhasdate       % set while the date box is built
+\newlength{\mcmTitleAvail}   % vertical room the block must fit in
+\newlength{\mcmTitleMass}    % block + its gap to the date + the date
+\newlength{\mcmTitleAir}     % empty space above the mass (= below it)
+\newlength{\mcmTitleBase}    % y of the bottom of that room, from page south
+\newlength{\mcmTitleTop}     % y of the top of the block, from page south
+\newlength{\mcmTitleFSa}
+\newlength{\mcmTitleFSb}
+\newcount\mcm@tpc            % current scale, in percent
+\newif\if@mcmTitleFit
+
+% Scale a length by the current auto-fit percentage.
+\newcommand{\mcm@tsc}[1]{\dimexpr#1*\mcm@tpc/100\relax}
+\let\mcm@tscblock\mcm@tsc
+% Under the rule, when the block shrinks, author and institute take only
+% \mcmTitleMetaShrink percent of the reduction: at 72% the names would come
+% out near 8pt, smaller than anyone reads from the back of a room; at 50
+% they stay at 86%, and the title gives up the difference. Growth is shared
+% in full. 100 makes them follow the block exactly.
+\newcommand{\mcmTitleMetaShrink}{50}
+\newcommand{\mcm@tscmeta}[1]{%
+  \ifnum\mcm@tpc<100
+    \dimexpr#1*(\mcmTitleMetaShrink*\mcm@tpc+(100-\mcmTitleMetaShrink)*100)/10000\relax
+  \else\dimexpr#1*\mcm@tpc/100\relax\fi}
+
+% Select a font at a scaled size; #1 = nominal size, #2 = leading factor.
+\newcommand{\mcm@tfs}[2]{%
+  \setlength{\mcmTitleFSa}{\mcm@tsc{#1}}%
+  \setlength{\mcmTitleFSb}{#2\mcmTitleFSa}%
+  \fontsize{\the\mcmTitleFSa}{\the\mcmTitleFSb}\selectfont}
+
+% Emit #2 only if #1 typesets to something. Measured in a parbox so that
+% fields containing \\ (multi-line institutes, author lists) are legal -- and
+% compared against an *empty* parbox, not against zero: an empty \parbox is
+% 2.74pt tall, not 0pt, so testing >\z@ called every field non-empty and left
+% the separation of each absent one behind.
+\newcommand{\mcm@tifny}[2]{%
+  \sbox{\mcmTitleProbeBox}{\parbox{\mcmTitleBlockWidth}{#1}}%
+  \sbox{\mcmTitleEmptyBox}{\parbox{\mcmTitleBlockWidth}{}}%
+  \ifdim\dimexpr\ht\mcmTitleProbeBox+\dp\mcmTitleProbeBox\relax
+        >\dimexpr\ht\mcmTitleEmptyBox+\dp\mcmTitleEmptyBox\relax #2\fi}
+
+% Height (height + depth) of a box, as a dimen expression.
+\newcommand{\mcm@tboxh}[1]{\dimexpr\ht#1+\dp#1\relax}
+
+% Typeset the title/subtitle/author/institute block at the current scale.
+\newcommand{\mcm@tbuild}{%
+  \mcm@tcountlines
+  \sbox{\mcmTitleBlockBox}{%
+    \begin{minipage}{\mcmTitleBlockWidth}%
+      \raggedleft
+      % One ink for the block, \mcmPrimaryFg, declared once so a field added
+      % later inherits it. The subtitle alone is set in the lighter
+      % mcmTitleEmph; everything else (and the date, built beside it) is
+      % ranked by size, by tracking and by the rule.
+      \color{mcmPrimaryFg}%
+      % Discourage hyphenation strongly (a hyphen inside an uppercase title
+      % reads badly) but do not forbid it: a word longer than the block still
+      % has to break somewhere, or it runs off both edges of the slide.
+      \hyphenpenalty=5000\relax \exhyphenpenalty=5000\relax
+      \mcm@tifny{\inserttitle}{%
+        {\spaceskip=\fontdimen2\font plus \fontdimen3\font minus \fontdimen4\font
+         \advance\spaceskip by \mcm@tsc{\mcmTitleWordSpacing}%
+         \usebeamerfont{title}\mcm@tfs{\mcmTitleFS}{1.10}%
+         \mcm@ttitlefmt{\inserttitle}\par}}%
+      \mcm@tifny{\insertsubtitle}{%
+        \vskip\mcm@tsc{\mcm@tsubsep}%
+        {\usebeamerfont{subtitle}\mcm@tfs{\mcmSubtitleFS}{1.25}%
+         \color{mcmTitleEmph}\mcmTitleSubtitleFormat{\insertsubtitle}\par}}%
+      % The rule, \mcmTitleRuleGap under the last baseline above it (back up
+      % over that line's depth first), in a box of its own so no interline
+      % glue is added; whichever field comes next places itself the same gap
+      % below it with \mcm@tcapskip.
+      \global\@mcmafterrulefalse
+      \mcm@tifny{\inserttitle}{%
+        \vskip-\prevdepth \vskip\mcm@tsc{\mcmTitleRuleGap}%
+        \nointerlineskip
+        \hbox to\linewidth{\hfill
+          \rule{\mcm@tsc{\mcmTitleRuleWidth}}{\mcmTitleRuleThickness}}%
+        \global\@mcmafterruletrue}%
+      % \if@mcmtupper stops here: the box then ends on the rule, which is how
+      % the title page finds where the rule sits in the block.
+      \if@mcmtupper\else
+      \let\mcm@tsc\mcm@tscmeta
+      \mcm@tifny{\insertauthor}{%
+        \if@mcmafterrule \mcm@tcapskip{author}{\mcmAuthorFS}{1.20}{\mcmTitleAuthorFormat}%
+          \global\@mcmafterrulefalse
+        \else \vskip\mcm@tsc{\mcmTitleAuthorSep}\fi
+        {\usebeamerfont{author}\mcm@tfs{\mcmAuthorFS}{1.20}%
+         \mcmTitleAuthorFormat{\insertauthor}\par}}%
+      \mcm@tifny{\insertinstitute}{%
+        \if@mcmafterrule
+          \mcm@tcapskip{institute}{\mcmInstituteFS}{\mcmTitleInstituteLead}{\mcmTitleInstituteFormat}%
+          \global\@mcmafterrulefalse
+        \else \vskip\mcm@tsc{\mcmTitleInstituteSep}\fi
+        {\usebeamerfont{institute}\mcm@tfs{\mcmInstituteFS}{\mcmTitleInstituteLead}%
+         \def\beamer@andinst{\\[\mcmTitleInstituteAndSep]}%
+         \mcmTitleInstituteFormat{\insertinstitute}\par}}%
+      \fi
+    \end{minipage}}%
+}
+
+% Shrink, then grow, until the block sits well in \mcmTitleAvail.
+\newcommand{\mcm@tfit}{%
+  \mcm@tpc=100\relax
+  \mcm@tbuild
+  \@mcmTitleFittrue
+  \loop\if@mcmTitleFit
+    \ifdim\mcm@tboxh{\mcmTitleBlockBox}>\mcmTitleAvail
+      \ifnum\mcm@tpc>\mcmTitleMinScale\relax
+        \advance\mcm@tpc by -4\relax \mcm@tbuild
+      \else \@mcmTitleFitfalse \fi
+    \else \@mcmTitleFitfalse \fi
+  \repeat
+  \ifnum\mcm@tpc=100\relax
+    \@mcmTitleFittrue
+    \loop\if@mcmTitleFit
+      \ifdim\mcm@tboxh{\mcmTitleBlockBox}<\dimexpr\mcmTitleAvail*\mcmTitleFillScale/100\relax
+        \ifnum\mcm@tpc<\mcmTitleMaxScale\relax
+          \advance\mcm@tpc by 4\relax \mcm@tbuild
+        \else \@mcmTitleFitfalse \fi
+      \else \@mcmTitleFitfalse \fi
+    \repeat
+    % A growth step may overshoot the room; walk back until it fits again.
+    \@mcmTitleFittrue
+    \loop\if@mcmTitleFit
+      \ifdim\mcm@tboxh{\mcmTitleBlockBox}>\mcmTitleAvail
+        \advance\mcm@tpc by -4\relax \mcm@tbuild
+      \else \@mcmTitleFitfalse \fi
+    \repeat
+  \fi}
+
+\setbeamertemplate{title page}{%
+  \global\@mcmtitlepagetrue
+  \sbox{\mcmTitleGraphicBox}{\inserttitlegraphic}%
+  \setlength{\mcmLogoW}{\wd\mcmTitleGraphicBox}%
+  \setlength{\mcmLogoH}{\ht\mcmTitleGraphicBox}%
+  \addtolength{\mcmLogoH}{\dp\mcmTitleGraphicBox}%
+  \ifdim\mcmLogoW>0pt \@mcmhaslogotrue\else\@mcmhaslogofalse\fi
+  %
+  % Background and footer strip
+  \begin{tikzpicture}[remember picture, overlay]
+    \fill[mcmPrimary]
+      (current page.south west) rectangle (current page.north east);
+    \fill[mcmBg]
+      (current page.south west)
+      rectangle ([yshift=\mcmFooterHeight]current page.south east);
+    \draw[line width=0.3pt, color=mcmPrimaryDark]
+      ([yshift=\mcmFooterHeight]current page.south west) --
+      ([yshift=\mcmFooterHeight]current page.south east);
+  \end{tikzpicture}%
+  %
+  % Scan lines and logo, centred in the footer strip.
+  % Right segments are always 0.75cm long (ending 0.3cm from the right edge).
+  % The gap width adapts to the logo; the logo is centred within the gap.
+  % Both gap edges use cosine-modulated rounding for an organic shape.
+  \if@mcmhaslogo
+    \begin{tikzpicture}[remember picture, overlay]
+      \pgfmathsetlengthmacro{\rightfixed}{\paperwidth - 1.05cm}
+      \pgfmathsetlengthmacro{\logocx}{\rightfixed - 0.5\mcmLogoW}
+      % Place logo
+      \node[anchor=center] (mcmlogo)
+        at ([xshift=\logocx,
+             yshift=0.5\mcmFooterHeight + \mcmLogoVOffset]current page.south west)
+        {\usebox{\mcmTitleGraphicBox}};
+      % Draw scan lines
+      \foreach \i in {0,...,6}{%
+        \pgfmathsetmacro{\imid}{3}%
+        \pgfmathsetlengthmacro{\ysh}{%
+          0.5\mcmFooterHeight + (\i - \imid) * \mcmLineSpacing}
+        \pgfmathsetmacro{\thet}{(\i - \imid) * 3.14159 / 6}
+        \pgfmathsetmacro{\cf}{abs(cos(\thet r))}
+        \pgfmathsetlengthmacro{\xm}{0.25cm * (0.4 + 0.8 * \cf)}
+        % Left segment
+        \pgfmathsetlengthmacro{\leftend}{\logocx - 0.5\mcmLogoW - \xm}
+        \draw[line width=0.5pt, color=mcmScanLine]
+          ([xshift=0.3cm, yshift=\ysh]current page.south west)
+            -- ([xshift=\leftend, yshift=\ysh]current page.south west);
+        % Right segment
+        \pgfmathsetlengthmacro{\rightstart}{\logocx + 0.5\mcmLogoW + \xm}
+        \draw[line width=0.5pt, color=mcmScanLine]
+          ([xshift=\rightstart, yshift=\ysh]current page.south west)
+            -- ([xshift=-0.3cm, yshift=\ysh]current page.south east);
+      }
+    \end{tikzpicture}%
+  \else
+    \begin{tikzpicture}[remember picture, overlay]
+      \foreach \i in {0,...,6}{%
+        \pgfmathsetmacro{\imid}{3}%
+        \pgfmathsetlengthmacro{\ysh}{%
+          0.5\mcmFooterHeight + (\i - \imid) * \mcmLineSpacing}
+        \draw[line width=0.5pt, color=mcmScanLine]
+          ([xshift=0.3cm, yshift=\ysh]current page.south west)
+            -- ([xshift=-0.3cm, yshift=\ysh]current page.south east);
+      }
+    \end{tikzpicture}%
+  \fi
+  %
+  % Date: pinned just above the footer strip, at its nominal size (it is
+  % small enough already), and its height is reserved before the main block
+  % is fitted so the two can never collide.
+  \global\@mcmhasdatefalse
+  \sbox{\mcmTitleDateBox}{%
+    \begin{minipage}{\mcmTitleBlockWidth}\raggedleft
+      \mcm@tifny{\insertdate}{%
+        \global\@mcmhasdatetrue
+        {\usebeamerfont{date}\fontsize{\the\mcmDateFS}{1.35\mcmDateFS}\selectfont
+         \color{mcmPrimaryFg}\mcmTitleMetaFormat{\insertdate}\par}}%
+    \end{minipage}}%
+  %
+  % Room available to the title block, and the y of its floor.
+  \setlength{\mcmTitleFloorH}{\mcmFooterHeight}%
+  \ifdim\mcmTitleFloorH<\mcmTitleStripRef
+    \setlength{\mcmTitleFloorH}{\mcmTitleStripRef}%
+  \fi
+  \setlength{\mcmTitleBase}{\dimexpr\mcmTitleFloorH+\mcmTitleFooterGap\relax}%
+  \if@mcmhasdate
+    \addtolength{\mcmTitleBase}{\dimexpr\mcm@tboxh{\mcmTitleDateBox}
+                                       +\mcmTitleDateSep\relax}%
+  \fi
+  \setlength{\mcmTitleAvail}{\dimexpr\paperheight-\mcmTitleTopMargin
+                                    -\mcmTitleBase\relax}%
+  \mcm@tfit
+  % Where the rule sits in the block: rebuilt at the final scale down to the
+  % rule only, the box's bottom is the rule's bottom. With nothing under the
+  % rule (no author, institute or date) there is no lower group to set
+  % against the title, and the mass simply stays centred.
+  \global\@mcmhasrulefalse
+  \mcm@tifny{\inserttitle}{%
+    \if@mcmhasdate \global\@mcmhasruletrue \fi
+    \mcm@tifny{\insertauthor}{\global\@mcmhasruletrue}%
+    \mcm@tifny{\insertinstitute}{\global\@mcmhasruletrue}}%
+  \if@mcmhasrule
+    \setbox\mcm@tfullbox\box\mcmTitleBlockBox
+    \@mcmtuppertrue \mcm@tbuild \@mcmtupperfalse
+    \setlength{\mcm@trulepos}{\dimexpr\mcm@tboxh{\mcmTitleBlockBox}
+                                    -0.5\mcmTitleRuleThickness\relax}%
+    \setbox\mcmTitleBlockBox\box\mcm@tfullbox
+  \fi
+  %
+  % Placement.  The mass -- the block, its gap to the date, and the date -- is
+  % centred in the empty area between the top edge and the strip, so a page
+  % carries the same amount of air above the title as below the date.  (Sizing
+  % and placement are separate: \mcmTitleTopMargin above bounds how *much*
+  % room the mass may take, this decides where that mass sits.  Before, the
+  % date was pinned to the strip and only the block was centred above it,
+  % which on a dense page left roughly three times more air at the top than
+  % under the date.)
+  \setlength{\mcmTitleMass}{\mcm@tboxh{\mcmTitleBlockBox}}%
+  \if@mcmhasdate
+    \addtolength{\mcmTitleMass}{\dimexpr\mcm@tboxh{\mcmTitleDateBox}
+                                       +\mcmTitleDateSep\relax}%
+  \fi
+  % Centred on the strip that is actually drawn (\mcmFooterHeight), not on the
+  % reference height the *sizing* uses: the air must read equal above and below,
+  % and the eye measures it to the strip it can see.  A shorter strip therefore
+  % lowers the mass by half the difference -- but never resizes it, which is
+  % what \mcmTitleStripRef is there to guarantee.
+  \setlength{\mcmTitleAir}{\dimexpr0.5\paperheight-0.5\mcmFooterHeight
+                                  -0.5\mcmTitleMass\relax}%
+  \ifdim\mcmTitleAir<\mcmTitleTopMin
+    \setlength{\mcmTitleAir}{\mcmTitleTopMin}%
+  \fi
+  \setlength{\mcmTitleTop}{\dimexpr\paperheight-\mcmTitleAir\relax}%
+  % Then the axis: move the mass so the rule lands on the middle of the
+  % coloured area, clamped so neither the air above nor the air below drops
+  % under \mcmTitleAxisMinAir. A mass too tall for even that keeps the centred
+  % position above. The axis wins over equal air: on a page whose title group
+  % outweighs its author group, the white above and below differ by the
+  % difference.
+  \ifmcmTitleAxis\if@mcmhasrule
+    \begingroup
+      \dimen0=\dimexpr0.5\paperheight+0.5\mcmFooterHeight+\mcm@trulepos\relax
+      \dimen2=\dimexpr\paperheight-\mcmTitleAxisMinAir\relax
+      \dimen4=\dimexpr\mcmFooterHeight+\mcmTitleAxisMinAir+\mcmTitleMass\relax
+      \ifdim\dimen4>\dimen2 \else
+        \ifdim\dimen0>\dimen2 \dimen0=\dimen2 \fi
+        \ifdim\dimen0<\dimen4 \dimen0=\dimen4 \fi
+        \global\mcmTitleTop=\dimen0
+      \fi
+    \endgroup
+  \fi\fi
+  \begin{tikzpicture}[remember picture, overlay]
+    \node[anchor=north east, inner sep=0pt]
+      at ([xshift=-\mcmTitleRightMargin, yshift=\mcmTitleTop]current page.south east)
+      {\usebox{\mcmTitleBlockBox}};
+    % The date travels with the block, \mcmTitleDateSep below it.
+    \if@mcmhasdate
+      \node[anchor=north east, inner sep=0pt]
+        at ([xshift=-\mcmTitleRightMargin,
+             yshift=\dimexpr\mcmTitleTop-\mcm@tboxh{\mcmTitleBlockBox}
+                            -\mcmTitleDateSep\relax]current page.south east)
+        {\usebox{\mcmTitleDateBox}};
+    \fi
+  \end{tikzpicture}%
+}
+
+\endinput
